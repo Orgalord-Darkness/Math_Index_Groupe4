@@ -1,0 +1,174 @@
+body {
+  background-color: #f3f3f3;
+  overflow:hidden;
+}
+/*HABITUELLE*/
+a {
+  text-decoration: underline;
+  color: #f05665;
+}
+/*FORMULAIRE*/
+.global_connect{
+  display: flex;
+  width: 100%;
+  height: 900px;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  display: flex;
+  align-items: center;
+  padding: 30px 25px 10px 25px;
+  border-radius: 30px;
+background: #ffffff;
+box-shadow:  20px 20px 60px #666666,
+             -20px -20px 60px #ffffff;
+  margin: 30px auto;
+  width: 360px;
+  height: auto;
+}
+.box-title {
+  display: flex;
+  font-family: "Ubuntu", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    /*
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;*/
+    color: black;
+    font-size: 30px;
+    border: solid #f05665 1px;
+    padding: 10px;
+    border-radius: 50px;
+}
+.box-button {
+    display: flex;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+    transition: 0.3s linear;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    border-radius: 50px;
+    padding: 10px;
+    background: white;
+    border: solid #f05665 1px;
+    transition: 0.5s ease-in-out;
+}
+.box-button:hover{
+  background: #f05665;
+  transition: 0.5s ease-in-out;
+}
+.box-register{
+  display: flex;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  width: auto;
+  height: auto;
+  margin: 5px;
+}
+
+.box-input {
+  border: solid #000000 1px;
+    width: 200px;
+    height: 30px;
+    background: #ffffff;
+    border-radius: 5px;
+    transition: 0.3s linear;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 15px;
+
+    /*font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;*/
+}
+.box-input:hover{
+  transition: 0.5s linear;
+  background: #ebeff7;
+  border: solid #1f6db6 1px;
+  
+}
+p.errorMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 200;
+  font-size: 15px;
+  font-style: normal;
+    background-color: #e66262;
+    border: #AA4502 1px solid;
+    padding: 5px 10px;
+    color: #FFFFFF;
+    border-radius: 25px;
+}
+.case_connect{
+  display: flex;
+  width: 50%;
+  height: 50px;
+  color: rgb(0, 0, 0);
+  font-size: 25px;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border: solid #f05665 1px;
+  border-radius: 25px;
+  transition: 0.5s linear;
+}
+.case_connect:hover{
+  background: #f05665;
+  transition: 0.3s linear;
+}
+
+/*HEADER*/
+label {
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+        justify-content: center;
+  gap: 3rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 400px;
+}
+
+form > div {
+  display: flex;
+}
+
+form > div > * {
+  flex: 1 2;
+}
+
+form button svg {
+  width: 16px;
+  vertical-align: middle;
+}
+
+form button span {
+  font-size: 16px;
+}
+
+p.error {
+  color: red;
+  margin-top: 0px;
+}
