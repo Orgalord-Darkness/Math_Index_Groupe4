@@ -4,7 +4,7 @@ if (empty($_GET)) {
     header('Location: index.php?accueil=1');
     exit;
 }
-
+//Test de commit
 require('connexion/connexion.php');
 $show_accueil = isset($_GET["accueil"]) ? $_GET["accueil"] : '0';
 $show_recherche = isset($_GET["recherche"]) ? $_GET["recherche"] : '0';
