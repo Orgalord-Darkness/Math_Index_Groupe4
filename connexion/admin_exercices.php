@@ -1,7 +1,17 @@
 <?php 
-  
-include_once("menu.php");
+session_start();
+//Test de commit
+require('connexion/connexion.php');
+$show_accueil = isset($_GET["accueil"]) ? $_GET["accueil"] : '0';
+$show_recherche = isset($_GET["recherche"]) ? $_GET["recherche"] : '0';
+$show_exo = isset($_GET["exercices"]) ? $_GET["exercices"] : '0';
+$mesexercices = isset($_GET["mesexercices"]) ? $_GET["mesexercices"] : '0';
+$soumettre = isset($_GET["soumettre"]) ? $_GET["soumettre"] : '0';
+$show_connexion = isset($_GET["connexion"]) ? $_GET["connexion"] : '0';
+//PARTI SLIDE_GAUCHE
 $connexion = connexionBdd();
+$requete = "SELECT last_name, first_name FROM user";
+$resultatconnect = $connexion->query($requete);
 
 //if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Vérifiez si la commande SQL est présente dans les données du formulaire
