@@ -1,5 +1,7 @@
 <?php
 if(isset($_SESSION['email'])){
+
+
     ?>
 <div class="php_content">
     <div class="title_categ">Soumettre un exercice</div>
@@ -14,12 +16,12 @@ if(isset($_SESSION['email'])){
         <form>
             <div>
                 <div>
-                    <label for = "nom_exercice">Nom de l'exercice*</label>
+                    <label for = "nom_exercice">Nom de l'exercice<span class="etoile">*</span> :</label>
                     <br>
                     <input type = "text" name = "nom_exercice" placeholder="Nom de l'exercice">
                     <br>
                     <br>
-                    <label for = "matiere">Matière*</label>
+                    <label for = "matiere">Matière<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "matiere">
                         <option value= "mathematique">Mathématique</option>
@@ -27,7 +29,7 @@ if(isset($_SESSION['email'])){
                     </select>
                     <br>
                     <br>
-                    <label for = "classe">Classe*</label>
+                    <label for = "classe">Classe<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "classe">
                         <option value = "seconde">Seconde</option>
@@ -36,14 +38,14 @@ if(isset($_SESSION['email'])){
                     </select>
                     <br>
                     <br>
-                    <label for = "thematique">Thématique* : </label>
+                    <label for = "thematique">Thématique<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "thematique">
                         <option value = "suite">Suite</option>
                     </select>
                     <br>
                     <br>
-                    <label for = "nchapitre">Numéro du chapitre : </label>
+                    <label for = "nchapitre">Chapitre en cours :</label>
                     <br>
                     <input type = "text" name = "nchapitre">
                 </div>
@@ -70,7 +72,7 @@ if(isset($_SESSION['email'])){
                     <br>
                     <input name = "motscles" placeholer = "mots clés">
                     <br>
-                    <label for = "difficulte">Difficultés :</label>
+                    <label for = "difficulte">Difficultés<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "difficulte">
                         <option value = "Niveau1">Niveau 1</option>
