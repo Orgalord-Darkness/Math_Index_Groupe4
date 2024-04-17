@@ -86,6 +86,7 @@ $resultatconnect = $connexion->query($requete);
               <a href="?accueil=1" class="ligne_slide_gauche">
                   <img src="ico/home.svg" alt="img home" class="logo_sliderleft">&nbsp;&nbsp;
                   <p>Accueil</p>
+                  <p>Test de commit</p>  
               </a>
               <a href="?recherche=1"class="ligne_slide_gauche">
                   <img src="ico/loupe.svg" alt="img loupe" class="logo_sliderleft">&nbsp;&nbsp;
