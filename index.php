@@ -21,6 +21,7 @@ $modif_classe = isset($_GET["modif_classe"]) ? $_GET["modif_classe"] : '0';
 $origine = isset($_GET["origine"]) ? $_GET["origine"] : '0';
 $modif_origine = isset($_GET["modif_ori"]) ? $_GET["modif_ori"] : '0';
 $source = isset($_GET["source"]) ? $_GET["source"] : '0';
+$mdp_oublier = isset($_GET["mdp_oublier"]) ? $_GET["mdp_oublier"] : '0';
 //PARTI SLIDE_GAUCHE
 $connexion = connexionBdd();
 $requete = "SELECT last_name, first_name FROM user";
@@ -202,6 +203,10 @@ $resultatconnect = $connexion->query($requete);
                     elseif($source=='1'){
                         include_once('assets/administration/ajouter_sources.php');
                     }
+                    elseif($mdp_oublier=='1'){
+                        include_once('connexion/mdp_oublier.php');
+                    }
+
                     
                     
                     ?>
