@@ -15,112 +15,6 @@ $show_exo = isset($_GET["exercices"]) ? $_GET["exercices"] : '0';
 $mesexercices = isset($_GET["mesexercices"]) ? $_GET["mesexercices"] : '0';
 $soumettre = isset($_GET["soumettre"]) ? $_GET["soumettre"] : '0';
 $show_connexion = isset($_GET["connexion"]) ? $_GET["connexion"] : '0';
-=======
-$page = isset($_GET["page"]) ? $_GET["page"] : '';
-//CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
-ob_start();
-switch ($page) {
-    //MENU SLIDE
-    case 'accueil':
-        include_once('assets/accueil.php');
-       $title = "Accueil";
-        break;
-    case 'exercice':
-        include_once('assets/exercice.php');
-        $title = "Exercices";
-        break;
-    case 'recherche':
-        include_once('assets/recherche.php');
-        $title = "Recherche";
-        break;
-    case 'mesexercices':
-        include_once('assets/mesexercices.php');
-        $title = "Mes exercices";
-        break;
-    //SOUMETTRE
-    case 'soumettre':
-        include_once('assets/soumettre/info_gen.php');
-        $title = "Soumettre";
-        break;
-    case 'source_soumettre':
-        include_once('assets/soumettre/source.php');
-        $title = "Soumettre";
-        break;
-    case 'fichiers_soumettre':
-        include_once('assets/soumettre/fichiers.php');
-        $title = "Soumettre";
-        break;
-    //CONNEXION
-    case 'connexion':
-        include_once('connexion/login.php');
-        $title = "Connexion";
-        break;
-    //ADMIN EXERCICE
-    case 'admin_ex':
-        include_once('assets/administration/exercice/admin_exercices.php');
-        $title = "Administration exercices";
-        break;
-    case 'add_ex':
-        include_once('assets/administration/exercice/ajouter_exos.php');
-        $title = "Administration exercices";
-        break;
-    case 'modif_ex':
-        include_once('assets/administration/exercice/modif_exos.php');
-        $title = "Administration exercices";
-        break;
-    //ADMIN CONTRIBUTEUR
-    case 'contribu':
-        include_once('assets/administration/contributeurs/gestion_contri.php');
-        $title = "Administration contributeurs";
-        break;
-    case 'modif_contribu':
-        include_once('assets/administration/contributeurs/modification_contri.php');
-        $title = "Administration contributeurs";
-        break;
-    case 'add_contribu':
-        include_once('assets/administration/contributeurs/ajouter_contri.php');
-        $title = "Administration contributeurs";
-        break;
-    //ADMIN CLASSE
-    case 'classe':
-        include_once('assets/administration/classe/classes.php');
-        $title = "Administration classes";
-        break;
-    case 'add_classe':
-        include_once('assets/administration/classe/ajouter_classes.php');
-        $title = "Administration classes";
-        break;
-    case 'modif_classe':
-        include_once('assets/administration/classe/modif_classes.php');
-        $title = "Administration classes";
-        break;
-    //ADMIN ORIGINE
-    case 'origine':
-        include_once('assets/administration/origine/origines.php');
-        $title = "Administration origines";
-        break;
-    case 'modif_ori':
-        include_once('assets/administration/origine/modif_origines.php');
-        $title = "Administration origines";
-        break;
-    case 'add_ori':
-        include_once('assets/administration/origine/add_origine.php');
-        $title = "Administration origines";
-        break;
-    //ADMIN SOURCE
-    case 'source':
-        include_once('assets/administration/ajouter_sources.php');
-        $title = "Administration sources";
-        break;
-    
-    default:
-        include_once('assets/accueil.php');
-        $title = "Accueil";
-        break;
-}
-$content = ob_get_clean();
-           
->>>>>>> 3803552 (Mise à jour de index.php)
 //PARTI SLIDE_GAUCHE
 ?>
 <!DOCTYPE html>
@@ -130,11 +24,6 @@ $content = ob_get_clean();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title ?></title>
     <link rel="stylesheet" href="style.css">
-<<<<<<< HEAD
-=======
-    <link rel="icon" href="ico/exercice.svg">
-    <script src="script.js"></script>
->>>>>>> 3803552 (Mise à jour de index.php)
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -152,32 +41,14 @@ $content = ob_get_clean();
         }else{
 <<<<<<< HEAD
             foreach($resultatconnect as $row2) {
-                echo 
-                '<a href="?connexion=1" class="connect_container">
-                    <p class="connect">'.$row2['last_name'].' '. $row2['first_name'].'</p>
+                echo'                
+            <div class="connect_container">
+                <div class="connexion_normal" id="connexion_normal">
+                        <p class="connect">'.$row2['last_name'].' '. $row2['first_name'].'</p>   
                     <div class="img_profile"></div>
                 </a>';
-=======
-                $email = $_SESSION['email'];
-                $requete = "SELECT last_name, first_name FROM user WHERE email = '$email'";
-                $resultatconnect = $connexion->query($requete);
-                foreach($resultatconnect as $row2) {
-                    echo '                
-                    <div class="connect_container">
-                        <div class="connexion_normal" id="connexion_normal">
-                            <p class="connect">'.$row2['last_name'].' '. $row2['first_name'].'</p>   
-                            <div class="img_profile"></div>
-                        </div>';
-                        echo '
-                        <div class="pop_up" id="pop_up">
-                            <a href="?page=contribu"><p>Administration</p></a>
-                            <a href="?page=connexion"><p>Déconnexion</p></a>
-                        </div>
-                    </div>';
-                }
-                
->>>>>>> 3803552 (Mise à jour de index.php)
             }
+        }
         ?>
                 
 </div>
@@ -287,6 +158,34 @@ $content = ob_get_clean();
 
                       include_once('connexion/login.php');
                     }
+                    else if($show_administration=='1'){
+                        include_once('assets/administration/exercice/admin_exercices.php');
+                    }
+                    else if($add_exercice=='1'){
+                        include_once('assets/administration/exercice/ajouter_exos.php');
+                    }
+                    elseif($contribu=='1'){
+                        include_once('assets/administration/contributeurs/gestion_contri.php');
+                    }
+                    elseif($classe=='1'){
+                        include_once('assets/administration/classe/classes.php');
+                    }
+                    elseif($add_classe=='1'){
+                        include_once('assets/administration/classe/ajouter_classes.php');
+                    }
+                    elseif($modif_classe=='1'){
+                        include_once('assets/administration/classe/modif_classes.php');
+                    }
+                    elseif($origine=='1'){
+                        include_once('assets/administration/origines.php');
+                    }
+                    else if($modif_origine =='1'){
+                        include_once('assets/administration/modif_origines.php');
+                    }
+                    elseif($source=='1'){
+                        include_once('assets/administration/ajouter_sources.php');
+                    }
+                    
                     
                     ?>
 =======
