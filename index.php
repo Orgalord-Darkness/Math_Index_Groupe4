@@ -6,110 +6,24 @@ if (empty($_GET)) {
     header('Location: index.php?accueil=1');
     exit;
 }
-$page = isset($_GET["page"]) ? $_GET["page"] : '';
-//CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
-ob_start();
-switch ($page) {
-    //MENU SLIDE
-    case 'accueil':
-        include_once('assets/accueil.php');
-       $title = "Accueil";
-        break;
-    case 'exercice':
-        include_once('assets/exercice.php');
-        $title = "Exercices";
-        break;
-    case 'recherche':
-        include_once('assets/recherche.php');
-        $title = "Recherche";
-        break;
-    case 'mesexercices':
-        include_once('assets/mesexercices.php');
-        $title = "Mes exercices";
-        break;
-    //SOUMETTRE
-    case 'soumettre':
-        include_once('assets/soumettre/info_gen.php');
-        $title = "Soumettre";
-        break;
-    case 'source_soumettre':
-        include_once('assets/soumettre/source.php');
-        $title = "Soumettre";
-        break;
-    case 'fichiers_soumettre':
-        include_once('assets/soumettre/fichiers.php');
-        $title = "Soumettre";
-        break;
-    //CONNEXION
-    case 'connexion':
-        include_once('connexion/login.php');
-        $title = "Connexion";
-        break;
-    //ADMIN EXERCICE
-    case 'admin_ex':
-        include_once('assets/administration/exercice/admin_exercices.php');
-        $title = "Administration exercices";
-        break;
-    case 'add_ex':
-        include_once('assets/administration/exercice/ajouter_exos.php');
-        $title = "Administration exercices";
-        break;
-    case 'modif_ex':
-        include_once('assets/administration/exercice/modif_exos.php');
-        $title = "Administration exercices";
-        break;
-    //ADMIN CONTRIBUTEUR
-    case 'contribu':
-        include_once('assets/administration/contributeurs/gestion_contri.php');
-        $title = "Administration contributeurs";
-        break;
-    case 'modif_contribu':
-        include_once('assets/administration/contributeurs/modification_contri.php');
-        $title = "Administration contributeurs";
-        break;
-    case 'add_contribu':
-        include_once('assets/administration/contributeurs/ajouter_contri.php');
-        $title = "Administration contributeurs";
-        break;
-    //ADMIN CLASSE
-    case 'classe':
-        include_once('assets/administration/classe/classes.php');
-        $title = "Administration classes";
-        break;
-    case 'add_classe':
-        include_once('assets/administration/classe/ajouter_classes.php');
-        $title = "Administration classes";
-        break;
-    case 'modif_classe':
-        include_once('assets/administration/classe/modif_classes.php');
-        $title = "Administration classes";
-        break;
-    //ADMIN ORIGINE
-    case 'origine':
-        include_once('assets/administration/origine/origines.php');
-        $title = "Administration origines";
-        break;
-    case 'modif_ori':
-        include_once('assets/administration/origine/modif_origines.php');
-        $title = "Administration origines";
-        break;
-    case 'add_ori':
-        include_once('assets/administration/origine/add_origine.php');
-        $title = "Administration origines";
-        break;
-    //ADMIN SOURCE
-    case 'source':
-        include_once('assets/administration/ajouter_sources.php');
-        $title = "Administration sources";
-        break;
-    
-    default:
-        include_once('assets/accueil.php');
-        $title = "Accueil";
-        break;
-}
-$content = ob_get_clean();
-           
+
+require('connexion/connexion.php');
+$show_accueil = isset($_GET["accueil"]) ? $_GET["accueil"] : '0';
+$show_recherche = isset($_GET["recherche"]) ? $_GET["recherche"] : '0';
+$show_exo = isset($_GET["exercices"]) ? $_GET["exercices"] : '0';
+$mesexercices = isset($_GET["mesexercices"]) ? $_GET["mesexercices"] : '0';
+$soumettre = isset($_GET["soumettre"]) ? $_GET["soumettre"] : '0';
+$show_connexion = isset($_GET["connexion"]) ? $_GET["connexion"] : '0';
+$show_administration = isset($_GET["admin_ex"]) ? $_GET["admin_ex"] : '0';
+$add_exercice = isset($_GET["add_ex"]) ? $_GET["add_ex"] : '0';
+$contribu = isset($_GET["contribu"]) ? $_GET["contribu"] : '0';
+$classe = isset($_GET["classe"]) ? $_GET["classe"] : '0';
+$add_classe = isset($_GET["add_classe"]) ? $_GET["add_classe"] : '0';
+$modif_classe = isset($_GET["modif_classe"]) ? $_GET["modif_classe"] : '0';
+$origine = isset($_GET["origine"]) ? $_GET["origine"] : '0';
+$modif_origine = isset($_GET["modif_ori"]) ? $_GET["modif_ori"] : '0';
+$source = isset($_GET["source"]) ? $_GET["source"] : '0';
+$mdp_oublier = isset($_GET["mdp_oublier"]) ? $_GET["mdp_oublier"] : '0';
 //PARTI SLIDE_GAUCHE
 ?>
 <!DOCTYPE html>
@@ -234,7 +148,69 @@ $content = ob_get_clean();
             <div class="content_mathsindex">
                     <div class="bloc_global_page">
                     
-                     <?php echo $content; ?>
+                    <?php
+                    //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
+                    if($show_accueil == '1'){
+                      include_once('assets/accueil.php');
+                    }
+                    else{?>
+                    <?php
+                    }
+                    if($show_exo =='1'){
+
+                      include_once('assets/exercice.php');
+
+                    }
+                    else if($show_recherche=='1'){
+
+                      include_once('assets/recherche.php');
+                    }
+                    else if($mesexercices=='1'){
+
+                      include_once('assets/mesexercices.php');
+                    }
+                    else if($soumettre=='1'){
+
+                      include_once('assets/soumettre/info_gen.php');
+                    }
+                    else if($show_connexion=='1'){
+
+                      include_once('connexion/login.php');
+                    }
+                    else if($show_administration=='1'){
+                        include_once('assets/administration/exercice/admin_exercices.php');
+                    }
+                    else if($add_exercice=='1'){
+                        include_once('assets/administration/exercice/ajouter_exos.php');
+                    }
+                    elseif($contribu=='1'){
+                        include_once('assets/administration/contributeurs/gestion_contri.php');
+                    }
+                    elseif($classe=='1'){
+                        include_once('assets/administration/classe/classes.php');
+                    }
+                    elseif($add_classe=='1'){
+                        include_once('assets/administration/classe/ajouter_classes.php');
+                    }
+                    elseif($modif_classe=='1'){
+                        include_once('assets/administration/classe/modif_classes.php');
+                    }
+                    elseif($origine=='1'){
+                        include_once('assets/administration/origines.php');
+                    }
+                    else if($modif_origine =='1'){
+                        include_once('assets/administration/modif_origines.php');
+                    }
+                    elseif($source=='1'){
+                        include_once('assets/administration/ajouter_sources.php');
+                    }
+                    elseif($mdp_oublier=='1'){
+                        include_once('connexion/mdp_oublier.php');
+                    }
+
+                    
+                    
+                    ?>
 
                     </div>
             </div>
