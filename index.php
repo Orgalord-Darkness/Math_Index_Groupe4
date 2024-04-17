@@ -12,6 +12,15 @@ $show_exo = isset($_GET["exercices"]) ? $_GET["exercices"] : '0';
 $mesexercices = isset($_GET["mesexercices"]) ? $_GET["mesexercices"] : '0';
 $soumettre = isset($_GET["soumettre"]) ? $_GET["soumettre"] : '0';
 $show_connexion = isset($_GET["connexion"]) ? $_GET["connexion"] : '0';
+$show_administration = isset($_GET["admin_ex"]) ? $_GET["admin_ex"] : '0';
+$add_exercice = isset($_GET["add_ex"]) ? $_GET["add_ex"] : '0';
+$contribu = isset($_GET["contribu"]) ? $_GET["contribu"] : '0';
+$classe = isset($_GET["classe"]) ? $_GET["classe"] : '0';
+$add_classe = isset($_GET["add_classe"]) ? $_GET["add_classe"] : '0';
+$modif_classe = isset($_GET["modif_classe"]) ? $_GET["modif_classe"] : '0';
+$origine = isset($_GET["origine"]) ? $_GET["origine"] : '0';
+$modif_origine = isset($_GET["modif_ori"]) ? $_GET["modif_ori"] : '0';
+$source = isset($_GET["source"]) ? $_GET["source"] : '0';
 //PARTI SLIDE_GAUCHE
 $connexion = connexionBdd();
 $requete = "SELECT last_name, first_name FROM user";
@@ -24,6 +33,7 @@ $resultatconnect = $connexion->query($requete);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maths Index</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -40,11 +50,21 @@ $resultatconnect = $connexion->query($requete);
         </a>';
         }else{
             foreach($resultatconnect as $row2) {
-                echo 
-                '<a href="?connexion=1" class="connect_container">
-                    <p class="connect">'.$row2['last_name'].' '. $row2['first_name'].'</p>
+                echo'                
+            <div class="connect_container">
+                <div class="connexion_normal" id="connexion_normal">
+                        <p class="connect">'.$row2['last_name'].' '. $row2['first_name'].'</p>   
                     <div class="img_profile"></div>
-                </a>';
+                </div>';
+                if(isset($_SESSION['email'])){
+                    echo'
+                <div class="pop_up" id="pop_up">
+                    <a href="?contribu=1"><p>Administration</p></a>
+                    <a href="connexion/logout.php"><p>Déconnexion</p></a>
+                </div>
+                </div>';
+                }
+                
             }
         }
         ?>
@@ -155,6 +175,34 @@ $resultatconnect = $connexion->query($requete);
 
                       include_once('connexion/login.php');
                     }
+                    else if($show_administration=='1'){
+                        include_once('assets/administration/exercice/admin_exercices.php');
+                    }
+                    else if($add_exercice=='1'){
+                        include_once('assets/administration/exercice/ajouter_exos.php');
+                    }
+                    elseif($contribu=='1'){
+                        include_once('assets/administration/contributeurs/gestion_contri.php');
+                    }
+                    elseif($classe=='1'){
+                        include_once('assets/administration/classe/classes.php');
+                    }
+                    elseif($add_classe=='1'){
+                        include_once('assets/administration/classe/ajouter_classes.php');
+                    }
+                    elseif($modif_classe=='1'){
+                        include_once('assets/administration/classe/modif_classes.php');
+                    }
+                    elseif($origine=='1'){
+                        include_once('assets/administration/origines.php');
+                    }
+                    else if($modif_origine =='1'){
+                        include_once('assets/administration/modif_origines.php');
+                    }
+                    elseif($source=='1'){
+                        include_once('assets/administration/ajouter_sources.php');
+                    }
+                    
                     
                     ?>
 
