@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="style.css" />
+﻿<link rel="stylesheet" href="style.css" />
 <?php
 require_once('connexion.php');
 $co = connexionBdd();
