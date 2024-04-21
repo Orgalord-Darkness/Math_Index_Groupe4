@@ -48,11 +48,20 @@ if (isset($_POST['submit'])) {
             <form class="box" action="#" method="post" name="login">
                 <h1 class="box-title">Connexion</h1>
                 <input type="mail" class="box-input" name="email" placeholder="Adresse mail" style="width: 30%; height: 60px;">
-                <input type="password" class="box-input" name="password" placeholder="Mot de passe" style="width: 30%; height: 60px;">
-                <input type="submit" value="Connexion " name="submit" class="box-button"></input>
+                <input type="password" class="box-input" name="password" placeholder="Mot de passe" style="margin-top:1%; width: 30%; height: 60px;">
+                <input type="submit" value="Connexion " name="submit" class="box-button" style="
+                    border-radius: 5%;
+                    border: aliceblue;
+                    background-color: #f6f6f6;
+                    font-size: 99%;
+                    height: 37px;
+                    margin-top: 1%;
+                    width: 11%;
+                "></input>
+                
+
                 <a href="?mdp_oublier=1">mot de passe oublier</a>
-                <p class="box-register">Page d'accueil ? <a href="./index.php">Accueil</a></p>
-                <p class="box-register">S'inscrire ? <a href="connexion/register.php">ici</a></p>
+                
                 <?php if (!empty($message)) { ?>
                     <p class="errorMessage"><?php echo $message; ?></p>
                 <?php } ?>
