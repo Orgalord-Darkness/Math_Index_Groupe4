@@ -1,4 +1,6 @@
 <?php
+    //test de commit sur classe.php 
+    require('../../../connexion/connexion.php') ; 
     $connexion = connexionBdd();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['id_suppression'])) {
