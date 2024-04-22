@@ -4,6 +4,7 @@
 		$table = $_GET['table'] ;  
 	}else { 
 		$table = 'pas de table' ;
+		$texte_confirm = '' ; 
 	}
 	if(isset($_GET['id_suppression'])){ 
 		$id = $_GET['id_suppression'] ; 
@@ -15,6 +16,7 @@
 			if(isset($_GET['id_suppression'])){ 
 			    $id = $_GET['id_suppression'] ; 
 			    // $table = 'classroom' ; 
+				$texte_confirm = '' ; 
 			    if(isset($_GET['action']) && $_GET['action'] === 'confirmer'){ 
 			        $requete = $connexion->prepare("DELETE FROM $table WHERE id = :id") ; 
 			        $requete->bindParam(':id', $id) ; 
@@ -34,6 +36,7 @@
 
 			break ; 
 		case 'classroom' : 
+			$texte_confirm = '' ; 
 			if(isset($_GET['id_suppression'])){ 
 			    $id = $_GET['id_suppression'] ; 
 			    // $table = 'classroom' ; 
@@ -56,6 +59,7 @@
 
 			break ; 
 		case 'origin':
+			$texte_confirm = '' ; 
 			if(isset($_GET['id_suppression'])){ 
 			    $id = $_GET['id_suppression'] ; 
 			    // $table = 'classroom' ; 
