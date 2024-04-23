@@ -3,7 +3,7 @@ require_once('connexion/connexion.php');
 $connexion = connexionBdd();
 session_start();
 if (empty($_GET)) {
-    header('Location: index.php?accueil=1');
+    header('Location: index.php?page=accueil');
     exit;
 }
 <<<<<<< HEAD
