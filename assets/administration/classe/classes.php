@@ -32,7 +32,7 @@
     <div class="container_one_exo">
     <form class="contribu_form" method="POST">
                   <div class="container_admin_search">
-                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+                    <input type="text" name="recherche" placeholder="Rechercher par nom...">
                       <button type="submit" class="btn-search">Rechercher</button>
                       <a href="?page=add_classe" class="bouton_ajouter">Ajouter +</a>  
                   </div>
@@ -44,24 +44,54 @@
                 <th>Supprimer</th>
             </thead>
             <tbody>
+                <tr>
+              <form>
                 <?php
-                foreach ($classes as $ligne) {
-                    echo "<tr>";
-                    echo "<td>".$ligne['name']."</td>";
-                    echo "<td>
-                            <form method='post' action='?page=modif_classe'>
-                                <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                            </form>
-                          </td>";
-                    echo "<td>
-                            <form method='post'>
-                                <button class='openDialog' name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button>
-                            </form>
-                          </td>";
-                    echo "</tr>";
+             
+                if(isset($_POST['recherche'])){ 
+                   echo " recherche : <br>" ; 
+                  var_dump($_POST['recherche']) ; 
+                  $recherche = $_POST['recherche'] ; 
+                  $requete = $connexion->prepare("SELECT * FROM classroom WHERE name = :nom") ; 
+                  $requete->bindParam(':nom',$recherche) ; 
+                  $requete->execute() ; 
+                  $resultats = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+                  echo " resultats <br>" ; 
+                  var_dump($resultats) ; 
+                  foreach($resultats as $ligne){ 
+                      echo "<tr>" ; 
+                      echo "<td>".$ligne['name']."</td>" ;
+                      echo "<td><form action='modif_classes.php'>
+                             <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                               <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
+                               </form></td>";
+
+
+                        echo "<td><form method='post'>
+                              <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                        echo "</tr>" ;
+                  }
+                }else{ 
+                  foreach($classes as $ligne){ 
+                    echo "<tr>" ;
+                    echo "<td>".$ligne['name']."</td>" ;
+                    echo "<td><form action='modif_classes.php'>
+                           <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                             <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
+                             </form></td>";
+
+
+                      echo "<td><form action = 'supprimer.php'>
+                            <input type = 'hidden' name = 'table' value  = 'classroom'>
+                            <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                    echo "</tr>" ;
+                  }
                 }
-                ?>
+                        ?>
+              </form>
+                        <!-- <td><button> <a href = "modif_classes.php">Modifier</a></button></td>
+                        <td><button id = "OpenDialog">Supprimer</button></td> -->
+                    </tr>
             </tbody>
         </table>
     </div>
