@@ -38,7 +38,7 @@ $connexion = connexionBdd();
         $requete = $connexion->prepare("SELECT * FROM `exercise` ;") ; 
         $requete->execute() ;
         $donnees = $requete->fetchAll(PDO::FETCH_ASSOC) ;  
-        var_dump($donnees) ; 
+        //var_dump($donnees) ; 
 
         foreach($donnees as $ligne){ 
           echo "<tr>" ; 
@@ -101,16 +101,23 @@ $connexion = connexionBdd();
                                     echo "<tr>" ; 
                                     // echo "<td>" . $ligne['id'] . "</td>";
                                     echo "<td>" . $ligne['name'] . "</td>";
-                                    echo "<td>" . $ligne['classroom_id'] . "</td>";
-                                    echo "<td>" . $ligne['thematic_id'] . "</td>";
-                                    // echo "<td>" . $ligne['chapter'] . "</td>";                
-                                    // echo "<td>" . $ligne['keywords'] . "</td>";
-                                    echo "<td>" . $ligne['difficulty'] . "</td>";
+                                    // echo "<td>" . $ligne['classroom_id'] . "</td>";
+                                    // echo "<td>" . $ligne['thematic_id'] . "</td>";
+                                    $id_th= $ligne['thematic_id'] ; 
+                                    $requete = $connexion->prepare("SELECT name FROM thematic WHERE id = :id;");
+                                    $requete->bindParam(':id',$id_th) ; 
+                                    $requete->execute();
+                                    $thema = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                                    $theme = implode(';', array_column($thema, 'name'));
+                                    echo "<td>".$theme."</td>" ;
+                                    // echo "<td>" . $ligne['chapter'] . "</td>";            
+                                    echo "<td>" ."Niveau : ". $ligne['difficulty'] . "</td>";
+                                    echo "<td>".$ligne['duration']." heure"."</td>" ; 
+                                    echo "<td>" . $ligne['keywords'] . "</td>";
                                     // echo "<td>" . $ligne['origin_id'] . "</td>";
                                     // echo "<td>" . $ligne['origin_name'] . "</td>"; 
                                     // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                    echo "<td>" . $ligne['exercice_file_id'] . "</td>"; 
-                                    echo "<td>" . $ligne['correction_file_id'] . "</td>"; 
+                                    echo "<td>" . $ligne['exercice_file_id']." - ". $ligne['correction_file_id'] . "</td>";  
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
                                     echo "<td><form method='post' action='?page=modif_ex'>
                                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
@@ -152,6 +159,7 @@ $connexion = connexionBdd();
       <button name = "valid_suppression" value = "<?php if(isset($_POST['id_suppression'])){ echo $id ; }  ; ?>" id = "confirm">Confirmer</button>
     </form>
   </div>
+
 </div>
 
 <script>
@@ -173,9 +181,7 @@ document.addEventListener('click', function(event) {
 });
 
 </script>
-
-
-<?php echo "suppression : "."<br>" ; 
+ <?php echo "suppression : "."<br>" ; 
   if(isset($id_suppression)){ 
     var_dump($id_suppression) ;
   }else { 
@@ -189,7 +195,7 @@ document.addEventListener('click', function(event) {
   }else { 
     echo "echec de POST id suppression" ; 
   }
-
+echo "<br> Le thème est :". $theme;
 ?>
 </body>
 </html>
