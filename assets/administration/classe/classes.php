@@ -19,26 +19,27 @@
 <div class="php_content">
     <div class="title_categ">Administration</div>
     <div class="sections">
-        <a href="?contribu=1"><p>Contributeurs</p></a>
-        <a href="?admin_ex=1"><p>Exercices</p></a>
-        <a href="#"><p>Matières</p></a>
-        <a href="?classe=1"><p>Classes</p></a>
-        <a href="#"><p>Thématiques</p></a>
-        <a href="?origine=1"><p>Origines</p></a>
+        <a href="?page=contribu"><p>Contributeurs</p></a>
+		<a href="?page=admin_ex"><p>Exercices</p></a>
+		<a href="#"><p>Matières</p></a>
+		<a href="?page=classe"><p>Classes</p></a>
+		<a href="#"><p>Thématiques</p></a>
+		<a href="?page=origine"><p>Origines</p></a>
     </div>
     <div class="bloc_contenu3">
-        <h1>Gestion classe</h1>
-        <form>
-            <label for="recherche">Rechercher une classe </label>
-            <br>
-            <input name="recherche">
-            <a href="?add_classe=1" class="bouton_ajouter">
-                Ajouter +
-            </a>
-        </form>
+    <p class="title_exo">Rechercher des classes</p>
+          <p>Rechercher une classe par un nom :</p>
+    <div class="container_one_exo">
+    <form class="contribu_form" method="POST">
+                  <div class="container_admin_search">
+                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+                      <button type="submit" class="btn-search">Rechercher</button>
+                      <a href="?page=add_classe" class="bouton_ajouter">Ajouter +</a>  
+                  </div>
+              </form>
         <table>
             <thead>
-                <th>Nom classe</th>
+                <th>Nom</th>
                 <th>Modifier</th>
                 <th>Supprimer</th>
             </thead>
@@ -48,7 +49,7 @@
                     echo "<tr>";
                     echo "<td>".$ligne['name']."</td>";
                     echo "<td>
-                            <form method='post' action='?modif_classe=1'>
+                            <form method='post' action='?page=modif_classe'>
                                 <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
                                 <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
                             </form>
@@ -64,6 +65,7 @@
             </tbody>
         </table>
     </div>
+    <div class="pagination">PAGINATION</div>
     <div class="modal-overlay"></div>
     <div id="dialog" class="dialog">
         <div class="dialog-content">
