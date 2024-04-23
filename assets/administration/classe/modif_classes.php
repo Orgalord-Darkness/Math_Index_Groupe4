@@ -26,7 +26,7 @@
 			<a href="?page=origine"><p>Origines</p></a>
 		</div>
 		<div class="bloc_contenu3">
-			<form method="POST" action="?page=classe">
+			<form method="POST" action="#">
 				<h1>Modifier une classe</h1>
 				<label for="classe">Nom classe : </label>
 				<br>
@@ -34,7 +34,11 @@
 				<input type="hidden" name="id_modif" value="<?php echo $id; ?>"> <!-- Ajout d'un champ caché pour envoyer l'ID -->
 				<input type="submit" name="envoyer">
 				<?php 
-					/*var_dump($resultat) ; */
+					// if(isset($resultat)){ 
+					// 	var_dump($resultat) ;
+					// }else{ 
+					// 	echo "erreur de requete" ; 
+					// }
 				?>
 			</form>
 		</div>
