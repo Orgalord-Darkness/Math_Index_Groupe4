@@ -29,7 +29,7 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
         <div class="container_one_exo">
             <form class="contribu_form" method="POST">
                 <div class="container_admin_search">
-                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+                    <input type="text" name="recherche" placeholder="Rechercher par nom...">
                     <button type="submit" class="btn-search">Rechercher</button>
                     <a href="?page=add_ori" class="bouton_ajouter">Ajouter +</a>
                 </div>
@@ -42,25 +42,58 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($origines as $ligne) {
-                        echo "<tr>";
-                        echo "<td>".$ligne['name']."</td>";
-                        $id = $ligne['id'];
-                        echo "<td><form method='post' action='?page=modif_ori'>
-                        <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                        <a href='?page=modif_ori&id=$id'>Modifier</a>
-                        </form></td>";
-                        echo "<td><form method='post'>
-                                  <button class='openDialog' name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button>
-                              </form></td>";
-                        echo "</tr>";
-                    }
-                    ?>
+            echo "<tr>" ; 
+              if(isset($_POST['recherche'])){ 
+                  $mots = $_POST['recherche'] ; 
+                  $requete = $connexion->prepare("SELECT * FROM origin WHERE name = :mots") ; 
+                  $requete->bindParam(':mots',$mots) ; 
+                  $requete->execute() ; 
+                  $resultats = $requete->fetchAll(PDO::FETCH_ASSOC) ;
+                  foreach($resultats as $nom) { 
+                    echo "<td>".$nom['name']."</td>" ; 
+                     echo "<td><form action='modif_origines.php'>
+                       <input type='hidden' name='id_modif' value='" . $nom['id'] . "'>
+                         <button type='submit' name='modif'>Modifier " . $nom['id'] . "</button>
+                          </form></td>";
+
+
+                    echo "<td><form method='post'>
+                          <button class = 'openDialog'name='id_suppression' value='" . $nom['id'] . "'>Supprimer</button></form></td>";
+                  }
+                  echo "requete : <br>" ; 
+                  var_dump($requete) ; 
+                  echo "resultat"."<br>" ; 
+                  var_dump($resultats) ; 
+               }
+              else{ 
+                echo "pas de recherche<br>" ; 
+                foreach($origines as $ligne){ 
+                echo "<tr>" ; 
+                echo "<td>".$ligne['name']."</td>" ; 
+
+                echo "<td><form action='modif_origines.php'>
+                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                         <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
+                          </form></td>";
+
+
+                    echo "<td><form action = 'supprimer.php'>
+                          <input type = 'hidden' name = 'table' value = 'origin'>
+                          <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                echo "</tr>" ; 
+                }
+              }
+              if(isset($mots)){ 
+              echo "recherche : <br>" ; 
+               var_dump($mots) ; 
+             }
+             echo "</tr>" ; 
+                        ?>
                 </tbody>
             </table>
         </div>
         <div class="pagination">PAGINATION</div>
-        <div class="modal-overlay"></div>
+        <!-- <div class="modal-overlay"></div>
         <div id="dialog" class="dialog">
             <div class="dialog-content">
                 <button class="close" id="closeDialog">
@@ -78,7 +111,7 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                     <button type="submit" name="id_suppression" id="confirm">Confirmer</button>
                 </form>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 		<script>
