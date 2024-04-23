@@ -14,6 +14,16 @@ body{
 }
 
 /*VARIABLE*/
+.supprimer{
+    background-color: none;
+    border: none;
+}
+.etoile{
+    /*VARABLE * QUI VA DANS SOUMETTRE IG*/
+    font-size: 25px;
+    font-weight: 1000;
+    color: #1b3168;
+}
 a{
     color: #757575;
     text-decoration: none;
@@ -53,7 +63,9 @@ h2{
     border: solid black 1px;
     border-radius: 50%;
 }
-
+.bouton_ajouter{
+    
+}
 
 /*SLIDE GAUCHE*/
 .bloc_invisible{
@@ -170,15 +182,45 @@ h2{
     font-family: "Epilogue", sans-serif;
     font-optical-sizing: auto;
 }
+/*TOP CONTAINER & POP UP*/
 .connect_container{
     display: flex;
     width: auto;
     height: auto;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
     margin-right: 3%;
     font-size: 20px;
 }
+.connexion_normal{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: auto;
+    height: auto;
+}
+.pop_up{
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content:center;
+    flex-direction: column;
+    background-color: #e7e7e7;
+    width: max-content;
+    height: max-content;
+    border-radius: 20px;
+    margin-top: 10%;
+    margin-left: 4%;
+    transition: 0.5s ease;
+}
+.pop_up p{
+    margin: 0.6rem;
+    font-size: 18px;
+}
+
 .deconnect_container{
     display: flex;
     width: 100%;
@@ -266,7 +308,7 @@ h2{
 .container_one_exo{
     display: flex;
     width: 100%;
-    height: 400px;
+    height: auto;
     align-items: center;
     flex-direction: column;
 }
@@ -347,7 +389,6 @@ form select {
     font-size : 20px ;
     width : 50% ;
     height : 4.5rem;
-    border: solid red;
     border : solid 3px rgb(230,230,230);
     border-radius :8px/8px; 
     margin-bottom: 4% ;
@@ -381,7 +422,7 @@ form button {
     background-color : #f6f6f6;
 }
 
-/*PAGE INFORMATION GÉNÉRAL*/
+/* SOUMETTRE PAGE INFORMATION GÉNÉRAL*/
 .bloc_contenu3{
     margin-top: -1.5%;
 }
@@ -391,12 +432,14 @@ form button {
     height: max-content;
     flex-direction : row;
     font-size: 27px;
+    margin-right: 4%;
 }
 .sections p{
     display: flex;
     height: max-content;
     width: max-content;
     background: #455884;
+    color: white;
     transition: 0.3s;
     padding: 10px 15px 10px 15px;
     border-radius: 10px 10px 0px 0px;
@@ -410,22 +453,43 @@ form button {
     height : auto ;
  }
 .bloc_contenu3 form input{ 
-    width : 25rem;
-    height : 3rem ;
+    width : 27rem;
+    height : 4.5rem ;
     font-size : 20px ;
     border : solid 3px rgb(230,230,230);
     border-radius :8px/8px; 
-    margin-bottom: 6% ;
-    margin-top : 1% ;
+    margin-bottom: 2% ;
+    margin-top : 2% ;
  }
 .bloc_contenu3 form button { 
-    margin-top : 1% ;
-    font-size : 20px ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 270px;
+    height: 75px;
+    font-size : 20px;
+    font-weight: 600;
+    margin-top : 1%;
     color : rgb(60,60,60);
     border-radius : 10px/10px ; 
     border : solid 3px rgb(230,230,230);
     background-color : rgb(230,230,230);
   }
+.bouton_ajouter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 70px;
+    font-size : 20px;
+    font-weight: 600;
+    color : #757575;
+    margin-top : 1%;
+    color : rgb(60,60,60);
+    border-radius : 10px/10px ; 
+    border : solid 3px #52b788 !important;
+    background-color : #52b788 !important;
+}
 .bloc_contenu3 form div { 
     display : flex ;
     flex-direction : row ;
@@ -441,4 +505,130 @@ form button {
 }
 .container_button2{
     justify-content: start;
+}
+
+
+/*ADMINISTRATION*/
+/* Styles pour la boîte de dialogue */
+.container_admin_search{
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.dialog {
+    display: none;
+    width : 29rem ;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 10001; /* Valeur de z-index supérieure pour s'assurer que la boîte de dialogue apparaît au-dessus de la superposition modale */
+  }
+
+  .dialog-content {
+    text-align: center;
+  }
+  .align { 
+    display : flex ;
+    flex-direction : row ;
+   }
+   .align div { 
+      display : inline ;
+      line-height : 1rem ;
+      text-align : left ;
+    }
+   .align img { 
+      display : flex ;
+      flex-direction : column ;
+      width : 30px;
+      height : 30px;
+      padding : 2% ;
+      border-radius: 10px/10px;
+      margin-top : 5% ;
+      margin-right : 1% ;
+      background-color : rgb(240,240,240);
+
+   }
+  .dialog button {
+    width : 9rem;
+    margin-right : 1% ;
+  }
+  button img { 
+    width : 0.8rem ;
+    height : 0.8rem ;
+    top : 50% ;
+    left : 50% ;
+    padding : 0;
+    margin : 0;
+   }
+  .dialog-content .close { 
+    background-color : rgb(240,240,240);
+    border : none ;
+    border-radius : 5rem ;
+    width: 1.5rem  ;
+    height : 1.5rem;
+    right : 50% ;
+    top : 0;
+    padding : 0;
+    margin : 0;
+    justify-content : right ;
+   }
+  #closeDialog { 
+     padding: 10px 20px;
+    background-color: rgb(240,240,240);
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+   }
+   #confirm { 
+    padding: 10px 20px;
+    background-color: rgb(100,100,100);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+   }
+
+  .dialog button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Styles pour la superposition modale */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Couleur semi-transparente */
+    z-index: 10000; /* Valeur de z-index pour être en dessous de la boîte de dialogue mais au-dessus du reste de la page */
+  }
+
+  /* Styles pour le reste de la page */
+  /* Vous pouvez ajuster les styles de votre page pour griser le contenu lorsqu'il est sous la superposition modale */
+  body.modal-open {
+    overflow: hidden; /* Empêche le défilement de la page lorsque la boîte de dialogue est ouverte */
+  }
+
+.Container_top{
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+.contribu_form{
+    padding: 0%;
+}
+
+.bouton_tableau_noback{
+    background: none;
+    border: none;
 }
