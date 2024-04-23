@@ -14,6 +14,11 @@ body{
 }
 
 /*VARIABLE*/
+.error{
+    font-size: 15px;
+    color: red;
+    margin: 0.4rem;
+}
 .supprimer{
     background-color: none;
     border: none;
@@ -500,7 +505,7 @@ form button {
     margin-right: 20% ;
   }
 .bloc_contenu3 form select { 
-    width : 25rem; 
+    width : 27rem; 
     height: 3rem ;
 }
 .container_button2{
