@@ -23,13 +23,13 @@
 
  				$idFichier = $donne['exercice_file_id'] ; 
  				$requete = $connexion->prepare("SELECT name FROM file WHERE id = :id") ; 
- 				bindParam(':id',$idFichier) ; 
+ 				$requete->bindParam(':id',$idFichier) ; 
  				$requete->execute() ; 
  				$fichiers_exos = $requete->fetchAll(PDO::FETCH_ASSOC) ;
 
  				$idFichier2 = $donnee['correction_file_id'] ;
  				$requete = $connexion->prepare("SELECT name FROM file WHERE id = :idC") ;
- 				bindParam(':idC',$idFichier2) ;  
+ 				$requete->bindParam(':idC',$idFichier2) ;  
  				$requete->execute() ; 
  				$fichiers_correct = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 			} 			
