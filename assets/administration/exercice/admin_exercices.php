@@ -63,104 +63,69 @@ $connexion = connexionBdd();
 <div class="php_content">
     <div class="title_categ">Administration</div>
     <div class="sections">
-				<a href="?contribu=1"><p>Contributeurs</p></a>
-				<a href="?admin_ex=1"><p>Exercices</p></a>
-				<a href="#"><p>Matières</p></a>
-				<a href="?classe=1"><p>Classes</p></a>
-				<a href="#"><p>Thématiques</p></a>
-				<a href="?origine=1"><p>Origines</p></a>
+        <a href="?page=contribu"><p>Contributeurs</p></a>
+        <a href="?page=admin_ex"><p>Exercices</p></a>
+        <a href="#"><p>Matières</p></a>
+        <a href="?page=classe"><p>Classes</p></a>
+        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=origine"><p>Origines</p></a>
 			</div>
-              <div class="bloc_contenu3">
+<div class="bloc_contenu3">
+<p class="title_exo">Rechercher des exercices</p>
+          <p>Rechercher un exercice par un nom :</p>
+    <div class="container_one_exo">
+    <form class="contribu_form" method="POST">
+                  <div class="container_admin_search">
+                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+                      <button type="submit" class="btn-search">Rechercher</button>
+                      <a href="?page=add_ex" class="bouton_ajouter">Ajouter +</a>  
+                  </div>
+              </form>
                   <div class="container_one_exo">
-                    <form method = "POST">
-                        <div>
-                          <label for = "rechercher">Rechercher un exercice</label>
+                      <p class="title_exo">Tous les exercices</p>
+                      <table>
+                          <thead>
+                                <th class="big_table">Nom</th>
+                                <th class="big_table">Thématiques</th>
+                                <th>Difficulté</th>
+                                <th>Durée</th>
+                                <th class="big_table">Mots clés</th>
+                                <th>Fichiers</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
+                            </thead>
+                            <tbody>
+                              <form method=post>
+                              <?php
+                                  foreach($donnees as $ligne){ 
+                                    echo "<tr>" ; 
+                                    // echo "<td>" . $ligne['id'] . "</td>";
+                                    echo "<td>" . $ligne['name'] . "</td>";
+                                    echo "<td>" . $ligne['classroom_id'] . "</td>";
+                                    echo "<td>" . $ligne['thematic_id'] . "</td>";
+                                    // echo "<td>" . $ligne['chapter'] . "</td>";                
+                                    // echo "<td>" . $ligne['keywords'] . "</td>";
+                                    echo "<td>" . $ligne['difficulty'] . "</td>";
+                                    // echo "<td>" . $ligne['origin_id'] . "</td>";
+                                    // echo "<td>" . $ligne['origin_name'] . "</td>"; 
+                                    // echo "<td>" . $ligne['origin_information'] . "</td>"; 
+                                    echo "<td>" . $ligne['exercice_file_id'] . "</td>"; 
+                                    echo "<td>" . $ligne['correction_file_id'] . "</td>"; 
+                                    // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
+                                    echo "<td><form method='post' action='?page=modif_ex'>
+                                      <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                                      <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
+                                  </form></td>";
+                                      echo "<td><form method='post'>
+                                      <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+
+                                    echo "<tr>" ; 
+                                  }
+                              ?>
+                            </form>
+                            </tbody>
+                          </table>
                         </div>
-                        <br>
-                        <input name = "rechercher">
-                        <button>Rechercher</button>
-                            <a href="?add_ex=1" class = "bouton_ajouter">Ajouter +
-                            </a>
-                          
-                    </form>
-                      <div class="container_one_exo">
-                          <p class="title_exo">Tous les exercices</p>
-                          <table>
-                              <thead>
-                                    <th class="big_table">Nom</th>
-                                    <th class="big_table">Thématiques</th>
-                                    <th>Difficulté</th>
-                                    <th>Durée</th>
-                                    <th class="big_table">Mots clés</th>
-                                    <th>Fichiers</th>
-                                    <th>Modifier</th>
-                                    <th>Supprimer</th>
-                                </thead>
-                                <tbody>
-                                  <form method=post>
-                                  <!--  <tr>
-                                    <td>Donnée 1</td>
-                                    <td>Donnée 2</td>
-                                    <td>Donnée 3</td>
-                                    <td class="gras_time">Donnée 3</td>
-                                    <td>
-                                      <div class="bulle_mc">Donnée 3</div>
-                                  </td>
-                                    <td>Donnée 3</td>
-                                    Del
-                                  </tr>
-                                  <tr>
-                                    <td>Donnée 4</td>
-                                    <td>Donnée 5</td>
-                                    <td>Donnée 6</td>
-                                    <td class="gras_time">Donnée 3</td>
-                                    <td>
-                                      <div class="bulle_mc">Donnée 3</div>
-                                  </td>
-                                    <td>Donnée 3</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Donnée 7</td>
-                                    <td>Donnée 8</td>
-                                    <td>Donnée 9</td>
-                                    <td class="gras_time">Donnée 3</td>
-                                    <td>
-                                      <div class="bulle_mc">Donnée 3</div>
-                                  </td>
-                                    <td>Donnée 3</td>
-                                  </tr> -->
-                                  <?php
-                                      foreach($donnees as $ligne){ 
-                                        echo "<tr>" ; 
-                                        // echo "<td>" . $ligne['id'] . "</td>";
-                                        echo "<td>" . $ligne['name'] . "</td>";
-                                        echo "<td>" . $ligne['classroom_id'] . "</td>";
-                                        echo "<td>" . $ligne['thematic_id'] . "</td>";
-                                        // echo "<td>" . $ligne['chapter'] . "</td>";                
-                                        // echo "<td>" . $ligne['keywords'] . "</td>";
-                                        echo "<td>" . $ligne['difficulty'] . "</td>";
-                                        // echo "<td>" . $ligne['origin_id'] . "</td>";
-                                        // echo "<td>" . $ligne['origin_name'] . "</td>"; 
-                                        // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                        echo "<td>" . $ligne['exercice_file_id'] . "</td>"; 
-                                        echo "<td>" . $ligne['correction_file_id'] . "</td>"; 
-                                        // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
-                                        echo "<td><form method='post' action='modif_exos.php'>
-                                          <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                          <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                                      </form></td>";
-
-
-                                          echo "<td><form method='post'>
-                                          <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
-
-                                        echo "<tr>" ; 
-                                      }
-                                  ?>
-                                </form>
-                                </tbody>
-                              </table>
-                      </div>
                       <div class="pagination">PAGINATION</div>
                   </div>
               </div>
