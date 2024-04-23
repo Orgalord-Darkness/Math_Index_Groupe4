@@ -3,19 +3,9 @@ require_once('connexion/connexion.php');
 $connexion = connexionBdd();
 session_start();
 if (empty($_GET)) {
-    header('Location: index.php?page=accueil');
+    header('Location: index.php?accueil=1');
     exit;
 }
-<<<<<<< HEAD
-
-require('connexion/connexion.php');
-$show_accueil = isset($_GET["accueil"]) ? $_GET["accueil"] : '0';
-$show_recherche = isset($_GET["recherche"]) ? $_GET["recherche"] : '0';
-$show_exo = isset($_GET["exercices"]) ? $_GET["exercices"] : '0';
-$mesexercices = isset($_GET["mesexercices"]) ? $_GET["mesexercices"] : '0';
-$soumettre = isset($_GET["soumettre"]) ? $_GET["soumettre"] : '0';
-$show_connexion = isset($_GET["connexion"]) ? $_GET["connexion"] : '0';
-=======
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();
@@ -120,7 +110,6 @@ switch ($page) {
 }
 $content = ob_get_clean();
            
->>>>>>> 3803552 (Mise à jour de index.php)
 //PARTI SLIDE_GAUCHE
 ?>
 <!DOCTYPE html>
@@ -130,8 +119,6 @@ $content = ob_get_clean();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title ?></title>
     <link rel="stylesheet" href="style.css">
-<<<<<<< HEAD
-=======
     <link rel="icon" href="ico/exercice.svg">
     <script src="script.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -149,14 +136,6 @@ $content = ob_get_clean();
             
         </a>';
         }else{
-<<<<<<< HEAD
-            foreach($resultatconnect as $row2) {
-                echo 
-                '<a href="?connexion=1" class="connect_container">
-                    <p class="connect">'.$row2['last_name'].' '. $row2['first_name'].'</p>
-                    <div class="img_profile"></div>
-                </a>';
-=======
                 $email = $_SESSION['email'];
                 $requete = "SELECT last_name, first_name FROM user WHERE email = '$email'";
                 $resultatconnect = $connexion->query($requete);
@@ -175,7 +154,6 @@ $content = ob_get_clean();
                     </div>';
                 }
                 
->>>>>>> 3803552 (Mise à jour de index.php)
             }
         ?>
                 
@@ -256,41 +234,7 @@ $content = ob_get_clean();
             <div class="content_mathsindex">
                     <div class="bloc_global_page">
                     
-<<<<<<< HEAD
-                    <?php
-                    //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
-                    if($show_accueil == '1'){
-                      include_once('assets/accueil.php');
-                    }
-                    else{?>
-                    <?php
-                    }
-                    if($show_exo =='1'){
-
-                      include_once('assets/exercice.php');
-
-                    }
-                    else if($show_recherche=='1'){
-
-                      include_once('assets/recherche.php');
-                    }
-                    else if($mesexercices=='1'){
-
-                      include_once('assets/mesexercices.php');
-                    }
-                    else if($soumettre=='1'){
-
-                      include_once('assets/soumettre/info_gen.php');
-                    }
-                    else if($show_connexion=='1'){
-
-                      include_once('connexion/login.php');
-                    }
-                    
-                    ?>
-=======
                      <?php echo $content; ?>
->>>>>>> 3803552 (Mise à jour de index.php)
 
                     </div>
             </div>
