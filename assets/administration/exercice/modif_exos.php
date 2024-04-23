@@ -65,13 +65,6 @@
     }
     
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset = "utf-8">
-    <link rel = "stylesheet" href = "style.css">
-  </head>
-  <body>
     <h1 class = "titre_section">Administration</h1>
     <div class = "ajout_exos">
       <form method= "POST">
@@ -195,5 +188,3 @@
           ?>
       </form>
     </div>
-  </body>
-</html>
