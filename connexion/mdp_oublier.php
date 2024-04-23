@@ -1,7 +1,11 @@
 <?php
 // Connexion à la base de données
+<<<<<<< Updated upstream
 $pdo = new PDO('mysql:host=localhost;
 dbname=your_database', 'username', 'password');
+=======
+$pdo = connexionBdd();
+>>>>>>> Stashed changes
 
 // Récupération de l'email soumis par le formulaire
 $email = $_POST['email'];
