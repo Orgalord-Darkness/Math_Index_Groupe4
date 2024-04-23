@@ -1,5 +1,4 @@
 <?php 
-	include_once('menu.php') ; 
 	if($_SERVER["REQUEST_METHOD"] == "POST"){ 
 		if(isset($_POST['recherche'])){
 			$rThematique = $_POST['thematique'] ; 

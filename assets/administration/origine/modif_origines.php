@@ -1,57 +1,96 @@
-<?php 
-if($_SERVER['REQUEST_METHOD'] == "POST"){ 
-	if(isset($_POST['envoyer'])){ 
-		$id = $_POST['id_modif'] ; 
-		$nouvelle_origine = $_POST['nom'] ; 
-		$requete = $connexion->prepare("UPDATE origin SET name = :nom WHERE id= :id") ;
-		$requete->bindParam(':id', $id) ;
-		$requete->bindParam(':nom', $nouvelle_origine) ; 
-		$resultat = $requete->execute() ;
-		header("Location: ?origine=1");
-		exit;
-	}
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!empty($_POST['name'])) {
+        $last_name = htmlspecialchars($_POST['name']);
+        $contactid = $_POST['id'];
+
+        $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :contactid";
+        $modif = $connexion->prepare($sqlupdate);
+        $modif->execute([
+            ':nom' => $last_name,
+            ':contactid' => $contactid,
+        ]);
+        header('Location: ?page=origin');
+        exit();
+    } else {
+        echo "ATTENTION, ERREUR ! Les champs requis ne doivent pas être vides.";
+    }
+}
+function addMessageIfValueIsEmpty(array $errors, string $field): array
+{
+    if (empty($_POST[$field])) {
+        $errors[$field][] = sprintf('Le champ "%s" doit être renseigné.', $field);
+    }
+
+    return $errors;
+}
+
+function displayErrors(array $errors, string $field): void
+{
+    if (isset($errors[$field])) {
+        foreach ($errors[$field] as $error) {
+            echo '<p class="error">' . $error . '</p>';
+        }
+    }
+}
+// Assurez-vous de la connexion à la base de données
+$connexion = connexionBdd();
+
+// Vérifiez si 'id' est défini dans $_GET
+$contactid = isset($_GET['id']) ? $_GET['id'] : null;
+
+// Sélectionnez les informations de la base de données
+$sql = "SELECT * FROM origin WHERE id = :id";
+$stmt = $connexion->prepare($sql);
+$stmt->execute([':id' => $contactid]);
+$informations = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Vérifiez si des erreurs existent déjà ou non
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $errors = addMessageIfValueIsEmpty($errors, 'nom');
+
+    if (empty($errors)) {
+        $last_name = htmlspecialchars($_POST['nom']);
+        $contactid = $_POST['id_modif']; // Utilisez 'id_modif' pour récupérer l'ID
+
+        $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :contactid";
+        $modif = $connexion->prepare($sqlupdate);
+        $modif->execute([
+            ':nom' => $last_name,
+            ':contactid' => $contactid,
+        ]);
+        header('Location: ?page=origin');
+        exit();
+    }
 }
 ?>
+
 <div class="php_content">
-	<div class="title_categ">Administration</div>
-	<div class="sections">
-			<a href="?contribu=1"><p>Contributeurs</p></a>
-			<a href="?admin_ex=1"><p>Exercices</p></a>
-			<a href="#"><p>Matières</p></a>
-			<a href="?classe=1"><p>Classes</p></a>
-			<a href="#"><p>Thématiques</p></a>
-			<a href="?origine=1"><p>Origines</p></a>
-	</div>
-	<div class="bloc_contenu3">
-	<div class = "gestion_sources">
-		<h1>Modifier une source</h1>
-			<form method="post" action="?origine=1">
-				<label for = "nom">Nom :</label>
+    <div class="title_categ">Administration</div>
+    <div class="sections">
+        <a href="?page=contribu"><p>Contributeurs</p></a>
+        <a href="?page=admin_ex"><p>Exercices</p></a>
+        <a href="#"><p>Matières</p></a>
+        <a href="?page=classe"><p>Classes</p></a>
+        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=origine"><p>Origines</p></a>
+    </div>
+    <div class="bloc_contenu3">
+        <div class="gestion_sources">
+            <h1>Modifier une source</h1>
+            <form method="post" action="?page=origine">
+                <input type="hidden" name="id_modif" value="<?= isset($informations['id']) ? $informations['id'] : '' ?>">
+
+                <label for="nom">Nom :</label>
+                <br>
+                <input type="text" name="nom" id="nom" value="<?= isset($informations['name']) ? htmlspecialchars($informations['name']) : '' ?>">
+                <?php displayErrors($errors, 'nom'); ?>
 				<br>
-				<input name = "nom">
-				<br>
-				<br>
-			<!--<label for = "entreprise">Entreprise :</label>
-				<br>
-				<input name = "nom">
-				<br>
-				<br>
-				<label for = "valeur">Marché suspecté :</label>
-				<br>
-				<input name = "valeur">
-				<br>
-				<br>
-				<label for = "status">Status :</label>
-				<br>
-				<input name = "status">
-				<br>
-				<br>
-				<label for ="date">Date :</label>
-				<br>
-				<input type = "date" name = "date">
-				<br> -->
-				<input type = "submit" name = "envoyer">
-			</form>
-		</div>
-	</div>
+                <br>
+
+                <input type="submit" name="envoyer">
+            </form>
+        </div>
+    </div>
 </div>

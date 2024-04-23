@@ -1,94 +1,86 @@
 <?php
-   	$connexion = connexionBdd() ;
-  	if($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Vérifiez si la commande SQL est présente dans les données du formulaire
-          if(isset($_POST['id_suppression'])) {
-                    // Récupérez la commande SQL à partir des données du formulaire
-            $id = $_POST['id_suppression'];
-            var_dump($id) ; 
-            $requete = $connexion->prepare("DELETE FROM origin WHERE id = :id;");
-            $requete->bindParam(':id', $id);
-            $requete->execute();
-          }else{ 
-            echo "erreur de suppression" ; 
-          }
-        }else{ 
-          echo "erreur de if" ; 
-        }
-       $requete= $connexion->prepare("SELECT * FROM origin") ; 
-       $requete->execute() ; 
-       $origines = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+    // Vérifiez si la commande SQL est présente dans les données du formulaire
+    if (isset($_POST['id_suppression'])) {
+        // Récupérez la commande SQL à partir des données du formulaire
+        $id = $_POST['id_suppression'];
+        $requete = $connexion->prepare("DELETE FROM origin WHERE id = :id");
+        $requete->bindParam(':id', $id);
+        $requete->execute();
+    } else {
+        echo "erreur de suppression";
+    }
+$requete = $connexion->prepare("SELECT * FROM origin");
+$requete->execute();
+$origines = $requete->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="php_content">
-	<div class="title_categ">Administration</div>
-	<div class="sections">
-			<a href="?contribu=1"><p>Contributeurs</p></a>
-			<a href="?admin_ex=1"><p>Exercices</p></a>
-			<a href="#"><p>Matières</p></a>
-			<a href="?classe=1"><p>Classes</p></a>
-			<a href="#"><p>Thématiques</p></a>
-			<a href="?origine=1"><p>Origines</p></a>
-	</div>
-	<div class="bloc_contenu3">
-		<div class = "gestion_sources">
-			<h1>Gestion des sources</h1>
-			<form>
-				<label for = "recherche">Rechercher une origine</label>
-				<br>
-				<input name = "recherche">
-				 <a class = "bouton_ajouter" href = "?source=1">
-            Ajouter +
-          </a>
-			</form>
-			<table>
-				<thead>
-					<th>Name</th>
-					<!-- <th>Company</th>
-					<th>Expected Deal</th>
-					<th>Pipeline Status</th>
-					<th>Date</th> -->
-					<th>Modifier</th>
-					<th>Supprimer</th>
-				</thead>
-				<tbody>
-					<tr>
-						<?php
-              foreach($origines as $ligne){ 
-                echo "<td>".$ligne['name']."</td>" ; 
-
-                 echo "<td><form method='post' action='?modif_ori=1'>
-                          <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                            <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                          </form></td>";
-
-
-                    echo "<td><form method='post'>
-                          <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
-              }
-						?>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="modal-overlay"></div>
-	    <div id="dialog" class="dialog">
-	    <div class="dialog-content">
-	      <button  class = "close" id = "closeDialog">
-	        <img src = "croix-removebg.png">
-	      </button>
-	      <div class = "align">
-	        <img  src = "check.svg">
-	        <div>
-	          <h1>Confirmer la suppression</h1>
-	          <p>Êtes-vous certains de vouloir supprimer cette exercice ?</p>
-	        </div>
-	      </div>
-	      <form>
-	        <button id="closeDialog">Annuler</button>
-	        <button name = "id_suppression" id = "confirm">Confirmer</button>
-	      </form>
-	    </div>
-	  </div>
+    <div class="title_categ">Administration</div>
+    <div class="sections">
+        <a href="?page=contribu"><p>Contributeurs</p></a>
+        <a href="?page=admin_ex"><p>Exercices</p></a>
+        <a href="#"><p>Matières</p></a>
+        <a href="?page=classe"><p>Classes</p></a>
+        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=origine"><p>Origines</p></a>
+    </div>
+    <div class="bloc_contenu3">
+        <p class="title_exo">Rechercher des origines</p>
+        <p>Rechercher une origine par un nom :</p>
+        <div class="container_one_exo">
+            <form class="contribu_form" method="POST">
+                <div class="container_admin_search">
+                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+                    <button type="submit" class="btn-search">Rechercher</button>
+                    <a href="?page=add_ori" class="bouton_ajouter">Ajouter +</a>
+                </div>
+            </form>
+            <table>
+                <thead>
+                    <th>Nom</th>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($origines as $ligne) {
+                        echo "<tr>";
+                        echo "<td>".$ligne['name']."</td>";
+                        $id = $ligne['id'];
+                        echo "<td><form method='post' action='?page=modif_ori'>
+                        <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                        <a href='?page=modif_ori&id=$id'>Modifier</a>
+                        </form></td>";
+                        echo "<td><form method='post'>
+                                  <button class='openDialog' name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button>
+                              </form></td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">PAGINATION</div>
+        <div class="modal-overlay"></div>
+        <div id="dialog" class="dialog">
+            <div class="dialog-content">
+                <button class="close" id="closeDialog">
+                    <img src="croix-removebg.png">
+                </button>
+                <div class="align">
+                    <img src="check.svg">
+                    <div>
+                        <h1>Confirmer la suppression</h1>
+                        <p>Êtes-vous certains de vouloir supprimer cette origine ?</p>
+                    </div>
+                </div>
+                <form method="post">
+                    <button id="closeDialog">Annuler</button>
+                    <button type="submit" name="id_suppression" id="confirm">Confirmer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 		<script>
 			// JavaScript pour ouvrir et fermer la boîte de dialogue
 			document.getElementById('openDialog').addEventListener('click', function() {
