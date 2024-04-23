@@ -1,6 +1,4 @@
-<?php 
-$connexion = connexionBdd();
-
+<?php
 if (isset($_POST['id_suppression'])) {
     $id_suppression = $_POST['id_suppression'];
     $requete = $connexion->prepare("DELETE FROM user WHERE id = :id;");

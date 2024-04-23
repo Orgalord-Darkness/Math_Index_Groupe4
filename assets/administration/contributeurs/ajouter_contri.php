@@ -1,23 +1,35 @@
 <?php
-if (isset($_POST['envoyer'])) {
-    if (isset($_POST['nom'], $_POST['prenom'], $_POST['role'], $_POST['email'], $_POST['password'])) {
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
+    if (empty($_POST['nom'])) {
+        $errors['nom'][] = 'Le champ "Nom" doit être renseigné.';
+    }
+
+    if (empty($_POST['prenom'])) {
+        $errors['prenom'][] = 'Le champ "Prénom" doit être renseigné.';
+    }
+
+    if (empty($_POST['role'])) {
+        $errors['role'][] = 'Le champ "Rôle" doit être renseigné.';
+    }
+
+    if (empty($_POST['email'])) {
+        $errors['email'][] = 'Le champ "Email" doit être renseigné.';
+    }
+
+    if (empty($_POST['password'])) {
+        $errors['password'][] = 'Le champ "Mot de passe" doit être renseigné.';
+    }
+
+    if (empty($errors)) {
+        // Si aucun champ requis n'est vide, alors procéder à la vérification du formulaire
+        // Je suppose que $connexion est déjà initialisé ailleurs dans votre code
         $lastname = $_POST['nom'];
         $firstname = $_POST['prenom'];
         $role = $_POST['role'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-
-        // Vérifier si l'email est valide
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "Erreur : Email invalide";
-            exit();
-        }
-
-        // Vérifier la longueur du mot de passe
-        if (strlen($password) < 8) {
-            echo "Erreur : Le mot de passe doit contenir au moins 8 caractères";
-            exit();
-        }
 
         // Vérification si l'email existe déjà
         $check_query = $connexion->prepare("SELECT * FROM user WHERE email = :email");
@@ -47,59 +59,73 @@ if (isset($_POST['envoyer'])) {
             header("Location: ?page=contribu");
             exit();
         }
-    }else{
-        $query->execute();
-        header("Location: ?page=contribu");
-        exit();
     }
 }
 ?>
-
 <div class="php_content">
     <div class="title_categ">Administration</div>
     <div class="sections">
-    <a href="?page=contribu"><p>Contributeurs</p></a>
-    <a href="?page=admin_ex"><p>Exercices</p></a>
-    <a href="#"><p>Matières</p></a>
-    <a href="?page=classe"><p>Classes</p></a>
-    <a href="#"><p>Thématiques</p></a>
-    <a href="?page=origine"><p>Origines</p></a>
+        <a href="?page=contribu"><p>Contributeurs</p></a>
+        <a href="?page=admin_ex"><p>Exercices</p></a>
+        <a href="#"><p>Matières</p></a>
+        <a href="?page=classe"><p>Classes</p></a>
+        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=origine"><p>Origines</p></a>
     </div>
-	<div class="bloc_contenu3">
-		<div class = "gestion_sources">
-      <p class="title_exo">Ajouter un contributeur</p>
-			<form method = "POST">
-				<label for = "nom">Nom :</label>
-				<br>
-				<input name = "nom">
-				<br>
-				<br>
-				<label for = "prenom">Prénoms :</label>
-				<br>
-				<input name = "prenom">
-				<br>
-				<br>
-				<label for="role">Rôle :</label>
-        <select name="role">
-        <option value="administrateur">Administrateur</option>
-        <option value="moderateur">Modérateur</option>
-        <option value="membre">Membre</option>
-        </select>
-				<br>
-				<br>
-				<label for = "email">Email :</label>
-				<br>
-				<input name = "email">
-        <label for = "password">Password :</label>
-				<br>
-				<input name = "password" type="password">
-				<br>
-				<br>
-				<form id="form_envoyer" action="index.php" method="post">
-          <button type="submit" name="envoyer">Envoyer</button>
-          <input type="hidden" name="contribu" value="1">
-        </form>
-    </form>
-</div>
-</div>
+    <div class="bloc_contenu3">
+        <div class="gestion_sources">
+            <p class="title_exo">Ajouter un contributeur</p>
+            <form method="POST">
+                <label for="nom">Nom :</label><br>
+                <input name="nom" id="nom" placeholder="Saisissez le nom :" value="<?= isset($informations['nom']) ? htmlspecialchars($informations['nom']) : '' ?>"><br>
+                <?php if (isset($errors['nom'])) {
+                    foreach ($errors['nom'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="prenom">Prénoms :</label><br>
+                <input name="prenom" id="prenom" placeholder="Saisissez le prénom :" value="<?= isset($informations['prenom']) ? htmlspecialchars($informations['prenom']) : '' ?>"><br>
+                <?php if (isset($errors['prenom'])) {
+                    foreach ($errors['prenom'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="role">Rôle :</label><br>
+                <select name="role" id="role">
+                    <option value="" <?= empty($informations['role']) ? 'selected' : '' ?>></option>
+                    <option value="administrateur" <?= (isset($informations['role']) && $informations['role'] == 'administrateur') ? 'selected' : '' ?>>Administrateur</option>
+                    <option value="moderateur" <?= (isset($informations['role']) && $informations['role'] == 'moderateur') ? 'selected' : '' ?>>Modérateur</option>
+                    <option value="membre" <?= (isset($informations['role']) && $informations['role'] == 'membre') ? 'selected' : '' ?>>Membre</option>
+                </select><br>
+                <?php if (isset($errors['role'])) {
+                    foreach ($errors['role'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="email">Email :</label><br>
+                <input name="email" id="email" placeholder="Saisissez l'email :" value="<?= isset($informations['email']) ? htmlspecialchars($informations['email']) : '' ?>"><br>
+                <?php if (isset($errors['email'])) {
+                    foreach ($errors['email'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="password">Password :</label><br>
+                <input name="password" type="password" id="password" placeholder="Saisissez le mot de passe :"><br>
+                <?php if (isset($errors['password'])) {
+                    foreach ($errors['password'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <form id="form_envoyer" method="post">
+                    <button type="submit" name="envoyer">Envoyer</button>
+                    <input type="hidden" name="contribu" value="1">
+                </form>
+            </form>
+        </div>
+    </div>
 </div>

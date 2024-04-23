@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <label for = "matiere">Matière<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "matiere" id="matiere">
+                        <option value=""></option>
                         <option value= "mathematique"<?= (isset($informations['matiere']) && $informations['matiere'] == 'mathematique') ? 'selected' : '' ?>>Mathématique</option>
                         <option value = "physique" <?= (isset($informations['matiere']) && $informations['matiere'] == 'physique') ? 'selected' : '' ?>>Physique</option>
                     </select>
@@ -64,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <label for = "classe">Classe<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "classe" id="classe">
+                        <option value=""></option>
                         <option value = "seconde" <?= (isset($informations['classe']) && $informations['classe'] == 'seconde') ? 'selected' : '' ?>>Seconde</option>
                         <option value = "premiere" <?= (isset($informations['classe']) && $informations['classe'] == 'premiere') ? 'selected' : '' ?>>Première</option>
                         <option value = "terminal" <?= (isset($informations['classe']) && $informations['classe'] == 'terminale') ? 'selected' : '' ?>>Terminal</option>
@@ -74,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <label for = "thematique">Thématique<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "thematique" id="thematique">
+                        <option value=""></option>
                         <option value = "suite" <?= (isset($informations['thematique']) && $informations['thematique'] == 'suite') ? 'selected' : '' ?>>Suite</option>
                     </select>
                     <?php displayErrors($errors, 'thematique'); ?>
@@ -93,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <label for = "difficulte">Difficultés<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "difficulte" id="difficulte">
+                        <option value=""></option>
                         <option value = "Niveau1" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau1') ? 'selected' : '' ?>>Niveau 1</option>
                         <option value = "Niveau2" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau2') ? 'selected' : '' ?>>Niveau 2</option>
                         <option value = "Niveau3" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau3') ? 'selected' : '' ?>>Niveau 3</option>
@@ -105,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                         <option value = "Niveau10" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau10') ? 'selected' : '' ?>>Niveau 10</option>
                         <option value = "Niveau11" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau11') ? 'selected' : '' ?>>Niveau 11</option>
                     </select>
-                    <?php displayErrors($errors, 'motscles'); ?>
+                    <?php displayErrors($errors, 'difficulte'); ?>
                     <br>
                     <br>
                     <label for = "duree">Durée</label>
