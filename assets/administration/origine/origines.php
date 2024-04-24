@@ -57,8 +57,9 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                           </form></td>";
 
 
-                    echo "<td><form method='post'>
-                          <button class = 'openDialog'name='id_suppression' value='" . $nom['id'] . "'>Supprimer</button></form></td>";
+                   echo "<td><form method = 'POST' action='?page=supp'>
+                        <input type = 'hidden' name = 'table' value = 'origin'>
+                        <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
                   }
                   echo "requete : <br>" ; 
                   var_dump($requete) ; 
@@ -71,15 +72,15 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                 echo "<tr>" ; 
                 echo "<td>".$ligne['name']."</td>" ; 
 
-                echo "<td><form action='modif_origines.php'>
+                echo "<td><form method = 'POST' action='?page=modif_ori'>
                        <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
                          <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
                           </form></td>";
 
 
-                    echo "<td><form action = 'supprimer.php'>
-                          <input type = 'hidden' name = 'table' value = 'origin'>
-                          <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                    echo "<td><form method = 'POST' action='?page=supp'>
+                        <input type = 'hidden' name = 'table' value = 'origin'>
+                        <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
                 echo "</tr>" ; 
                 }
               }
