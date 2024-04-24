@@ -1,40 +1,5 @@
 <?php 
 $connexion = connexionBdd();
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Vérifiez si la commande SQL est présente dans les données du formulaire
-    if (isset($_POST['id_suppression'])) {
-        // Récupérez l'identifiant de l'exercice à supprimer
-        $id_suppression = $_POST['id_suppression'];
-
-        // Effectuez la suppression
-        $requete = $connexion->prepare("DELETE FROM exercise WHERE id = :id;");
-        $requete->bindParam(':id', $id_suppression);
-        $requete->execute();
-
-        // Redirigez l'utilisateur vers la même page pour afficher les résultats
-       // header("Location: nom_de_votre_page.php");
-        //exit(); // Assurez-vous d'arrêter l'exécution du script après la redirection
-    } else {
-        echo "Erreur de suppression";
-    }
-//}
-	// include_once("menu.php") ; 
- //   $connexion = connexionBdd() ;
- //  if($_SERVER["REQUEST_METHOD"] == "POST") {
- //                // Vérifiez si la commande SQL est présente dans les données du formulaire
- //          if(isset($_POST['id_suppression'])) {
- //                    // Récupérez la commande SQL à partir des données du formulaire
- //            $id = $_POST['id_suppression'];
- //            var_dump($id) ; 
- //            $requete = $connexion->prepare("DELETE FROM exercise WHERE id = :id;");
- //            $requete->bindParam(':id', $id);
- //            $requete->execute();
- //          }else{ 
- //            echo "erreur de suppression" ; 
- //          }
-        //else{ 
-         // echo "erreur de if" ; 
-        //}
         $requete = $connexion->prepare("SELECT * FROM `exercise` ;") ; 
         $requete->execute() ;
         $donnees = $requete->fetchAll(PDO::FETCH_ASSOC) ;  
@@ -75,12 +40,12 @@ $connexion = connexionBdd();
           <p>Rechercher un exercice par un nom :</p>
     <div class="container_one_exo">
     <form class="contribu_form" method="POST">
-                  <div class="container_admin_search">
-                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
-                      <button type="submit" class="btn-search">Rechercher</button>
-                      <a href="?page=add_ex" class="bouton_ajouter">Ajouter +</a>  
-                  </div>
-              </form>
+         <div class="container_admin_search">
+            <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+            <button type="submit" class="btn-search">Rechercher</button>
+            <a href="?page=add_ex" class="bouton_ajouter">Ajouter +</a>  
+          </div>
+    </form>
                   <div class="container_one_exo">
                       <p class="title_exo">Tous les exercices</p>
                       <table>
@@ -123,7 +88,8 @@ $connexion = connexionBdd();
                                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
                                       <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
                                   </form></td>";
-                                      echo "<td><form method='post'>
+                                      echo "<td><form method = 'POST' action='?page=supp'>
+                                      <input type = 'hidden' name = 'table' value = 'exercise'>
                                       <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
 
                                     echo "<tr>" ; 
@@ -142,7 +108,7 @@ $connexion = connexionBdd();
 
 </section>
 <div class="modal-overlay"></div>
-<div id="dialog" class="dialog">
+<<!-- div id="dialog" class="dialog">
   <div class="dialog-content">
     <button  class = "close" id = "closeDialog">
       <img src = "croix-removebg.png">
@@ -160,9 +126,9 @@ $connexion = connexionBdd();
     </form>
   </div>
 
-</div>
+</div> -->
 
-<script>
+<!-- <script>
 // JavaScript pour ouvrir et fermer la boîte de dialogue
 document.addEventListener('click', function(event) {
   if (event.target.classList.contains('openDialog')) {
@@ -180,7 +146,7 @@ document.addEventListener('click', function(event) {
   }
 });
 
-</script>
+</script> -->
  <?php echo "suppression : "."<br>" ; 
   if(isset($id_suppression)){ 
     var_dump($id_suppression) ;
