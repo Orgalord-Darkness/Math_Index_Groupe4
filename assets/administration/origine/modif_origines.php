@@ -2,16 +2,15 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['name'])) {
         $last_name = htmlspecialchars($_POST['name']);
-        $contactid = $_POST['id'];
+        $id = $_POST['id'];
 
-        $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :contactid";
+        $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :id";
         $modif = $connexion->prepare($sqlupdate);
-        $modif->execute([
-            ':nom' => $last_name,
-            ':contactid' => $contactid,
-        ]);
-        header('Location: ?page=origin');
-        exit();
+        $modif->bindParam(':id', $id) ; 
+        $modif->bindParam(':nom',$last_name) ; 
+         $test = $modif->execute() ; 
+        // header('Location: ?page=origin');
+        // exit();
     } else {
         echo "ATTENTION, ERREUR ! Les champs requis ne doivent pas être vides.";
     }
@@ -51,18 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = addMessageIfValueIsEmpty($errors, 'nom');
 
     if (empty($errors)) {
-        $last_name = htmlspecialchars($_POST['nom']);
+        $nouveau_nom = htmlspecialchars($_POST['nom']);
         $contactid = $_POST['id_modif']; // Utilisez 'id_modif' pour récupérer l'ID
 
         $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :contactid";
         $modif = $connexion->prepare($sqlupdate);
-        $modif->execute([
-            ':nom' => $last_name,
-            ':contactid' => $contactid,
-        ]);
-        header('Location: ?page=origin');
-        exit();
+        $modif->bindParam(':contactid', $contactid) ; 
+        $modif->bindParam(':nom',$nouveau_nom ) ; 
+        // $modif->execute([
+        //     ':nom' => $last_name,
+        //     ':contactid' => $contactid,
+        // ]);
+        $test = $modif->execute() ; 
+        // header('Location: ?page=origin');
+        // exit();
     }
+}else{
+    echo "erreur de server" ; 
 }
 ?>
 
@@ -79,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bloc_contenu3">
         <div class="gestion_sources">
             <h1>Modifier une source</h1>
-            <form method="post" action="?page=origine">
+            <form method="post" action="#">
                 <input type="hidden" name="id_modif" value="<?= isset($informations['id']) ? $informations['id'] : '' ?>">
 
                 <label for="nom">Nom :</label>
@@ -94,3 +98,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
+<?php 
+    // echo "id modif : <br>" ; 
+    // if(isset($contactid)){ 
+    //     var_dump($contactid)  ;
+    // }else{ 
+    //     echo "erreur de post id modif" ; 
+    // }
+    // echo "<br>requete : <br>" ; 
+    // if(isset($test)){ 
+    //     var_dump($test) ; 
+    // }else{ 
+    //     echo "erreur de test"  ;
+    // }
+
+?>
