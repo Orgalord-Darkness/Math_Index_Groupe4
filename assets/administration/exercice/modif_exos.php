@@ -1,5 +1,5 @@
 <?php
-
+  $id = 1 ; 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Vérifiez si la clé 'id' est définie dans $_POST avant de l'accéde
                     // Récupérez les données du formulaire
@@ -15,7 +15,7 @@
           // $nouvelle_matiere = $_POST['matiere'] ; 
           $nouvelle_classe = $_POST['classe'] ;  
           $nouvelle_thematique = $_POST['thematique']; 
-          $nouveau_ncahpitre = $_POST['nchapitre'] ; 
+          $nouveau_nchapitre = $_POST['nchapitre'] ; 
           $nouvelle_difficulte = $_POST['difficulte'] ; 
           $nouvelle_duree = $_POST['duree'] ;
           $nouveau_motscles = $_POST['motscles'] ; 
@@ -25,8 +25,8 @@
           $nouvelles_infos = "TESTTESTTEST"; 
           $pdf_exos = 1 ; 
           $pdf_correction = 1 ;
-          $origin_n = 'Dejean' ; 
-          $origin_id = $id ;  
+          $origin_n = $_POST['origine'] ; 
+          $nouvelle_origine = $_POST['origine'] ;  
           if($_POST['id_modif'] == null or $id ==null  ){ 
             $id = $_POST['id_manu'] ; 
           }
@@ -40,7 +40,13 @@
           $requete->bindParam(':thematicname', $nouvelle_thematique) ; 
           $test_thema = $requete->execute() ;  
           $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
-          $theme = implode(';', array_column($id_thematic, 'id'));       
+          $theme = implode(';', array_column($id_thematic, 'id')); 
+
+          $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :originName") ; 
+          $requete->bindParam(':originName', $nouvelle_origine) ; 
+          $test_origin = $requete->execute() ;  
+          $id_origin = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
+          $origin_id= implode(';', array_column($id_origin, 'id'));       
                     // Connectez-vous à la base de données
                     // echo "nouvelles infos extra : ".$nouveaun_nom.' '.$nouveau_prenom ; 
                     // Préparez et exécutez la commande SQL pour la mise à jour
@@ -60,7 +66,7 @@
           $requete->bindParam(':pdC', $pdf_correction) ; 
           $requete->bindParam(':info',$nouvelles_infos) ;  
           $requete->bindParam(':originN', $origin_n) ; 
-          $requete->bindParam(':originId', $origin_id) ;
+          $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT) ;
 
                     
         $resultat = $requete->execute();
@@ -143,6 +149,11 @@
               <br>
               <input name = "motscles" placeholer = "mots clés">
               <br>
+              <br>
+              <label for = "origine">Origine : </label>
+              <br>
+              <input name = "origine">
+              <br>
               <label for = "difficulte">Difficultés :</label>
               <br>
               <select name = "difficulte">
@@ -168,7 +179,7 @@
           </div>
           <br>
           <br>
-          <input type = "hidden" name = "id_modif" value = <?$id?>>
+          <input type = "hidden" name = "id_modif" value = <?php echo $id?> >
           <button name = "envoyer">Continuer</button>
           <?php 
           if(isset($resultat) && $resultat == "true"){
@@ -207,7 +218,15 @@
         }else{
          echo "<br> problème nom " ; }
         echo "<br> Resultat : <br> " ;   
-        var_dump($resultat)
-          ?>
+        var_dump($resultat) ; 
+        echo "<br>origine : <br>" ; 
+        if(isset($_origine_id)){ 
+          var_dump($origine_id) ; 
+        }else{echo "erreur id origine " ; }
+        if(isset($nom_exercice)){
+          var_dump($nom_exercice) ; 
+        }else{ echo "erreur nom exercice" ; }
+      
+        ?>        
       </form>
     </div>
