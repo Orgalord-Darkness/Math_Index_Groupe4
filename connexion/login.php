@@ -46,21 +46,18 @@ if (isset($_POST['submit'])) {
             en envoyant un mail à contact@lyceestvincent.net.  </p>
         
             <form class="box" action="#" method="post" name="login">
-                <h1 class="box-title">Connexion</h1>
+                <label for = "email">Email : </label>
+                <br>
                 <input type="mail" class="box-input" name="email" placeholder="Adresse mail" style="width: 30%; height: 60px;">
+                <br>
+                <label for = "password">Mot de passe : </label>
+                <br>
                 <input type="password" class="box-input" name="password" placeholder="Mot de passe" style="margin-top:1%; width: 30%; height: 60px;">
-                <input type="submit" value="Connexion " name="submit" class="box-button" style="
-                    border-radius: 5%;
-                    border: aliceblue;
-                    background-color: #f6f6f6;
-                    font-size: 99%;
-                    height: 37px;
-                    margin-top: 1%;
-                    width: 11%;
-                "></input>
+                <div>
+                    <input type="submit" value="Connexion " name="submit" class="box-button2" ></input>
                 
-
-                <a href="?mdp_oublier=1">mot de passe oublier</a>
+                    <a href="?page=oubli">mot de passe oublier</a>
+                </div>
                 
                 <?php if (!empty($message)) { ?>
                     <p class="errorMessage"><?php echo $message; ?></p>
