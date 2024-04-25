@@ -102,7 +102,10 @@ switch ($page) {
         include_once('assets/administration/ajouter_sources.php');
         $title = "Administration sources";
         break;
-    
+    case 'oubli' : 
+        include('connexion/mdp_oublier.php') ; 
+        $title = "mot de passe oublier" ; 
+        break ; 
     default:
         include_once('assets/accueil.php');
         $title = "Accueil";
