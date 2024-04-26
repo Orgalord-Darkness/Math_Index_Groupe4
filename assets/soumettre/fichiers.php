@@ -48,7 +48,7 @@
                 <br>
                 <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
-                <button name = "envoyer"> 
+                <button name = "envoyer">Envoyer</button> 
             </form> 
     
         </div>
