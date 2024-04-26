@@ -1,22 +1,21 @@
 <?php 
  $connexion = connexionBdd();
 
-                    // Comptage total des enregistrements
-  $total_rows = 10;
-  $page_afficher = 4;
- $current_page = isset($_GET['num']) ? intval($_GET['num']) : 1;
+// Comptage total des enregistrements
+$total_rows = 10;
+$page_afficher = 4;
+$current_page = isset($_GET['num']) ? intval($_GET['num']) : 1;
 
-  // Calcul des limites
-  $start_from = ($current_page - 1) * $page_afficher;
+// Calcul des limites
+$start_from = ($current_page - 1) * $page_afficher;
 
-  // Requête pour récupérer les données de la page actuelle
-  $requete = $connexion->prepare("SELECT * FROM `exercise` LIMIT :start_from, :records_per_page");
-  $requete->bindParam(':start_from', $start_from, PDO::PARAM_INT);
-  $requete->bindParam(':records_per_page', $page_afficher, PDO::PARAM_INT);
-  $requete->execute();
-   $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
+// Requête pour récupérer les données de la page actuelle
+$requete = $connexion->prepare("SELECT * FROM `exercise` LIMIT :start_from, :records_per_page");
+$requete->bindParam(':start_from', $start_from, PDO::PARAM_INT);
+$requete->bindParam(':records_per_page', $page_afficher, PDO::PARAM_INT);
+$requete->execute();
+  $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<body>
 <div class="php_content">
     <div class="title_categ">Administration</div>
     <div class="sections">
@@ -116,13 +115,10 @@
                                       echo "<a href='?page=admin_ex&num=$i'" . ($current_page == $i ? " class='active'" : "") . ">$i</a>";
                                   }
                                   echo "</div>";
-                      ?>
-                  </div>
-              </div>
-          </div>
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
 </section>
-</body>
-</html>
