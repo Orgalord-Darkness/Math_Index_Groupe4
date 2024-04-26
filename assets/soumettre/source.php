@@ -19,12 +19,12 @@ function displayErrors(array $errors, string $field): void
     }
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
-    $errors = addMessageIfValueIsEmpty($errors, 'nom_exercice');
-    $errors = addMessageIfValueIsEmpty($errors, 'matiere');
-    $errors = addMessageIfValueIsEmpty($errors, 'classe');
+    $errors = addMessageIfValueIsEmpty($errors, 'origine');
+    $errors = addMessageIfValueIsEmpty($errors, 'nom_source');
+    $errors = addMessageIfValueIsEmpty($errors, 'info_comple');
     
     if (empty($errors)) {
-        header("Location: ?page=source_soumettre");
+        header("Location: ?page=fichiers_soumettre");
         exit;
     }
 }
@@ -47,24 +47,30 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                 <?php if (empty($origines)) : ?>
                     <p>Aucune origine n'est présente.</p>
                 <?php else : ?>
-                    <label for="nom_exercice">Origine<span class="etoile">*</span> :</label>
+                    <label for="origine">Origine<span class="etoile">*</span> :</label>
                     <br>
                     <select name="origine" id="origine">
-                        <?php foreach ($origines as $origine) : ?>
-                            <option value="<?= htmlspecialchars($origine['name']) ?>"><?= htmlspecialchars($origine['name']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    <option value=""></option>
+                    <?php foreach ($origines as $origine) : ?>
+                        <option value="<?= $origine['name'] ?>" <?= (isset($_POST['origine']) && $_POST['origine'] == $origine['name']) ? 'selected' : '' ?>>
+                            <?= $origine['name'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?php displayErrors($errors, 'origine'); ?>
                 <?php endif; ?>
                     <br>
                     <br>
-                    <label for = "matiere">Nom de la source/lien du site<span class="etoile">*</span> :</label>
+                    <label for = "nom_source">Nom de la source/lien du site<span class="etoile">*</span> :</label>
                     <br>
-                    <input type = "text" name = "nom_exercice" placeholder="Maths ">
+                    <input type = "text" name = "nom_source" id="nom_source" placeholder="Maths ">
+                    <?php displayErrors($errors, 'nom_source'); ?>
                     <br>
                     <br>
-                    <label for = "thematique">Informations complémentaires :</label>
+                    <label for = "info_comple">Informations complémentaires :</label>
                     <br>
-                    <input type="text" name="info_comple" placeholder="Page 12, 2ème paragraphe...">
+                    <input type="text" name="info_comple" id="info_comple" placeholder="Page 12, 2ème paragraphe...">
+                    <?php displayErrors($errors, 'info_comple'); ?>
                     <br>
                     <br>
                 <div class="container_button2">
