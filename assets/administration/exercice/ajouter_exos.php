@@ -9,7 +9,8 @@
 	        $requete = $connexion->prepare("SELECT id FROM classroom WHERE name =:classe; "); 
 	        $requete->bindParam(':classe', $nouvelle_classe) ;
 	        $id_classe = $requete->execute() ;
-	        $id_classe = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+	        $classe = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+			$id_classe = implode(';', array_column($id_classe, 'id')) ; 
 
 	        $nouvelle_thematique = $_POST['thematique'];
 	        $requete= $connexion->prepare("SELECT id FROM thematic WHERE name = :thematique") ;
@@ -33,9 +34,9 @@
 	        $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
 			$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
 			$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
+			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierExerciceNom);
 			if($emplacement){ 
-			    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+			    $chemin = "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierExerciceNom; 
 			}
             $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
    			 VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -51,9 +52,9 @@
 	        $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
 			$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
 			$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
+			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierCorrectionNom);
 			if($emplacement){ 
-			    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
+			    $chemin ="C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierCorrectionNom ; 
 			}
             $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
     			VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -94,7 +95,8 @@
 	        // $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_correction");  
 	        // $id_pdfCorrection = $requete->execute() ; 
 
-	        $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
+	        $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) 
+			VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
 	        $requete->bindParam(':nom', $nom_exercice) ;
 	        $requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
 	        $requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
