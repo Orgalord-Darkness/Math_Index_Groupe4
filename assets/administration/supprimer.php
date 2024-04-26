@@ -234,14 +234,14 @@
 						}
 					?>		
 			</h1>
-			<button id="showDialogButton">Afficher la boîte de dialogue</button>
+			<!-- <button id="showDialogButton">Afficher la boîte de dialogue</button>
 			<script>
 				document.getElementById("showDialogButton").addEventListener("click", function() {
 				document.getElementById("dialog").style.display = "block";
 				});
 
-			</script>
+			</script> -->
 		</div>
 	</body>
-</html>
+</html> 
 

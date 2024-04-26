@@ -40,7 +40,7 @@ if(isset($_POST['rechercher'])){
         <div class="bloc_contenu2">
         <p class="texteconection">Vous aller recevoir un mail dans votre boite mail avec vos login-mot passe si biens sur votre adresse-mail est le même que quand vous vous êtes inscris. </p>
         
-            <form class="box" action="#" method="post" name="login">
+            <form class="box" action="?page=oubli" method="post" name="login">
                 <h1 class="box-title">Connexion</h1>
                 <input type="mail" class="box-input" name="email" placeholder="Adresse mail" style="width: 30%; height: 60px;">
                 <button type="submit" name="rechercher">Envoyer</button>
@@ -48,7 +48,7 @@ if(isset($_POST['rechercher'])){
 
             </form>
             <?php echo "<br>" ; 
-            if ($user) {
+            if (isset($user)) {
                 echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
             } else {
                 echo "Aucun utilisateur trouvé avec cette adresse e-mail.";

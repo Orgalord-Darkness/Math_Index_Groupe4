@@ -106,7 +106,7 @@ switch ($page) {
     case 'oubli' : 
         include('connexion/mdp_oublier.php') ; 
         $title = "mot de passe oublier" ; 
-
+        break ; 
     case 'supp' : 
         include_once('assets/administration/supprimer.php') ;
         $title = "supprimer" ; 
