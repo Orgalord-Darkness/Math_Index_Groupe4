@@ -102,7 +102,14 @@ switch ($page) {
         include_once('assets/administration/ajouter_sources.php');
         $title = "Administration sources";
         break;
-    
+    case 'supp' : 
+        include_once('assets/administration/supprimer.php') ;
+        $title = "supprimer" ; 
+        break ; 
+    case 'result' : 
+        include_once('assets/administration/resultat.php') ; 
+        $title = "résultats" ; 
+        break ; 
     default:
         include_once('assets/accueil.php');
         $title = "Accueil";

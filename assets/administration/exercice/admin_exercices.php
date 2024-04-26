@@ -1,44 +1,9 @@
 <?php 
 $connexion = connexionBdd();
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Vérifiez si la commande SQL est présente dans les données du formulaire
-    if (isset($_POST['id_suppression'])) {
-        // Récupérez l'identifiant de l'exercice à supprimer
-        $id_suppression = $_POST['id_suppression'];
-
-        // Effectuez la suppression
-        $requete = $connexion->prepare("DELETE FROM exercise WHERE id = :id;");
-        $requete->bindParam(':id', $id_suppression);
-        $requete->execute();
-
-        // Redirigez l'utilisateur vers la même page pour afficher les résultats
-       // header("Location: nom_de_votre_page.php");
-        //exit(); // Assurez-vous d'arrêter l'exécution du script après la redirection
-    } else {
-        echo "Erreur de suppression";
-    }
-//}
-	// include_once("menu.php") ; 
- //   $connexion = connexionBdd() ;
- //  if($_SERVER["REQUEST_METHOD"] == "POST") {
- //                // Vérifiez si la commande SQL est présente dans les données du formulaire
- //          if(isset($_POST['id_suppression'])) {
- //                    // Récupérez la commande SQL à partir des données du formulaire
- //            $id = $_POST['id_suppression'];
- //            var_dump($id) ; 
- //            $requete = $connexion->prepare("DELETE FROM exercise WHERE id = :id;");
- //            $requete->bindParam(':id', $id);
- //            $requete->execute();
- //          }else{ 
- //            echo "erreur de suppression" ; 
- //          }
-        //else{ 
-         // echo "erreur de if" ; 
-        //}
         $requete = $connexion->prepare("SELECT * FROM `exercise` ;") ; 
         $requete->execute() ;
         $donnees = $requete->fetchAll(PDO::FETCH_ASSOC) ;  
-        var_dump($donnees) ; 
+        //var_dump($donnees) ; 
 
         foreach($donnees as $ligne){ 
           echo "<tr>" ; 
@@ -75,12 +40,12 @@ $connexion = connexionBdd();
           <p>Rechercher un exercice par un nom :</p>
     <div class="container_one_exo">
     <form class="contribu_form" method="POST">
-                  <div class="container_admin_search">
-                    <input type="text" name="rechercher" placeholder="Rechercher par nom...">
-                      <button type="submit" class="btn-search">Rechercher</button>
-                      <a href="?page=add_ex" class="bouton_ajouter">Ajouter +</a>  
-                  </div>
-              </form>
+         <div class="container_admin_search">
+            <input type="text" name="rechercher" placeholder="Rechercher par nom...">
+            <button type="submit" class="btn-search">Rechercher</button>
+            <a href="?page=add_ex" class="bouton_ajouter">Ajouter +</a>  
+          </div>
+    </form>
                   <div class="container_one_exo">
                       <p class="title_exo">Tous les exercices</p>
                       <table>
@@ -101,22 +66,30 @@ $connexion = connexionBdd();
                                     echo "<tr>" ; 
                                     // echo "<td>" . $ligne['id'] . "</td>";
                                     echo "<td>" . $ligne['name'] . "</td>";
-                                    echo "<td>" . $ligne['classroom_id'] . "</td>";
-                                    echo "<td>" . $ligne['thematic_id'] . "</td>";
-                                    // echo "<td>" . $ligne['chapter'] . "</td>";                
-                                    // echo "<td>" . $ligne['keywords'] . "</td>";
-                                    echo "<td>" . $ligne['difficulty'] . "</td>";
+                                    // echo "<td>" . $ligne['classroom_id'] . "</td>";
+                                    // echo "<td>" . $ligne['thematic_id'] . "</td>";
+                                    $id_th= $ligne['thematic_id'] ; 
+                                    $requete = $connexion->prepare("SELECT name FROM thematic WHERE id = :id;");
+                                    $requete->bindParam(':id',$id_th) ; 
+                                    $requete->execute();
+                                    $thema = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                                    $theme = implode(';', array_column($thema, 'name'));
+                                    echo "<td>".$theme."</td>" ;
+                                    // echo "<td>" . $ligne['chapter'] . "</td>";            
+                                    echo "<td>" ."Niveau : ". $ligne['difficulty'] . "</td>";
+                                    echo "<td>".$ligne['duration']." heure"."</td>" ; 
+                                    echo "<td>" . $ligne['keywords'] . "</td>";
                                     // echo "<td>" . $ligne['origin_id'] . "</td>";
                                     // echo "<td>" . $ligne['origin_name'] . "</td>"; 
                                     // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                    echo "<td>" . $ligne['exercice_file_id'] . "</td>"; 
-                                    echo "<td>" . $ligne['correction_file_id'] . "</td>"; 
+                                    echo "<td>" . $ligne['exercice_file_id']." - ". $ligne['correction_file_id'] . "</td>";  
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
                                     echo "<td><form method='post' action='?page=modif_ex'>
                                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
                                       <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
                                   </form></td>";
-                                      echo "<td><form method='post'>
+                                      echo "<td><form method = 'POST' action='?page=supp'>
+                                      <input type = 'hidden' name = 'table' value = 'exercise'>
                                       <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
 
                                     echo "<tr>" ; 
@@ -135,7 +108,7 @@ $connexion = connexionBdd();
 
 </section>
 <div class="modal-overlay"></div>
-<div id="dialog" class="dialog">
+<<!-- div id="dialog" class="dialog">
   <div class="dialog-content">
     <button  class = "close" id = "closeDialog">
       <img src = "croix-removebg.png">
@@ -152,9 +125,10 @@ $connexion = connexionBdd();
       <button name = "valid_suppression" value = "<?php if(isset($_POST['id_suppression'])){ echo $id ; }  ; ?>" id = "confirm">Confirmer</button>
     </form>
   </div>
-</div>
 
-<script>
+</div> -->
+
+<!-- <script>
 // JavaScript pour ouvrir et fermer la boîte de dialogue
 document.addEventListener('click', function(event) {
   if (event.target.classList.contains('openDialog')) {
@@ -172,10 +146,8 @@ document.addEventListener('click', function(event) {
   }
 });
 
-</script>
-
-
-<?php echo "suppression : "."<br>" ; 
+</script> -->
+ <?php echo "suppression : "."<br>" ; 
   if(isset($id_suppression)){ 
     var_dump($id_suppression) ;
   }else { 
@@ -189,7 +161,7 @@ document.addEventListener('click', function(event) {
   }else { 
     echo "echec de POST id suppression" ; 
   }
-
+echo "<br> Le thème est :". $theme;
 ?>
 </body>
 </html>
