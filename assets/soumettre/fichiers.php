@@ -1,7 +1,5 @@
 <?php
-
-    
-    if(isset($_POST['envoyer'])){ 
+    if(isset($_POT['envoyer'])){ 
         if(isset($_FILES['pdfExos'])){ 
             $fichierNom = $_FILES['pdfExos']['name'] ; //Nom du fichier 
             $fichierEmpl = $_FILES['pdfExos']['tmp_name'] ; //Emplacement temporaire du fichier
@@ -48,6 +46,15 @@
                 <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
 >>>>>>> 68f2c8a (correction de faute d'ortographe)
+                <button name = "envoyer"> 
+            </form> 
+            <h1><strong>Fichiers</strong></h1>
+            <br>
+            <form method = "POST" enctype = "multipart/form-data">
+                <label for = "pdfExos">Fiche exercice(PDF, WORD)* : </label>
+                <br>
+                <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
+                <br>
                 <button name = "envoyer"> 
             </form> 
     
