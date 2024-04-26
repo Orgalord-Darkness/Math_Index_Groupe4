@@ -2,10 +2,10 @@
 require_once('connexion/connexion.php');
 $connexion = connexionBdd();
 session_start();
-// if (empty($_GET)) {
-//     header('Location: index.php?accueil=1');
-//     exit;
-// }
+if (empty($_GET)) {
+    header('Location: ?page=accueil');
+    exit;
+}
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();

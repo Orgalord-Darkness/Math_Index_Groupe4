@@ -1,4 +1,5 @@
 <?php 
+
 	if(isset($_POST['thematique']) && isset($_POST['motscles'])){ 
 		$thematique = $_POST['thematique'] ; 
 		$motscles = $_POST['motscles'] ;
@@ -22,6 +23,7 @@
 	}
 
 	
+
 ?>
 <!DOCTYPE html>
 <html>
