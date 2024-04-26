@@ -5,12 +5,18 @@
 			$nom_exercice = $_POST['nom_exercice'] ; 
 			$nouvelle_matiere = $_POST['matiere'] ;
 
-	        $nouvelle_classe = $_POST['classe'] ;  
-	        $requete = $connexion->prepare("SELECT id FROM classroom WHERE name =:classe; "); 
-	        $requete->bindParam(':classe', $nouvelle_classe) ;
-	        $id_classe = $requete->execute() ;
-	        $classe = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
-			$id_classe = implode(';', array_column($id_classe, 'id')) ; 
+			$nouvelle_classe = $_POST['classe'];
+			$requete = $connexion->prepare("SELECT id FROM classroom WHERE name = :classe");
+			$requete->bindParam(':classe', $nouvelle_classe);
+			$requete->execute();
+			$classe = $requete->fetchAll(PDO::FETCH_ASSOC);
+			if ($classe) {
+				$id_classe = implode(';', array_column($classe, 'id'));
+			} else {
+				// Gérer le cas où la classe n'a pas été trouvée dans la base de données
+				echo "La classe spécifiée n'existe pas dans la base de données.";
+			}
+			
 
 	        $nouvelle_thematique = $_POST['thematique'];
 	        $requete= $connexion->prepare("SELECT id FROM thematic WHERE name = :thematique") ;
