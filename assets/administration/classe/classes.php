@@ -1,21 +1,48 @@
 <?php
-    // $connexion = connexionBdd();
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // if (isset($_POST['id_suppression'])) {
-        //     $id = $_POST['id_suppression'];
-        //     $requete = $connexion->prepare("DELETE FROM classroom WHERE id = :id;");
-        //     $requete->bindParam(':id', $id);
-        //     $requete->execute();
-        // } else {
-        //     echo "erreur de suppression";
-        // }
-    } else {
-        echo "erreur de if";
-    }
-    $requete = $connexion->prepare("SELECT * FROM classroom");
+// Vérifiez si la commande SQL est présente dans les données du formulaire
+if (isset($_POST['id_suppression'])) {
+    // Récupérez la commande SQL à partir des données du formulaire
+    $id_suppression = $_POST['id_suppression'];
+    $requete = $connexion->prepare("DELETE FROM classroom WHERE id = :id");
+    $requete->bindParam(':id', $id_suppression);
     $requete->execute();
-    $classes = $requete->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    echo "erreur de suppression";
+}
+
+//SCRIPT PHP PAGINATION
+$resultats_par_page = 2;
+
+$requete_total = $connexion->prepare("SELECT COUNT(*) AS total FROM classroom;");
+$requete_total->execute();
+$total_rows = $requete_total->fetch(PDO::FETCH_ASSOC)['total'];
+$total_pages = ceil($total_rows / $resultats_par_page);
+
+if (isset($_GET['num']) && is_numeric($_GET['num'])) {
+    $page = intval($_GET['num']);
+    if ($page < 1) {
+        $page = 1;
+    } elseif ($page > $total_pages) {
+        $page = $total_pages;
+    }
+} else {
+    $page = 1;
+}
+
+$offset = ($page - 1) * $resultats_par_page;
+
+$requete = $connexion->prepare("SELECT * FROM `classroom` LIMIT :offset, :limit;");
+$requete->bindParam(':offset', $offset, PDO::PARAM_INT);
+$requete->bindParam(':limit', $resultats_par_page, PDO::PARAM_INT);
+$requete->execute();
+$donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
+
+//SCRIPT PHP SELECT
+$requete_all = $connexion->prepare("SELECT * FROM classroom");
+$requete_all->execute();
+$origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <div class="php_content">
     <div class="title_categ">Administration</div>
     <div class="sections">
@@ -37,107 +64,7 @@
                       <a href="?page=add_classe" class="bouton_ajouter">Ajouter +</a>  
                   </div>
        </form>
-        <table>
-            <thead>
-                <th>Nom</th>
-                <th>Modifier</th>
-                <th>Supprimer</th>
-            </thead>
-            <tbody>
-                <tr>
-              <form method = "POST">
-                <?php
-             
-                if(isset($_POST['recherche'])){ 
-                   echo " recherche : <br>" ; 
-                  var_dump($_POST['recherche']) ; 
-                  $recherche = $_POST['recherche'] ; 
-                  $requete = $connexion->prepare("SELECT * FROM classroom WHERE name = :nom") ; 
-                  $requete->bindParam(':nom',$recherche) ; 
-                  $requete->execute() ; 
-                  $resultats = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
-                  echo " resultats <br>" ; 
-                  var_dump($resultats) ; 
-                  foreach($resultats as $ligne){ 
-                      echo "<tr>" ; 
-                      echo "<td>".$ligne['name']."</td>" ;
-                      echo "<td><form method =' POST' action='?page=modif_classe'>
-                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                         <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                          </form></td>";
-
-
-                        echo "<td><form method = 'POST' action='?page=supp'>
-                              <input type = 'hidden' name = 'table' value = 'classroom'>
-                              <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
-                        echo "</tr>" ;
-                  }
-                }else{ 
-                  foreach($classes as $ligne){ 
-                    echo "<tr>" ;
-                    echo "<td>".$ligne['name']."</td>" ;
-                    echo "<td><form method = 'POST' action='?page=modif_classe'>
-                           <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                             <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                             </form></td>";
-
-
-                      echo "<td><form method = 'POST' action='?page=supp'>
-                            <input type = 'hidden' name = 'table' value = 'classroom'>
-                             <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
-                    echo "</tr>" ;
-                  }
-                }
-                        ?>
-              </form>
-                    </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="pagination">PAGINATION</div>
-</div>
-<!-- 
-<?php
-$connexion = connexionBdd();
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['id_suppression'])) {
-            $id = $_POST['id_suppression'];
-            $requete = $connexion->prepare("DELETE FROM classroom WHERE id = :id;");
-            $requete->bindParam(':id', $id);
-            $requete->execute();
-        } else {
-            echo "Erreur de suppression";
-        }
-    }
-
-    $requete = $connexion->prepare("SELECT * FROM classroom");
-    $requete->execute();
-    $classes = $requete->fetchAll(PDO::FETCH_ASSOC);
-?>
-
-<div class="php_content">
-    <div class="title_categ">Administration</div>
-    <div class="sections">
-        <a href="?page=contribu"><p>Contributeurs</p></a>
-    <a href="?page=admin_ex"><p>Exercices</p></a>
-    <a href="#"><p>Matières</p></a>
-    <a href="?page=classe"><p>Classes</p></a>
-    <a href="#"><p>Thématiques</p></a>
-    <a href="?page=origine"><p>Origines</p></a>
-    </div>
-    <div class="bloc_contenu3">
-        <p class="title_exo">Rechercher des classes</p>
-        <p>Rechercher une classe par un nom :</p>
-        <div class="container_one_exo">
-            <form class="contribu_form" method="POST">
-                <div class="container_admin_search">
-                    <input type="text" name="recherche" placeholder="Rechercher par nom...">
-                    <button type="submit" class="btn-search">Rechercher</button>
-                    <a href="?page=add_classe" class="bouton_ajouter">Ajouter +</a>  
-                </div>
-            </form>
-            <table>
+       <table>
                 <thead>
                     <th>Nom</th>
                     <th>Modifier</th>
@@ -146,30 +73,56 @@ $connexion = connexionBdd();
                 <tbody>
                     <?php
                     if (isset($_POST['recherche'])) {
-                        $recherche = $_POST['recherche'];
-                        $requete = $connexion->prepare("SELECT * FROM classroom WHERE name = :nom");
-                        $requete->bindParam(':nom', $recherche);
+                        $mots = $_POST['recherche'];
+                        $requete = $connexion->prepare("SELECT * FROM classroom WHERE name = :mots");
+                        $requete->bindParam(':mots', $mots);
                         $requete->execute();
                         $resultats = $requete->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($resultats as $ligne) {
+                        foreach ($resultats as $nom) {
                             echo "<tr>";
-                            echo "<td>".$ligne['name']."</td>";
-                            echo "<td><a href='?page=modif_classe&id_modif=".$ligne['id']."'>Modifier</a></td>";
-                            echo "<td><form method='POST' action='?page='>
-                                    <input type='hidden' name='id_suppression' value='".$ligne['id']."'>
-                                    <button class='openDialog' type='submit'>Supprimer</button>
-                                  </form></td>";
+                            echo "<td>" . $nom['name'] . "</td>";
+                            echo "<td>
+                                    <form method='post'>
+                                        <div class='bouton_suppr'>
+                                            <input type='hidden' name='id_modif' value='" . $nom['id'] . "'>
+                                            <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                            <a href='?page=modif_classe&id=" . $nom['id'] . "'>Modifier</a>
+                                        </div>
+                                    </form>
+                                </td>";
+                            echo "<td>
+                                    <form method='POST'>
+                                        <div class='bouton_suppr'>
+                                            <input type='hidden' name='id_suppression' value='" . $nom['id'] . "'>
+                                            <a name='id_suppression' href='#' onclick='this.parentNode.parentNode.submit(); return false;'>
+                                            <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                                        </div>
+                                    </form>
+                                </td>";
                             echo "</tr>";
                         }
                     } else {
-                        foreach ($classes as $ligne) {
+                        foreach ($donnees as $ligne) {
                             echo "<tr>";
-                            echo "<td>".$ligne['name']."</td>";
-                            echo "<td><a href='?page=modif_classe&id_modif=".$ligne['id']."'>Modifier</a></td>";
-                            echo "<td><form method='POST' action=''>
-                                    <input type='hidden' name='id_suppression' value='".$ligne['id']."'>
-                                    <button class='openDialog' type='submit'>Supprimer</button>
-                                  </form></td>";
+                            echo "<td>" . $ligne['name'] . "</td>";
+                            echo "<td>
+                                    <form method='post'>
+                                        <div class='bouton_suppr'>
+                                            <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                                            <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                            <a href='?page=modif_classe&id=" . $ligne['id'] . "'>Modifier</a>
+                                        </div>
+                                    </form>
+                                </td>";
+                            echo "<td>
+                                    <form method='POST'>
+                                        <div class='bouton_suppr'>
+                                            <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                                            <a name='id_suppression' href='#' onclick='this.parentNode.parentNode.submit(); return false;'>
+                                            <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                                        </div>
+                                    </form>
+                                </td>";
                             echo "</tr>";
                         }
                     }
@@ -177,46 +130,32 @@ $connexion = connexionBdd();
                 </tbody>
             </table>
         </div>
-        <div class="pagination">PAGINATION</div>
-        <div class="modal-overlay"></div>
-        <div id="dialog" class="dialog">
-            <div class="dialog-content">
-                <button class="close" id="closeDialog">
-                    <img src="croix-removebg.png">
-                </button>
-                <div class="align">
-                    <img src="check.svg">
-                    <div>
-                        <h1>Confirmer la suppression</h1>
-                        <p>Êtes-vous certains de vouloir supprimer cette exercice ?</p>
-                    </div>
-                </div>
-                <form>
-                    <button id="closeDialog">Annuler</button>
-                    <button name="id_suppression" id="confirm">Confirmer</button>
-                </form>
-            </div>
-        </div>
+    <div class='pagination'>
+            <?php
+            if ($total_pages > 1) {
+                echo "<a href='?page=classe&num=" . ($page > 1 ? $page - 1 : 1) . "'>&laquo;</a>";
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<a href='?page=classe&num=$i'" . ($page == $i ? " class='active'" : "") . ">$i</a>";
+                }
+                echo "<a href='?page=classe&num=" . ($page < $total_pages ? $page + 1 : $total_pages) . "'>&raquo;</a>";
+            }
+            ?>
     </div>
 </div>
-
 <script>
     // JavaScript pour ouvrir et fermer la boîte de dialogue
-    document.querySelectorAll('.openDialog').forEach(item => {
-        item.addEventListener('click', event => {
-            // Afficher la superposition modale et la boîte de dialogue
-            document.querySelector('.modal-overlay').style.display = 'block';
-            document.getElementById('dialog').style.display = 'block';
-            // Ajouter une classe au corps pour indiquer que la boîte de dialogue est ouverte
-            document.body.classList.add('modal-open');
-        });
+    document.getElementById('openDialog').addEventListener('click', function() {
+    // Afficher la superposition modale et la boîte de dialogue
+    document.querySelector('.modal-overlay').style.display = 'block';
+    document.getElementById('dialog').style.display = 'block';
+    // Ajouter une classe au corps pour indiquer que la boîte de dialogue est ouverte
+    document.body.classList.add('modal-open');
     });
-
     document.getElementById('closeDialog').addEventListener('click', function() {
-        // Cacher la superposition modale et la boîte de dialogue
-        document.querySelector('.modal-overlay').style.display = 'none';
-        document.getElementById('dialog').style.display = 'none';
-        // Retirer la classe du corps pour indiquer que la boîte de dialogue est fermée
-        document.body.classList.remove('modal-open');
+    // Cacher la superposition modale et la boîte de dialogue
+    document.querySelector('.modal-overlay').style.display = 'none';
+    document.getElementById('dialog').style.display = 'none';
+    // Retirer la classe du corps pour indiquer que la boîte de dialogue est fermée
+    document.body.classList.remove('modal-open');
     });
-</script> -->
+</script>
