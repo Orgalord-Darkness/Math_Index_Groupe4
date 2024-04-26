@@ -212,6 +212,30 @@ h2{
     font-family: "Epilogue", sans-serif;
     font-optical-sizing: auto;
 }
+/*Pagination*/
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #000;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background-color: #fff;
+    color: black;
+    border : solid 2px black ;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
 /*TOP CONTAINER & POP UP*/
 .connect_container{
     display: flex;
