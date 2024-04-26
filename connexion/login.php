@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" href="style2.css" />
+﻿<link rel="stylesheet" href="style.css" />
 <?php
 require_once('connexion.php');
 $co = connexionBdd();
@@ -39,14 +39,26 @@ if (isset($_POST['submit'])) {
 ?>
 <div class="php_content">
     <div class="title_categ">Connexion</div>
+    
+        
         <div class="bloc_contenu2">
+        <p class="texteconection">Cet espace est reservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
+            en envoyant un mail à contact@lyceestvincent.net.  </p>
+        
             <form class="box" action="#" method="post" name="login">
-                <h1 class="box-title">Connexion</h1>
-                <input type="text" class="box-input" name="email" placeholder="Adresse Email">
-                <input type="password" class="box-input" name="password" placeholder="Mot de passe">
-                <input type="submit" value="Connexion " name="submit" class="box-button">
-                <p class="box-register">Page d'accueil ? <a href="./index.php">Accueil</a></p>
-                <p class="box-register">S'inscrire ? <a href="connexion/register.php">ici</a></p>
+                <label for = "email">Email : </label>
+                <br>
+                <input type="mail" class="box-input" name="email" placeholder="Adresse mail" style="width: 30%; height: 60px;">
+                <br>
+                <label for = "password">Mot de passe : </label>
+                <br>
+                <input type="password" class="box-input" name="password" placeholder="Mot de passe" style="margin-top:1%; width: 30%; height: 60px;">
+                <div>
+                    <input type="submit" value="Connexion " name="submit" class="box-button2" ></input>
+                
+                    <a href="?page=oubli">mot de passe oublier</a>
+                </div>
+                
                 <?php if (!empty($message)) { ?>
                     <p class="errorMessage"><?php echo $message; ?></p>
                 <?php } ?>

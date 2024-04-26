@@ -12,14 +12,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $insert_query = $connexion->prepare("INSERT INTO `origin` (`id`, `name`) VALUES (NULL, :nom)");
             $insert_query->bindParam(':nom', $nom);
-            
-            if ($insert_query->execute()) {
-                header("Location: ?page=origine");
-                exit();
-            } else {
-                echo "Erreur lors de l'ajout de l'origine.";
-                print_r($insert_query->errorInfo());
-            }
+            $verif = $insert_query->execute() ; 
+            header("Location: ?page=origine");
+            exit();
+            // if ($verif === 'true') {
+            //     
+            // } else {
+            //     echo "Erreur lors de l'ajout de l'origine.";
+            //     print_r($insert_query->errorInfo());
+            // }
         }
     } else {
         echo "Erreur : Tous les champs requis ne sont pas fournis.";
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bloc_contenu3">
         <div class="gestion_sources">
             <p class="title_exo">Ajouter une origine :</p>
-            <form method="POST" action="?page=origine">
+            <form method="POST" action="#">
                 <label for="nom">Nom :</label>
                 <br>
                 <input name="nom">
