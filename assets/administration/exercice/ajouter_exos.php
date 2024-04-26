@@ -33,9 +33,9 @@
 	        $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
 			$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
 			$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
+			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierExerciceNom);
 			if($emplacement){ 
-			    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+			    $chemin = "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierExerciceNom; 
 			}
             $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
    			 VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -51,9 +51,9 @@
 	        $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
 			$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
 			$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
+			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierCorrectionNom);
 			if($emplacement){ 
-			    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
+			    $chemin ="C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierCorrectionNom ; 
 			}
             $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
     			VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
