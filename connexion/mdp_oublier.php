@@ -1,30 +1,37 @@
 <?php
-// Connexion à la base de données
-$pdo = connexionBdd();
+
+
 
 // Récupération de l'email soumis par le formulaire
-$email = $_POST['email'];
-
-// Vérifier si l'email existe dans la base de données
-$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->execute([$email]);
-$user = $stmt->fetch();
-
-if ($user) {
-    // Récupérer le nom d'utilisateur et le mot de passe associés
-    $username = $user['username'];
-    $password = $user['password'];
+if(isset($_POST['rechercher'])){ 
+    // Connexion à la base de données//
+    $connexion = connexionBdd() ; 
+    if(isset($_POST['email'])){ 
+        $email = $_POST['email'];
+        // Vérifier si l'email existe dans la base de données
+        $stmt = $connexion->prepare("SELECT * FROM user WHERE email = ?");
+        $verif = $stmt->execute([$email]);
+        $user = $stmt->fetch();
+    }
+    if ($user) {
+        // Récupérer le nom d'utilisateur et le mot de passe associés
+        $username = $user['email'];
+        $password = $user['password'];
+        
     
-
-    // Envoyer l'email avec les informations de connexion
-    $subject = "Informations de connexion";
-    $message = "Bonjour,\n\nVoici vos informations de connexion :\n\nNom d'utilisateur: $username\nMot de passe: $password";
-    mail($email, $subject, $message);
-
-    echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
-} else {
-    echo "Aucun utilisateur trouvé avec cette adresse e-mail.";
+        // Envoyer l'email avec les informations de connexion
+        $subject = "Informations de connexion";
+        $message = "Bonjour,\n\nVoici vos informations de connexion :\n\nNom d'utilisateur: $username\nMot de passe: $password";
+        //mail($email, $subject, $message);
+    
+        echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
+    } else {
+        echo "Aucun utilisateur trouvé avec cette adresse e-mail.";
+    }
 }
+
+
+
 ?>
 
 
@@ -40,16 +47,12 @@ if ($user) {
                 
 
             </form>
-
-
-
-
-
-
-
-
-
-
-    
+            <?php echo "<br>" ; 
+            if ($user) {
+                echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
+            } else {
+                echo "Aucun utilisateur trouvé avec cette adresse e-mail.";
+            }
+            ?>
         </div>
 </div>
