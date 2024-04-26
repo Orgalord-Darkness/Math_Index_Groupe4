@@ -60,6 +60,8 @@
                                     echo "<td>" . $ligne['name'] . "</td>";
                                     // echo "<td>" . $ligne['classroom_id'] . "</td>";
                                     // echo "<td>" . $ligne['thematic_id'] . "</td>";
+
+                                    //les requetes select permettent de récupérer les id pour les clés étrangères de exercice
                                     $id_th= $ligne['thematic_id'] ; 
                                     $requete = $connexion->prepare("SELECT name FROM thematic WHERE id = :id;");
                                     $requete->bindParam(':id',$id_th) ; 
