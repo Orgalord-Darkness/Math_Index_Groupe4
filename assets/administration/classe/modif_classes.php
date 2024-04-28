@@ -1,15 +1,23 @@
 <?php
-//if($_SERVER['REQUEST_METHOD'] == "POST"){ 
-	if(isset($_POST['id_modif'])){
-		$id = $_POST['id_modif'];
-		if(isset($_POST['envoyer'])){  
-			$classe = $_POST['classe']; // Récupération du nom de la classe
-			$requete = $connexion->prepare("UPDATE classroom SET name = :classe WHERE id= :id");
-			$requete->bindParam(':id', $id);
-			$requete->bindParam(':classe', $classe); // Liaison avec la variable contenant le nom de la classe
-			$resultat = $requete->execute();
-			header("Location: ?page=classe");
-			exit;
+	$erreurs = [] ;
+	if(isset($_POST['envoyer'])){  
+		if(empty($_POST['classe'])){ 
+			$erreurs['classe'][] = "le champ nom classe doit-être rempli" ; 
+		}
+	}
+	//if($_SERVER['REQUEST_METHOD'] == "POST"){ 
+	if(empty($erreurs)){
+		if(isset($_POST['id_modif'])){
+			$id = $_POST['id_modif'];
+			if(isset($_POST['envoyer'])){  
+				$classe = $_POST['classe']; // Récupération du nom de la classe
+				$requete = $connexion->prepare("UPDATE classroom SET name = :classe WHERE id= :id");
+				$requete->bindParam(':id', $id);
+				$requete->bindParam(':classe', $classe); // Liaison avec la variable contenant le nom de la classe
+				$resultat = $requete->execute();
+				header("Location: ?page=classe");
+				exit;
+			}
 		}
 	}
 //}
@@ -26,7 +34,7 @@
 			<a href="?page=origine"><p>Origines</p></a>
 		</div>
 		<div class="bloc_contenu3">
-			<form method="POST" action="#">
+			<form  method = "POST" action="#">
 				<h1>Modifier une classe</h1>
 				<label for="classe">Nom classe : </label>
 				<br>
