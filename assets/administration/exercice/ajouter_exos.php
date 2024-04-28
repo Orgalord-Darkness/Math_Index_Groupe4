@@ -1,120 +1,156 @@
 <?php
-	if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
-		if(isset($_POST['envoyer'])){ 
-			// $id = $_POST['id'] ; 
-			$nom_exercice = $_POST['nom_exercice'] ; 
-			$nouvelle_matiere = $_POST['matiere'] ;
+    $erreurs = [];
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    	if(isset($_POST['envoyer'])){ 
+	        if(empty($_POST['nom_exercice'])){ 
+	            $erreurs['nom'][] = "le champ nom doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['classe'])){ 
+	            $erreurs['classe'][] = "le champ classe doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['thematique'])){ 
+	            $erreurs['thematique'][] = "le champ thématique doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['motscles'])){ 
+	            $erreurs['motscles'][] = "le champ mots clés doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['nchapitre'])){ 
+	            $erreurs['nchapitre'][] = "le champ chapitre doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['difficulte'])){ 
+	            $erreurs['difficulte'][] = "le champ difficulté doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['duree'])){ 
+	            $erreurs['duree'][] = "le champ durée doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['origine'])){ 
+	            $erreurs['origine'][] = "le champ origine doit-être renseigner " ; 
+	        }
+	        if(empty($_FILES['pdfExos'])){ 
+	            $erreurs['pdfExos'][] = "le champ fichier exercice doit-être renseigner " ; 
+	        }
+	        if(empty($_FILES['pdfCorrect'])){ 
+	            $erreurs['pdfCorrect'][] = "le champ fichier correction doit-être renseigner " ; 
+	        }
+	        if(empty($_POST['idAuteur'])){ 
+	            $erreurs['idAuteur'][] = "le champ auteur doit-être renseigner " ; 
+	        }
+	    }
+        if(empty($erreurs)){ 
+            if(isset($_POST['envoyer'])){ 
+               $nom_exercice = $_POST['nom_exercice'] ; 
+				$nouvelle_matiere = $_POST['matiere'] ;
 
-			$nouvelle_classe = $_POST['classe'];
-			$requete = $connexion->prepare("SELECT id FROM classroom WHERE name = :classe");
-			$requete->bindParam(':classe', $nouvelle_classe);
-			$requete->execute();
-			$id_classe = $requete->fetchAll(PDO::FETCH_ASSOC);
-			
+		        $nouvelle_classe = $_POST['classe'] ;  
+		        $requete = $connexion->prepare("SELECT id FROM classroom WHERE name =:classe; "); 
+		        $requete->bindParam(':classe', $nouvelle_classe) ;
+		        $id_classe = $requete->execute() ;
+		        $id_classe = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 
-	        $nouvelle_thematique = $_POST['thematique'];
-	        $requete= $connexion->prepare("SELECT id FROM thematic WHERE name = :thematique") ;
-	        $requete->bindParam(':thematique', $nouvelle_thematique) ;
-	        $requete->execute() ;
-	        $id_thematique =  $requete->fetchAll(PDO::FETCH_ASSOC) ;  
+		        $nouvelle_thematique = $_POST['thematique'];
+		        $requete= $connexion->prepare("SELECT id FROM thematic WHERE name = :thematique") ;
+		        $requete->bindParam(':thematique', $nouvelle_thematique) ;
+		        $requete->execute() ;
+		        $id_thematique =  $requete->fetchAll(PDO::FETCH_ASSOC) ;  
 
-	        $nouveau_nchapitre = $_POST['nchapitre'] ; 
-	        $nouvelle_difficulte = $_POST['difficulte'] ; 
-	        $nouvelle_duree = $_POST['duree'] ;
+		        $nouveau_nchapitre = $_POST['nchapitre'] ; 
+		        $nouvelle_difficulte = $_POST['difficulte'] ; 
+		        $nouvelle_duree = $_POST['duree'] ;
 
-	        $nouvelle_origine = $_POST['origine'] ; 
-	        $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :origine") ; 
-	        $requete->bindParam(':origine', $nouvelle_origine) ; 
-	        $requete->execute() ; 
-	        $id_origine = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
-
-
-
-	        $fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
-	        $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
-			$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
-			$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierExerciceNom);
-			if($emplacement){ 
-			    $chemin = "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierExerciceNom; 
-			}
-            $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
-   			 VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
- 
-            $requete->bindParam(':name',$fichierExerciceNom) ;
-            $requete->bindParam(':chemin', $chemin) ; 
-            $requete->bindParam(':extension', $fichierType) ;
-            $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
-            $requete->execute();
- 			
-
-            $fichierCorrectionNom = $_FILES['pdfCorrect']['name']; // Nom du fichier
-	        $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
-			$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
-			$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierCorrectionNom);
-			if($emplacement){ 
-			    $chemin ="C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierCorrectionNom ; 
-			}
-            $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
-    			VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
-  
-            $requete->bindParam(':name',$fichierCorrectionNom) ;
-            $requete->bindParam(':chemin', $chemin) ; 
-            $requete->bindParam(':extension', $fichierType) ;
-            $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
-            $requete->execute();
-
-            $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
-            $requete->bindParam(':name',$fichierExerciceNom) ; 
-            $requete->execute() ; 
-            $pdfExos = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
-            $id_pdfExos = implode(';', array_column($pdfExos, 'id'));
-
-            $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
-            $requete->bindParam(':name', $fichierCorrectionNom) ; 
-            $requete->execute() ; 
-            $pdfCorrect = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
-            $id_pdfCorrection = implode(';', array_column($pdfCorrect, 'id'));
-
-	        $nouveau_motscles = $_POST['motscles'] ; 
-	        $nouvelles_infos = $_POST['information'] ; 
-
-	        //$pdf_exos = $_POST['pdf_exos'] ;
-	        //$pdf_correction = $_POST['pdf_correction'] ; 
-	     //    $requete2 = $connexion->prepare("INSERT INTO file ('id', 'name', 'original_name', 'extension', 'size') VALUES(:pdf_exos, :pdf_correction") ; 
-	   		// $requete2->bindParam(':pdf_correction', $pdf_correction) ;
-	   		// $requete2->bindParam(':pdf_exos', $pdf_exos) ;
+		        $nouvelle_origine = $_POST['origine'] ; 
+		        $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :origine") ; 
+		        $requete->bindParam(':origine', $nouvelle_origine) ; 
+		        $requete->execute() ; 
+		        $id_origine = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 
 
-	       // $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_exos") ; 
-	        // $id_pdfExos = $requete->execute() ; 
-	        
-	        $id_Auteur = $_POST['idAuteur'] ;
-	        $origine_nom = $_POST['origine'] ;
-	        // $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_correction");  
-	        // $id_pdfCorrection = $requete->execute() ; 
 
-	        $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) 
-			VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
-	        $requete->bindParam(':nom', $nom_exercice) ;
-	        $requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
-	        $requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
-	        // $requete->bindParam(':matiere', $nouvelle_matiere) ;
-	        $requete->bindParam(':nchapitre', $nouveau_nchapitre) ;
-	        $requete->bindParam(':motscles', $nouveau_motscles) ;
-	        $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
-	        $requete->bindParam(':duree', $nouvelle_duree) ;
-	        $requete->bindParam(':id_origine', $id_origine, PDO::PARAM_INT) ; 
-	        $requete->bindParam(':origine', $origine_nom) ; 
-	        $requete->bindParam(':infos', $nouvelles_infos) ;
-	        $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
-	        $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection , PDO::PARAM_INT) ;
-	        $requete->bindParam(':id_Auteur', $id_Auteur, PDO::PARAM_INT) ;
-		    $test = $requete->execute(); 
-		}
-	}
+		        $fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
+		        $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
+				$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
+				$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
+				$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
+				if($emplacement){ 
+				    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+				}
+	            $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
+	   			 VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
+	 
+	            $requete->bindParam(':name',$fichierExerciceNom) ;
+	            $requete->bindParam(':chemin', $chemin) ; 
+	            $requete->bindParam(':extension', $fichierType) ;
+	            $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
+	            $requete->execute();
+	 			
+
+	            $fichierCorrectionNom = $_FILES['pdfCorrect']['name']; // Nom du fichier
+		        $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
+				$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
+				$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
+				$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
+				if($emplacement){ 
+				    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
+				}
+	            $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
+	    			VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
+	  
+	            $requete->bindParam(':name',$fichierCorrectionNom) ;
+	            $requete->bindParam(':chemin', $chemin) ; 
+	            $requete->bindParam(':extension', $fichierType) ;
+	            $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
+	            $requete->execute();
+
+	            $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
+	            $requete->bindParam(':name',$fichierExerciceNom) ; 
+	            $requete->execute() ; 
+	            $pdfExos = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
+	            $id_pdfExos = implode(';', array_column($pdfExos, 'id'));
+
+	            $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
+	            $requete->bindParam(':name', $fichierCorrectionNom) ; 
+	            $requete->execute() ; 
+	            $pdfCorrect = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
+	            $id_pdfCorrection = implode(';', array_column($pdfCorrect, 'id'));
+
+		        $nouveau_motscles = $_POST['motscles'] ; 
+		        $nouvelles_infos = $_POST['information'] ; 
+
+		        //$pdf_exos = $_POST['pdf_exos'] ;
+		        //$pdf_correction = $_POST['pdf_correction'] ; 
+		     //    $requete2 = $connexion->prepare("INSERT INTO file ('id', 'name', 'original_name', 'extension', 'size') VALUES(:pdf_exos, :pdf_correction") ; 
+		   		// $requete2->bindParam(':pdf_correction', $pdf_correction) ;
+		   		// $requete2->bindParam(':pdf_exos', $pdf_exos) ;
+
+
+		       // $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_exos") ; 
+		        // $id_pdfExos = $requete->execute() ; 
+		        
+		        $id_Auteur = $_POST['idAuteur'] ;
+		        $origine_nom = $_POST['origine'] ;
+		        // $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_correction");  
+		        // $id_pdfCorrection = $requete->execute() ; 
+
+		        $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
+		        $requete->bindParam(':nom', $nom_exercice) ;
+		        $requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
+		        $requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
+		        // $requete->bindParam(':matiere', $nouvelle_matiere) ;
+		        $requete->bindParam(':nchapitre', $nouveau_nchapitre) ;
+		        $requete->bindParam(':motscles', $nouveau_motscles) ;
+		        $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
+		        $requete->bindParam(':duree', $nouvelle_duree) ;
+		        $requete->bindParam(':id_origine', $id_origine, PDO::PARAM_INT) ; 
+		        $requete->bindParam(':origine', $origine_nom) ; 
+		        $requete->bindParam(':infos', $nouvelles_infos) ;
+		        $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
+		        $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection , PDO::PARAM_INT) ;
+		        $requete->bindParam(':id_Auteur', $id_Auteur, PDO::PARAM_INT) ;
+			    $test = $requete->execute(); 
+            }
+        }
+    }
 ?>
+
 <body>
 <div class="php_content">
     <div class="title_categ">Administration</div>
@@ -167,6 +203,24 @@
 								<input type = "text" name = "nchapitre">
 							</div>
 							<div>
+								<!-- <label for = "competence">Compétence</label>
+								<br>
+								<input type = "checkbox" name = "competence" value = "chercher">
+								<label for="comptence">Chercher</label>
+								<input type = "checkbox" name = "competence" value = "modeliser">
+								<label for="comptence">Modéliser</label>
+								<br>
+								<input type = "checkbox" name = "competence" value = "representer">
+								<label for="comptence">Représenter</label>
+								<input type = "checkbox" name = "competence" value = "raisonner">
+								<label for="comptence">Raisonner</label>
+								<br>
+								<input type = "checkbox" name = "competence" value = "calculer">
+								<label for="comptence">Calculer</label>
+								<input type = "checkbox" name = "competence" value = "communiquer">
+								<label for="comptence">Communiquer</label>
+								<br>
+								<br> -->
 								<label for = "motscles">Mots clés :</label>
 								<br>
 								<input name = "motscles" placeholer = "mots clés">
