@@ -10,7 +10,7 @@
   $start_from = ($current_page - 1) * $page_afficher;
 
   // Requête pour récupérer les données de la page actuelle
-  $requete = $connexion->prepare("SELECT * FROM `exercise` LIMIT :start_from, :records_per_page");
+  $requete = $connexion->prepare("SELECT * FROM `exercise` LIMIT ':start_from', ':records_per_page'");
   $requete->bindParam(':start_from', $start_from, PDO::PARAM_INT);
   $requete->bindParam(':records_per_page', $page_afficher, PDO::PARAM_INT);
   $requete->execute();
