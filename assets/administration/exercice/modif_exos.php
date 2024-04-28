@@ -1,91 +1,123 @@
 <?php
   $id = 1 ; 
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Vérifiez si la clé 'id' est définie dans $_POST avant de l'accéde
-                    // Récupérez les données du formulaire
-        // echo "Test modification".$_POST['id'] ; 
-        // if(isset($_POST['id_modif'])){
-        if(isset($_POST['id_modif'])){ 
-          $id = $_POST['id_modif'] ; 
-        }
- 
-    if (isset($_POST['envoyer'])) {
-        // $nouvelle_date = $_POST['Ndate'];
-          $nouveau_nom = $_POST['nom_exercice'] ; 
-          // $nouvelle_matiere = $_POST['matiere'] ; 
-          $nouvelle_classe = $_POST['classe'] ;  
-          $nouvelle_thematique = $_POST['thematique']; 
-          $nouveau_nchapitre = $_POST['nchapitre'] ; 
-          $nouvelle_difficulte = $_POST['difficulte'] ; 
-          $nouvelle_duree = $_POST['duree'] ;
-          $nouveau_motscles = $_POST['motscles'] ; 
-          // $nouvelles_infos = $_POST['information'] ; 
-          // $pdf_exos = $_POST['pdf_exos'] ; 
-          // $pdf_correction = $_POST['pdf_correction'] ; 
-          $nouvelles_infos = "TESTTESTTEST"; 
-          $pdf_exos = 1 ; 
-          $pdf_correction = 1 ;
-          $origin_n = $_POST['origine'] ; 
-          $nouvelle_origine = $_POST['origine'] ;  
-          if($_POST['id_modif'] == null or $id ==null  ){ 
-            $id = $_POST['id_manu'] ; 
+    $erreurs = [];
+    if(isset($_POST['envoyer'])){ 
+          if(empty($_POST['nom_exercice'])){ 
+              $erreurs['nom'][] = "le champ nom doit-être renseigner " ; 
           }
-          $requete = $connexion->prepare("SELECT id FROM classroom WHERE name = :classname") ; 
-          $requete->bindParam(':classname',$nouvelle_classe) ; 
-          $test_class = $requete->execute() ;  
-          $id_class = $requete->fetchAll(PDO::FETCH_ASSOC) ;
-          $classe = implode(';', array_column($id_class, 'id'));
+          if(empty($_POST['classe'])){ 
+              $erreurs['classe'][] = "le champ classe doit-être renseigner " ; 
+          }
+          if(empty($_POST['thematique'])){ 
+              $erreurs['thematique'][] = "le champ thématique doit-être renseigner " ; 
+          }
+          if(empty($_POST['motscles'])){ 
+              $erreurs['motscles'][] = "le champ mots clés doit-être renseigner " ; 
+          }
+          if(empty($_POST['nchapitre'])){ 
+              $erreurs['nchapitre'][] = "le champ chapitre doit-être renseigner " ; 
+          }
+          if(empty($_POST['difficulte'])){ 
+              $erreurs['difficulte'][] = "le champ difficulté doit-être renseigner " ; 
+          }
+          if(empty($_POST['duree'])){ 
+              $erreurs['duree'][] = "le champ durée doit-être renseigner " ; 
+          }
+          if(empty($_POST['origine'])){ 
+              $erreurs['origine'][] = "le champ origine doit-être renseigner " ; 
+          }
+          if(empty($_FILES['pdfExos'])){ 
+              $erreurs['pdfExos'][] = "le champ fichier exercice doit-être renseigner " ; 
+          }
+          if(empty($_FILES['pdfCorrect'])){ 
+              $erreurs['pdfCorrect'][] = "le champ fichier correction doit-être renseigner " ; 
+          }
+          if(empty($_POST['idAuteur'])){ 
+              $erreurs['idAuteur'][] = "le champ auteur doit-être renseigner " ; 
+          }
+      }
+        if(empty($erreurs)){ 
+            if(isset($_POST['envoyer'])){ 
+                $nouvelle_date = $_POST['Ndate'];
+                $nouveau_nom = $_POST['nom_exercice'] ; 
+                // $nouvelle_matiere = $_POST['matiere'] ; 
+                $nouvelle_classe = $_POST['classe'] ;  
+                $nouvelle_thematique = $_POST['thematique']; 
+                $nouveau_nchapitre = $_POST['nchapitre'] ; 
+                $nouvelle_difficulte = $_POST['difficulte'] ; 
+                $nouvelle_duree = $_POST['duree'] ;
+                $nouveau_motscles = $_POST['motscles'] ; 
+                // $nouvelles_infos = $_POST['information'] ; 
+                // $pdf_exos = $_POST['pdf_exos'] ; 
+                // $pdf_correction = $_POST['pdf_correction'] ; 
+                $nouvelles_infos = "TESTTESTTEST"; 
+                $pdf_exos = 1 ; 
+                $pdf_correction = 1 ;
+                $origin_n = $_POST['origine'] ; 
+                $nouvelle_origine = $_POST['origine'] ;  
+                if($_POST['id_modif'] == null or $id ==null  ){ 
+                  $id = $_POST['id_manu'] ; 
+                }
+                $requete = $connexion->prepare("SELECT id FROM classroom WHERE name = :classname") ; 
+                $requete->bindParam(':classname',$nouvelle_classe) ; 
+                $test_class = $requete->execute() ;  
+                $id_class = $requete->fetchAll(PDO::FETCH_ASSOC) ;
+                $classe = implode(';', array_column($id_class, 'id'));
 
-          $requete = $connexion->prepare("SELECT id FROM thematic WHERE name = :thematicname") ; 
-          $requete->bindParam(':thematicname', $nouvelle_thematique) ; 
-          $test_thema = $requete->execute() ;  
-          $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
-          $theme = implode(';', array_column($id_thematic, 'id')); 
+                $requete = $connexion->prepare("SELECT id FROM thematic WHERE name = :thematicname") ; 
+                $requete->bindParam(':thematicname', $nouvelle_thematique) ; 
+                $test_thema = $requete->execute() ;  
+                $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
+                $theme = implode(';', array_column($id_thematic, 'id')); 
 
-          $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :originName") ; 
-          $requete->bindParam(':originName', $nouvelle_origine) ; 
-          $test_origin = $requete->execute() ;  
-          $id_origin = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
-          $origin_id= implode(';', array_column($id_origin, 'id'));       
-                    // Connectez-vous à la base de données
-                    // echo "nouvelles infos extra : ".$nouveaun_nom.' '.$nouveau_prenom ; 
-                    // Préparez et exécutez la commande SQL pour la mise à jour
-          $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique,  chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId, origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC, created_by_id = 1 
-            WHERE id = :id");
-          $requete->bindParam(':id',$id , PDO::PARAM_INT);
-          // $requete->bindParam(':date_nouvelle', $nouvelle_date);
-          $requete->bindParam(':nom', $nouveau_nom);
-          // $requete->bindParam(':matiere', $nouvelle_matiere); 
-          $requete->bindParam(':classe', $classe, PDO::PARAM_INT);
-          $requete->bindParam(':thematique', $theme, PDO::PARAM_INT);
-          $requete->bindParam(':motscles', $nouveau_motscles) ; 
-          $requete->bindParam(':nchapitre', $nouveau_nchapitre);
-          $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
-          $requete->bindParam(':duree', $nouvelle_duree) ; 
-          $requete->bindParam(':pdfE',$pdf_exos) ; 
-          $requete->bindParam(':pdC', $pdf_correction) ; 
-          $requete->bindParam(':info',$nouvelles_infos) ;  
-          $requete->bindParam(':originN', $origin_n) ; 
-          $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT) ;
+                $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :originName") ; 
+                $requete->bindParam(':originName', $nouvelle_origine) ; 
+                $test_origin = $requete->execute() ;  
+                $id_origin = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
+                $origin_id= implode(';', array_column($id_origin, 'id'));       
+                          // Connectez-vous à la base de données
+                          // echo "nouvelles infos extra : ".$nouveaun_nom.' '.$nouveau_prenom ; 
+                          // Préparez et exécutez la commande SQL pour la mise à jour
+                $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique,  chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId, origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC, created_by_id = 1 
+                  WHERE id = :id");
+                $requete->bindParam(':id',$id , PDO::PARAM_INT);
+                // $requete->bindParam(':date_nouvelle', $nouvelle_date);
+                $requete->bindParam(':nom', $nouveau_nom);
+                // $requete->bindParam(':matiere', $nouvelle_matiere); 
+                $requete->bindParam(':classe', $classe, PDO::PARAM_INT);
+                $requete->bindParam(':thematique', $theme, PDO::PARAM_INT);
+                $requete->bindParam(':motscles', $nouveau_motscles) ; 
+                $requete->bindParam(':nchapitre', $nouveau_nchapitre);
+                $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
+                $requete->bindParam(':duree', $nouvelle_duree) ; 
+                $requete->bindParam(':pdfE',$pdf_exos) ; 
+                $requete->bindParam(':pdC', $pdf_correction) ; 
+                $requete->bindParam(':info',$nouvelles_infos) ;  
+                $requete->bindParam(':originN', $origin_n) ; 
+                $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT) ;
 
-                    
-        $resultat = $requete->execute();
-        var_dump($resultat) ; 
+                          
+              $resultat = $requete->execute();
+              var_dump($resultat) ; 
 
-                    // Vérifiez si la mise à jour a réussi
-        if ($resultat) {
-          echo "Les données ont été mises à jour avec succès.";
-        } else {
-          echo "Une erreur s'est produite lors de la mise à jour des données.";
+                          // Vérifiez si la mise à jour a réussi
+              if ($resultat) {
+                echo "Les données ont été mises à jour avec succès.";
+              } else {
+                echo "Une erreur s'est produite lors de la mise à jour des données.";
+              }
+            }
+            else { 
+              echo "pas de modif " ; 
+            }
+          }else { 
+            echo "GET" ; 
+          
+            }
         }
-      }
-      else { 
-        echo "pas de modif " ; 
-      }
-    }else { 
-      echo "GET" ; 
     }
 ?>
+
     <h1 class = "titre_section">Administration</h1>
     <div class = "ajout_exos">
       <form method= "POST">
