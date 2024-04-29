@@ -34,9 +34,9 @@
 	        $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
 			$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
 			$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/" . $fichierExerciceNom);
+			$emplacement =  move_uploaded_file($fichierTemp, "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/fichiers" . $fichierExerciceNom);
 			if($emplacement){ 
-			    $chemin = "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/".$fichierExerciceNom; 
+			    $chemin = "C:/xampp/htdocs/Math_Index_Groupe4/assets/administration/fichiers".$fichierExerciceNom; 
 			}
             $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
    			 VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
