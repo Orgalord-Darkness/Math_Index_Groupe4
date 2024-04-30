@@ -1,10 +1,10 @@
 <?php
 	$erreurs = [] ;
-	if(isset($_POST['envoyer'])){  
-		if(empty($_POST['classe'])){ 
-			$erreurs['classe'][] = "le champ nom classe doit-être rempli" ; 
-		}
-	}
+	// if(isset($_POST['envoyer'])){  
+	// 	if(empty($_POST['classe'])){ 
+	// 		$erreurs['classe'][] = "le champ nom classe doit-être rempli" ; 
+	// 	}
+	// }
 	//if($_SERVER['REQUEST_METHOD'] == "POST"){ 
 	if(empty($erreurs)){
 		if(isset($_POST['id_modif'])){
@@ -39,6 +39,11 @@
 				<label for="classe">Nom classe : </label>
 				<br>
 				<input name="classe">
+				<?php 
+					if(isset($_POST['envoyer'])){ 
+						addMessageIfValueEmpty($erreurs, 'classe', $_POST['classe']) ;
+					}
+				?>
 				<input type="hidden" name="id_modif" value="<?php echo $id; ?>"> <!-- Ajout d'un champ caché pour envoyer l'ID -->
 				<input type="submit" name="envoyer">
 				<?php 
