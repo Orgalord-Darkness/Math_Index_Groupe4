@@ -1,54 +1,55 @@
 <?php
-    $erreurs = [];
-	$formulaire = [
-		'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
-		'classe' => isset($_POST['classe']) ? $_POST['classe'] : "",
-		'thematique' => isset($_POST['thematique']) ? $_POST['thematique'] : "",
-		'motscles' => isset($_POST['motscles']) ? $_POST['motscles'] : "",
-		'nchapitre' => isset($_POST['nchapitre']) ? $_POST['nchapitre'] : "",
-		'difficulte' => isset($_POST['difficulte']) ? $_POST['difficulte'] : "",
-		'duree' => isset($_POST['duree']) ? $_POST['duree'] : "",
-		'origine' => isset($_POST['origine']) ? $_POST['origine'] : "",
-		'pdfExos' => isset($_FILES['pdfExos']) ? $_FILES['pdfExos'] : "",
-		'pdfCorrect' => isset($_FILES['pdfCorrect']) ? $_FILES['pdfCorrect'] : "",
-		'idAuteur' => isset($_POST['idAuteur']) ? $_POST['idAuteur'] : "",
-	];
+$erreurs = [];
+$formulaire = [
+    'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
+    'classe' => isset($_POST['classe']) ? $_POST['classe'] : "",
+    'thematique' => isset($_POST['thematique']) ? $_POST['thematique'] : "",
+    'motscles' => isset($_POST['motscles']) ? $_POST['motscles'] : "",
+    'nchapitre' => isset($_POST['nchapitre']) ? $_POST['nchapitre'] : "",
+    'difficulte' => isset($_POST['difficulte']) ? $_POST['difficulte'] : "",
+    'duree' => isset($_POST['duree']) ? $_POST['duree'] : "",
+    'origine' => isset($_POST['origine']) ? $_POST['origine'] : "",
+    'pdfExos' => isset($_FILES['pdfExos']) ? $_FILES['pdfExos'] : "",
+    'pdfCorrect' => isset($_FILES['pdfCorrect']) ? $_FILES['pdfCorrect'] : "",
+    'idAuteur' => isset($_POST['idAuteur']) ? $_POST['idAuteur'] : "",
+];
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    	if(isset($_POST['envoyer'])){ 
-	        if(empty($_POST['nom_exercice'])){ 
-	            $erreurs['nom'][] = "le champ nom doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['classe'])){ 
-	            $erreurs['classe'][] = "le champ classe doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['thematique'])){ 
-	            $erreurs['thematique'][] = "le champ thématique doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['motscles'])){ 
-	            $erreurs['motscles'][] = "le champ mots clés doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['nchapitre'])){ 
-	            $erreurs['nchapitre'][] = "le champ chapitre doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['difficulte'])){ 
-	            $erreurs['difficulte'][] = "le champ difficulté doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['duree'])){ 
-	            $erreurs['duree'][] = "le champ durée doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['origine'])){ 
-	            $erreurs['origine'][] = "le champ origine doit-être renseigner " ; 
-	        }
-	        if(empty($_FILES['pdfExos'])){ 
-	            $erreurs['pdfExos'][] = "le champ fichier exercice doit-être renseigner " ; 
-	        }
-	        if(empty($_FILES['pdfCorrect'])){ 
-	            $erreurs['pdfCorrect'][] = "le champ fichier correction doit-être renseigner " ; 
-	        }
-	        if(empty($_POST['idAuteur'])){ 
-	            $erreurs['idAuteur'][] = "le champ auteur doit-être renseigner " ; 
-	        }
-	    }
+    	// if(isset($_POST['envoyer'])){ 
+
+	    //     if(empty($_POST['nom_exercice'])){ 
+	    //         $erreurs['nom_exercice'][] = "le champ nom doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['classe'])){ 
+	    //         $erreurs['classe'][] = "le champ classe doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['thematique'])){ 
+	    //         $erreurs['thematique'][] = "le champ thématique doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['motscles'])){ 
+	    //         $erreurs['motscles'][] = "le champ mots clés doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['nchapitre'])){ 
+	    //         $erreurs['nchapitre'][] = "le champ chapitre doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['difficulte'])){ 
+	    //         $erreurs['difficulte'][] = "le champ difficulté doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['duree'])){ 
+	    //         $erreurs['duree'][] = "le champ durée doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['origine'])){ 
+	    //         $erreurs['origine'][] = "le champ origine doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_FILES['pdfExos'])){ 
+	    //         $erreurs['pdfExos'][] = "le champ fichier exercice doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_FILES['pdfCorrect'])){ 
+	    //         $erreurs['pdfCorrect'][] = "le champ fichier correction doit-être renseigner " ; 
+	    //     }
+	    //     if(empty($_POST['idAuteur'])){ 
+	    //         $erreurs['idAuteur'][] = "le champ auteur doit-être renseigner " ; 
+	    //     }
+	    // }
         if(empty($erreurs)){ 
             if(isset($_POST['envoyer'])){ 
                $nom_exercice = $_POST['nom_exercice'] ; 
@@ -183,6 +184,11 @@
 								<label for = "nom_exercice">Nom de l'exercice*</label>
 								<br>
 								<input type = "text" name = "nom_exercice" placeholder="Nom de l'exercice">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'nom_exercice', $_POST['nom_exercice']) ;
+									}
+								?>
 								<br>
 								<br>
 								<label for = "matiere">Matière*</label>
@@ -201,6 +207,11 @@
 									<option value = "terminal">Terminal</option>
 									<option value = "Seconde1">Seconde1</option>
 								</select>
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'classe', $_POST['classe']) ;
+									}
+								?>
 								<br>
 								<br>
 								<label for = "thematique">Thématique* : </label>
@@ -209,11 +220,21 @@
 									<option value = "suite">Suite</option>
 									<option value = "Geometrie">Géométrie</option>
 								</select>
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'thematique', $_POST['thematique']) ;
+									}
+								?>
 								<br>
 								<br>
 								<label for = "nchapitre">Numéro du chapitre : </label>
 								<br>
 								<input type = "text" name = "nchapitre">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'nchapitre', $_POST['nchapitre']) ;
+									}
+								?>
 							</div>
 							<div>
 								<!-- <label for = "competence">Compétence</label>
@@ -237,6 +258,11 @@
 								<label for = "motscles">Mots clés :</label>
 								<br>
 								<input name = "motscles" placeholer = "mots clés">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'motscles', $_POST['motscles']) ;
+									}
+								?>
 								<br>
 								<label for = "difficulte">Difficultés :</label>
 								<br>
@@ -253,21 +279,41 @@
 									<option value = "Niveau10">Niveau 10</option>
 									<option value = "Niveau11">Niveau 11</option>
 								</select>
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'difficulte', $_POST['difficulte']) ;
+									}
+								?>
 								<br>
 								<br>
 								<label for = "duree">Durée</label>
 								<br>
 								<input type = "number" name = "duree">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'duree', $_POST['duree']) ;
+									}
+								?>
 								<br>
 								<br>
 								<label for = "information">Information : </label>
 								<br>
 								<input name = "information">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'information', $_POST['information']) ;
+									}
+								?>
 								<br>
 								<br>
 								<label for = "origine"> Origine : </label>
 								<br>
 								<input name = "origine">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'origine', $_POST['origine']) ;
+									}
+								?>
 								<br>
 								<br>
 								<!-- <label for = "pdf_exos"> Ficher de l'exercice : </label>
@@ -278,9 +324,30 @@
 								<label for = "pdf_correction"> Fichier de correction : </label>
 								<br>
 								<input type = "file" name = "pdf_correction"> -->
+								<label for = 'pdfExos'>Fichier exercice : </label>
+								<br>
 								<input type = "file" name = "pdfExos" placeholder = "ID exos">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'pdfExos', $_FILES['pdfExos']) ;
+									}
+								?>
+								<label for = 'pdfCorrect'>Fichier de correction : </label>
+								<br>
 								<input type = "file" name = "pdfCorrect" placeholder = "IDCorrect">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
+									}
+								?>
+								<label for = 'idAuteur'>Auteur : </label>
+								<br>
 								<input type = "int" name = "idAuteur" placeholder = "Auteur">
+								<?php 
+									if(isset($_POST['envoyer'])){ 
+										addMessageIfValueEmpty($erreurs, 'idAuteur', $_POST['idAuteur']) ;
+									}
+								?>
 
 							</div>
 				
@@ -291,7 +358,7 @@
 				</form>
 				<?php
 					if(isset($_POST['envoyer'])){ 
-						var_dump($test) ; 
+						//var_dump($test) ; 
 					}
 				?>
 			</div>
