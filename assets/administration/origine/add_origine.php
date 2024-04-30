@@ -53,6 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="nom">Nom :</label>
                 <br>
                 <input name="nom">
+                <?php 
+                    if(isset($_POST['envoyer'])){ 
+                        addMessageIfValueEmpty($erreurs, 'nom', $_POST['nom']) ;
+                    }
+                ?>
                 <br>
                 <br>
                 <input type="submit" name="envoyer">
