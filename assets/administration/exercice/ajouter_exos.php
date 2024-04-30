@@ -1,5 +1,18 @@
 <?php
     $erreurs = [];
+	$formulaire = [
+		'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
+		'classe' => isset($_POST['classe']) ? $_POST['classe'] : "",
+		'thematique' => isset($_POST['thematique']) ? $_POST['thematique'] : "",
+		'motscles' => isset($_POST['motscles']) ? $_POST['motscles'] : "",
+		'nchapitre' => isset($_POST['nchapitre']) ? $_POST['nchapitre'] : "",
+		'difficulte' => isset($_POST['difficulte']) ? $_POST['difficulte'] : "",
+		'duree' => isset($_POST['duree']) ? $_POST['duree'] : "",
+		'origine' => isset($_POST['origine']) ? $_POST['origine'] : "",
+		'pdfExos' => isset($_FILES['pdfExos']) ? $_FILES['pdfExos'] : "",
+		'pdfCorrect' => isset($_FILES['pdfCorrect']) ? $_FILES['pdfCorrect'] : "",
+		'idAuteur' => isset($_POST['idAuteur']) ? $_POST['idAuteur'] : "",
+	];
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
     	if(isset($_POST['envoyer'])){ 
 	        if(empty($_POST['nom_exercice'])){ 
