@@ -14,6 +14,42 @@ $formulaire = [
     'pdfCorrect' => isset($_FILES['pdfCorrect']) ? $_FILES['pdfCorrect'] : "",
     'idAuteur' => isset($_POST['idAuteur']) ? $_POST['idAuteur'] : "",
 ];
+
+// if(isset($_POST['envoyer'])) {
+//     if(empty($_POST['nom_exercice'])) {
+//         $erreurs['nom'][] = "le champ nom doit-être renseigner ";
+//     }
+//     if(empty($_POST['classe'])) {
+//         $erreurs['classe'][] = "le champ classe doit-être renseigner ";
+//     }
+//     if(empty($_POST['thematique'])) {
+//         $erreurs['thematique'][] = "le champ thématique doit-être renseigner ";
+//     }
+//     if(empty($_POST['motscles'])) {
+//         $erreurs['motscles'][] = "le champ mots clés doit-être renseigner ";
+//     }
+//     if(empty($_POST['nchapitre'])) {
+//         $erreurs['nchapitre'][] = "le champ chapitre doit-être renseigner ";
+//     }
+//     if(empty($_POST['difficulte'])) {
+//         $erreurs['difficulte'][] = "le champ difficulté doit-être renseigner ";
+//     }
+//     if(empty($_POST['duree'])) {
+//         $erreurs['duree'][] = "le champ durée doit-être renseigner ";
+//     }
+//     if(empty($_POST['origine'])) {
+//         $erreurs['origine'][] = "le champ origine doit-être renseigner ";
+//     }
+//     if(empty($_FILES['pdfExos'])) {
+//         $erreurs['pdfExos'][] = "le champ fichier exercice doit-être renseigner ";
+//     }
+//     if(empty($_FILES['pdfCorrect'])) {
+//         $erreurs['pdfCorrect'][] = "le champ fichier correction doit-être renseigner ";
+//     }
+//     if(empty($_POST['idAuteur'])) {
+//         $erreurs['idAuteur'][] = "le champ auteur doit-être renseigner ";
+//     }
+// }
 if(empty($erreurs)) {
     if(isset($_POST['envoyer'])) {
         $nouvelle_date = $_POST['Ndate'];
@@ -219,7 +255,8 @@ if(empty($erreurs)) {
           <label for = 'pdfExos'>Fichier exercice : </label>
                 <br>
                 <input type = "file" name = "pdfExos" placeholder = "ID exos">
-                <?php 
+                <?php
+                  //vérifier si le formulaire a été envoyé  
                   if(isset($_POST['envoyer'])){ 
                     addMessageIfValueEmpty($erreurs, 'pdfExos', $_FILES['pdfExos']) ;
                   }
