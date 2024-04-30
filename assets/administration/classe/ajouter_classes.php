@@ -1,10 +1,10 @@
 <?php
 	$erreurs = [] ; 
-	if(isset($_POST['envoyer'])){
-		if(empty($_POST['classe'])){ 
-			$erreurs['classe'][] = "le champ nom classe doit-être rempli" ; 
-		}
-	}
+	// if(isset($_POST['envoyer'])){
+	// 	if(empty($_POST['classe'])){ 
+	// 		$erreurs['classe'][] = "le champ nom classe doit-être rempli" ; 
+	// 	}
+	// }
 	if(empty($erreurs)){ 
 		if($_SERVER['REQUEST_METHOD'] == "POST"){ 
 			if(isset($_POST['envoyer'])){ 
@@ -33,7 +33,12 @@
 				<h1>Ajouter une classe</h1>
 				<label for = "classe">Nom classe : </label>
 				<br>
-				<input name = "classe">
+				<input type = "text" name = "classe">
+				<?php 
+					if(isset($_POST['envoyer'])){ 
+						addMessageIfValueEmpty($erreurs, 'classe', $_POST['classe']) ;
+					}
+				?>
 				<button name = "envoyer">Envoyer</button>
 			</form>
 			<?php
