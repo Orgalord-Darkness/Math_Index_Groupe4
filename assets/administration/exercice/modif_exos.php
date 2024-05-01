@@ -1,5 +1,5 @@
 <?php
-$id = 1;
+$id = $_POST['id_modif'] ; 
 $erreurs = [];
 $formulaire = [
     'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
@@ -52,7 +52,11 @@ $formulaire = [
 // }
 if(empty($erreurs)) {
     if(isset($_POST['envoyer'])) {
-        $nouvelle_date = $_POST['Ndate'];
+        // $nouvelle_date = $_POST['Ndate'];
+        if(empty($id) or $id === null or $_POST['id_modif'] === null){
+          $id = $_POST['save_id'] ;  
+
+        } 
         $nouveau_nom = $_POST['nom_exercice'];
         $nouvelle_classe = $_POST['classe'];
         $nouvelle_thematique = $_POST['thematique'];
@@ -61,13 +65,9 @@ if(empty($erreurs)) {
         $nouvelle_duree = $_POST['duree'];
         $nouveau_motscles = $_POST['motscles'];
         $nouvelles_infos = "TESTTESTTEST";
-        $pdf_exos = 1;
-        $pdf_correction = 1;
         $origin_n = $_POST['origine'];
         $nouvelle_origine = $_POST['origine'];
-        if($_POST['id_modif'] == null or $id == null) {
-            $id = $_POST['id_manu'];
-        }
+
         $requete = $connexion->prepare("SELECT id FROM classroom WHERE name = :classname");
         $requete->bindParam(':classname', $nouvelle_classe);
         $test_class = $requete->execute();
@@ -86,6 +86,58 @@ if(empty($erreurs)) {
         $id_origin = $requete->fetchAll(PDO::FETCH_ASSOC);
         $origin_id = implode(';', array_column($id_origin, 'id'));
 
+        $pdfExos = isset($_FILES['pdfExos']) ? $_FILES['pdfExos'] : null;
+        $pdfCorrect = isset($_FILES['pdfCorrect']) ? $_FILES['pdfCorrect'] : null;
+
+        if($_FILES['pdfExos']['error'] === UPLOAD_ERR_OK) {
+          $fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
+          $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
+          $fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
+          $fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
+          $emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
+          if($emplacement){ 
+              $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+          }
+                $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
+             VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
+     
+                $requete->bindParam(':name',$fichierExerciceNom) ;
+                $requete->bindParam(':chemin', $chemin) ; 
+                $requete->bindParam(':extension', $fichierType) ;
+                $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
+                $test_fichierE = $requete->execute();
+              
+
+                $fichierCorrectionNom = $_FILES['pdfCorrect']['name']; // Nom du fichier
+                $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
+                $fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
+                $fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
+                $emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
+                if($emplacement){ 
+                    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
+                }
+                $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
+              VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
+      
+                $requete->bindParam(':name',$fichierCorrectionNom) ;
+                $requete->bindParam(':chemin', $chemin) ; 
+                $requete->bindParam(':extension', $fichierType) ;
+                $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
+                $test_fichierC = $requete->execute();
+
+                $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
+                $requete->bindParam(':name',$fichierExerciceNom) ; 
+                $requete->execute() ; 
+                $pdfExos = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
+                $pdf_exos = implode(';', array_column($pdfExos, 'id'));
+
+                $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
+                $requete->bindParam(':name', $fichierCorrectionNom) ; 
+                $requete->execute() ; 
+                $pdfCorrect = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
+                $pdf_correction = implode(';', array_column($pdfCorrect, 'id'));
+            }
+
         $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique,  chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId, origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC, created_by_id = 1 
               WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
@@ -96,8 +148,8 @@ if(empty($erreurs)) {
         $requete->bindParam(':nchapitre', $nouveau_nchapitre);
         $requete->bindParam(':difficulte', $nouvelle_difficulte);
         $requete->bindParam(':duree', $nouvelle_duree);
-        $requete->bindParam(':pdfE', $pdf_exos);
-        $requete->bindParam(':pdC', $pdf_correction);
+        $requete->bindParam(':pdfE', $pdf_exos, PDO::PARAM_INT);
+        $requete->bindParam(':pdC', $pdf_correction, PDO::PARAM_INT);
         $requete->bindParam(':info', $nouvelles_infos);
         $requete->bindParam(':originN', $origin_n);
         $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT);
@@ -121,7 +173,7 @@ if(empty($erreurs)) {
 
     <h1 class = "titre_section">Administration</h1>
     <div class = "ajout_exos">
-      <form method= "POST">
+      <form method= "POST" enctype = "multipart/form-data">
         <h1>Modifier un exercice</h1>
           <div>
             <div>
@@ -269,7 +321,7 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
                   }
                 ?>
-          <input type = "hidden" name = "id_modif" value = <?php echo $id?> >
+          <input type="hidden" name="save_id" value="<?php echo $id; ?>">
           <button name = "envoyer">Continuer</button>
           <?php 
           if(isset($resultat) && $resultat == "true"){
@@ -295,6 +347,7 @@ if(empty($erreurs)) {
         }else { 
           echo "pas encore thematique" ; 
         }
+        echo "<br> id modif :<br> " ; 
         if(isset($id)){ 
           echo "<br>" ; 
           echo "pourmodif" ; 
@@ -310,13 +363,42 @@ if(empty($erreurs)) {
         echo "<br> Resultat : <br> " ;   
         var_dump($resultat) ; 
         echo "<br>origine : <br>" ; 
-        if(isset($_origine_id)){ 
-          var_dump($origine_id) ; 
-        }else{echo "erreur id origine " ; }
-        if(isset($nom_exercice)){
-          var_dump($nom_exercice) ; 
-        }else{ echo "erreur nom exercice" ; }
-      
+        if(isset( $origin_id)){ 
+          var_dump($origin_id) ; 
+        }else{echo "erreur id origine <br>" ; 
+        }
+       echo "<br>requete select origine : <br> " ; 
+       if(isset($test_origin)){ 
+        var_dump($test_origin) ; 
+       }else{ 
+        echo " requete inexistante<br> " ; 
+       }
+       echo "resultat origine :<br> " ; 
+       if(isset($id_origin)){ 
+          var_dump($id_origin) ; 
+       }else{ 
+          echo "pas de résultat origine <br>" ; 
+       }
+        if(isset($nouveau_nom)){
+          var_dump($nouveau_nom) ; 
+        }else{ echo "erreur nom exercice <br>" ; }
+        echo "fichiers exo insert : <br>" ; 
+        if(isset($test_fichierE)){ 
+          var_dump($test_fichierE) ; 
+        }else{ 
+          echo "inexistant<br>" ; 
+        }
+        if(isset($test_fichierC)){ 
+          var_dump($test_fichierC) ; 
+        }else{ 
+          echo "<br> inexistant" ; 
+        }
+        echo "pour les id de fichiers : " ; 
+        if(isset($pdf_exos)){
+          var_dump($pdf_exos) ; 
+        }else{ 
+          echo " inexistant " ; 
+        }
         ?>        
       </form>
     </div>
