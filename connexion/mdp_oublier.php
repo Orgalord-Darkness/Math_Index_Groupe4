@@ -9,7 +9,7 @@ if(isset($_POST['rechercher'])){
     if(isset($_POST['email'])){ 
         $email = $_POST['email'];
         // Vérifier si l'email existe dans la base de données
-        $stmt = $connexion->prepare("SELECT * FROM user WHERE email = ?");
+        $stmt = $connexion->prepare("SELECT * FROM user WHERE email = ?"); 
         $verif = $stmt->execute([$email]);
         $user = $stmt->fetch();
     }
@@ -47,11 +47,13 @@ if(isset($_POST['rechercher'])){
                 
 
             </form>
-            <?php echo "<br>" ; 
-            if (isset($user)) {
-                echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
-            } else {
-                echo "Aucun utilisateur trouvé avec cette adresse e-mail.";
+            <?php echo "<br>" ;
+            if(isset($_POST['rechercher'])){ 
+                if (!empty(($user))) {
+                    echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
+                } else {
+                    echo "Aucun utilisateur trouvé avec cette adresse e-mail.";
+                }
             }
             ?>
         </div>
