@@ -1,4 +1,5 @@
 <?php
+
 $erreurs = [];
 $formulaire = [
     'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
@@ -163,6 +164,7 @@ $formulaire = [
             }
         }
     }
+
 ?>
 
 <body>
