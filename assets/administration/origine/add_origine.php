@@ -1,5 +1,11 @@
 <?Php
 $connexion = connexionBdd();
+$erreurs = [] ; 
+if(isset($_POST['envoyer'])){ 
+    if(empty($_POST['nom'])){ 
+        $erreurs['nom'][] = "le champ nom doit-être rempli" ; 
+    }
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['envoyer'], $_POST['nom'])) {
         $nom = htmlspecialchars($_POST['nom']);
@@ -47,6 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="nom">Nom :</label>
                 <br>
                 <input name="nom">
+                <?php 
+                    if(isset($_POST['envoyer'])){ 
+                        addMessageIfValueEmpty($erreurs, 'nom', $_POST['nom']) ;
+                    }
+                ?>
                 <br>
                 <br>
                 <input type="submit" name="envoyer">

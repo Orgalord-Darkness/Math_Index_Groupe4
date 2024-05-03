@@ -21,14 +21,14 @@
 			        $result = $requete->execute() ;
 			    }
 			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
-			        header('Location:?page=admin_ex');
-			        exit; 
+			        header('Location: ?page=admin_ex');
+			        exit(); 
 			    }
 			} else { 
 			    echo "erreur de id suppression" ; 
 			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
-			        header('Location:?page=admin_ex');
-			        exit;
+			        header('Location: ?page=admin_ex');
+			        exit();
 			    }
 			}
 
@@ -44,13 +44,13 @@
 			    }
 			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
 			        header("Location: ?page=classe");
-					exit;
+					exit();
 			    }
 			} else { 
 			    echo "erreur de id suppression" ; 
 			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
 			        header("Location: ?page=classe");
-					exit;
+					exit();
 			    }
 			} 
 
@@ -65,14 +65,14 @@
 			        $result = $requete->execute() ;
 			    }
 			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
-			        header('Location:?page=origine');
-			        exit; 
+			        header('Location: ?page=origine');
+			        exit(); 
 			    }
 			} else { 
 			    echo "erreur de id suppression" ; 
 			    if(isset($_GET['action']) && $_GET['action'] === 'annuler'){ 
-			        header('Location:?page=origine');
-			        exit; 
+			        header('Location: ?page=origine');
+			        exit(); 
 			    }
 			} 
 
@@ -86,11 +86,15 @@
 		<link rel = "stylesheet" href = "style.css">
 		<meta charset="utf-8">
 		<style>
+			h1 { 
+				font-size : 42px ;
+			 }
       /* Styles pour la boîte de dialogue */
       .dialog {
       	display : block ;
         /*display: none;*/
-        width : 29rem ;
+        width : 40%  ;
+        height : 20rem ;
         /*position: fixed;*/
         top: 50%;
         left: 50%;
@@ -102,7 +106,9 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         z-index: 10001; /* Valeur de z-index supérieure pour s'assurer que la boîte de dialogue apparaît au-dessus de la superposition modale */
       }
-
+      .dialog p { 
+      	color : rgb(180,180,180);
+       }
       .dialog-content {
         /*text-align: center;*/
       }
@@ -113,13 +119,17 @@
        .align div { 
           display : inline ;
           line-height : 1rem ;
-          text-align : left ;
+          text-align : left 
+          margin-top : 1% ; ;
         }
+        .align div h1 { 
+        	margin-top : 10% ; 
+         }
        .align img { 
           display : flex ;
           flex-direction : column ;
-          width : 30px;
-          height : 30px;
+          width : 5rem;
+          height : 5rem;
           padding : 2% ;
           border-radius: 10px/10px;
           margin-top : 5% ;
@@ -128,12 +138,11 @@
 
        }
       .dialog button {
-        width : 9rem;
-        margin-right : 1% ;
+        margin-left : 15% ; 
       }
       button img { 
-        width : 0.8rem ;
-        height : 0.8rem ;
+        width : 1rem ;
+        height : 1rem ;
         top : 50% ;
         left : 50% ;
         padding : 0;
@@ -143,13 +152,18 @@
         background-color : rgb(240,240,240);
         border : none ;
         border-radius : 5rem ;
-        width: 1.5rem  ;
-        height : 1.5rem;
-        right : 50% ;
-        top : 0;
-        padding : 0;
-        margin : 0;
-        justify-content : right ;
+        width: 2rem  ;
+        height : 2rem;
+        left : 0; 
+        margin-left : 90% ;
+
+
+       }
+      .close img { 
+      	padding : 0 ;
+      	margin-left : auto ;
+      	margin-right : auto ;
+
        }
       #closeDialog { 
          padding: 10px 20px;
@@ -167,7 +181,11 @@
         border-radius: 3px;
         cursor: pointer;
        }
-
+       #closeX{ 
+       	width : 2rem ;
+       	height : 2rem ;
+       	border-radius : 10px /10px/10px/10px ; 
+        }
       .dialog button:hover {
         background-color: #0056b3;
       }
@@ -183,7 +201,14 @@
         background-color: rgba(0, 0, 0, 0.5); /* Couleur semi-transparente */
         z-index: 999; /* Valeur de z-index pour être en dessous de la boîte de dialogue mais au-dessus du reste de la page */
       }
-
+       .boutonAction button { 
+       		width : 23rem;
+       		height : 3rem ;
+       		padding :3% ;
+       		margin-left : auto ;
+       		margin-right : auto ;
+       		font-weight: lighter ;
+        }
       /* Styles pour le reste de la page */
       /* Vous pouvez ajuster les styles de votre page pour griser le contenu lorsqu'il est sous la superposition modale */
       body.modal-open {
@@ -202,18 +227,18 @@
 			<div id='dialog' class='dialog'>
 				<div class='dialog-content'>
 					<form method = 'post'>
-						<button name = 'action' value = 'annuler' class='close' id='closeDialog'>
-							<img src='../../ico/croix-removebg2.png'>
+						<button name = 'action' value = 'annuler' class='close' id='closeX'>
+							<img src='ico/croix-removebg2.png'>
 						</button>
 					</form>
 					 <div class='align'>
-						<img src='../../ico/check.svg'>
+						<img src='ico/check.svg'>
 						<div>
 							<h1>Confirmer la suppression</h1>
 							<p>Êtes-vous certains de vouloir supprimer cette <?php echo $table ?> ?</p>
 						</div>
 					</div>
-					<form method = 'post'>
+					<form class = "boutonAction" method = 'post'>
 						<input type='hidden' name='id_suppression' value='<?php echo $id; ?>'>
 						<input type = 'hidden' name = 'table' value = '<?php echo $table ; ?>'> 
 						<button id='closeDialog' name = 'action' value = 'annuler'>Annuler</button>
@@ -234,14 +259,7 @@
 						}
 					?>		
 			</h1>
-			<!-- <button id="showDialogButton">Afficher la boîte de dialogue</button>
-			<script>
-				document.getElementById("showDialogButton").addEventListener("click", function() {
-				document.getElementById("dialog").style.display = "block";
-				});
-
-			</script> -->
 		</div>
 	</body>
-</html> 
+</html>
 
