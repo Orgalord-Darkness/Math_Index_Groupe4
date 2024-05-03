@@ -1,31 +1,41 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-            <link rel="stylesheet" href="style2.css" />
-    </head>
-    <body>
+<body>
+    <?php
+$errors = [];
 
-        <?php
-			// Permet d'appeler la fonction de connexion à la BD
-            require('connexion.php');
-		
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
+    if (empty($_POST['nom'])) {
+        $errors['nom'][] = 'Le champ "Nom" doit être renseigné.';
+    }
 
-// Cas où le formulaire est validé
-if (isset($_POST['submit'])) {
-    // Tests si les 3 champs ont été remplis
-    if (isset($_POST['last_name'], $_POST['first_name'], $_POST['role'], $_POST['email'], $_POST['password'])) {    
-        // Récupération des saisies du formulaire
-        $lastname = $_POST['last_name'];
-        $firstname = $_POST['first_name'];
+    if (empty($_POST['prenom'])) {
+        $errors['prenom'][] = 'Le champ "Prénom" doit être renseigné.';
+    }
+
+    if (empty($_POST['role'])) {
+        $errors['role'][] = 'Le champ "Rôle" doit être renseigné.';
+    }
+
+    if (empty($_POST['email'])) {
+        $errors['email'][] = 'Le champ "Email" doit être renseigné.';
+    }
+
+    if (empty($_POST['password'])) {
+        $errors['password'][] = 'Le champ "Mot de passe" doit être renseigné.';
+    }
+
+    if (empty($errors)) {
+        // Si aucun champ requis n'est vide, alors procéder à la vérification du formulaire
+        // Je suppose que $connexion est déjà initialisé ailleurs dans votre code
+        $lastname = $_POST['nom'];
+        $firstname = $_POST['prenom'];
         $role = $_POST['role'];
         $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_ARGON2I);
-        
-        // Connexion à la BD
-        $co = connexionBdd();
+        $password = $_POST['password'];
 
         // Vérification si l'email existe déjà
-        $check_query = $co->prepare("SELECT * FROM user WHERE email = :email");
+        $check_query = $connexion->prepare("SELECT * FROM user WHERE email = :email");
         $check_query->bindParam(':email', $email);
         $check_query->execute();
         $existing_user = $check_query->fetch();
@@ -34,8 +44,11 @@ if (isset($_POST['submit'])) {
             // L'utilisateur est déjà inscrit
             echo "Erreur : Utilisateur déjà inscrit";
         } else {
+            // Hash du mot de passe
+            $password = password_hash($password, PASSWORD_ARGON2I);
+
             // Préparation de la requête
-            $query = $co->prepare("INSERT INTO user (last_name, first_name, role, email, password) VALUES (:lastname, :firstname, :role, :email, :password)");
+            $query = $connexion->prepare("INSERT INTO user (last_name, first_name, role, email, password) VALUES (:lastname, :firstname, :role, :email, :password)");
 
             // Association des paramètres aux variables/valeurs
             $query->bindParam(':lastname', $lastname);
@@ -43,32 +56,64 @@ if (isset($_POST['submit'])) {
             $query->bindParam(':role', $role);
             $query->bindParam(':email', $email);
             $query->bindParam(':password', $password);
-            
+
             // Exécution de la requête
             $query->execute();
-
-            // Message de succès si l'insertion est réalisée
-            echo "<div class='success'>
-                    <h3>Vous êtes inscrit avec succès.</h3>
-                    <p>Cliquez ici pour vous <a href='login.php'>connecter</a></p>
-                 </div>";
+            header("Location: ?page=contribu");
+            exit();
         }
     }
-} else {
-?>
-    <form class="box" action="" method="post">
-        <h1 class="box-title">S'inscrire</h1>
-        <input type="text" class="box-input" name="last_name" placeholder="Nom de l'utilisateur" required />
-        <input type="text" class="box-input" name="first_name" placeholder="Prénom de l'utilisateur" required />
-        <input type="text" class="box-input" name="role" placeholder="Role de l'utilisateur" required />
-        <input type="text" class="box-input" name="email" placeholder="Email" required />
-        <input type="password" class="box-input" name="password" placeholder="Mot de passe" required />
-        <input type="submit" name="submit" value="S'inscrire" class="box-button" />
-        <p class="box-register">Déjà inscrit ? <a href="login.php">Connectez-vous ici</a></p>
-    </form>
-<?php
 }
 ?>
+    <form method="POST">
+                <label for="nom">Nom :</label><br>
+                <input name="nom" id="nom" placeholder="Saisissez le nom :" value="<?= isset($informations['nom']) ? htmlspecialchars($informations['nom']) : '' ?>"><br>
+                <?php if (isset($errors['nom'])) {
+                    foreach ($errors['nom'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
 
+                <label for="prenom">Prénoms :</label><br>
+                <input name="prenom" id="prenom" placeholder="Saisissez le prénom :" value="<?= isset($informations['prenom']) ? htmlspecialchars($informations['prenom']) : '' ?>"><br>
+                <?php if (isset($errors['prenom'])) {
+                    foreach ($errors['prenom'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="role">Rôle :</label><br>
+                <select name="role" id="role">
+                    <option value="" <?= empty($informations['role']) ? 'selected' : '' ?>></option>
+                    <option value="enseignant" <?= (isset($informations['role']) && $informations['role'] == 'enseignant') ? 'selected' : '' ?>>Enseignant</option>
+                    <option value="eleve" <?= (isset($informations['role']) && $informations['role'] == 'eleve') ? 'selected' : '' ?>>Elève</option>
+                </select><br>
+                <?php if (isset($errors['role'])) {
+                    foreach ($errors['role'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="email">Email :</label><br>
+                <input name="email" id="email" placeholder="Saisissez l'email :" value="<?= isset($informations['email']) ? htmlspecialchars($informations['email']) : '' ?>"><br>
+                <?php if (isset($errors['email'])) {
+                    foreach ($errors['email'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <label for="password">Password :</label><br>
+                <input name="password" type="password" id="password" placeholder="Saisissez le mot de passe :"><br>
+                <?php if (isset($errors['password'])) {
+                    foreach ($errors['password'] as $error) {
+                        echo '<p class="error">' . $error . '</p>';
+                    }
+                } ?><br>
+
+                <form id="form_envoyer" method="post">
+                    <button type="submit" name="envoyer">Envoyer</button>
+                    <input type="hidden" name="contribu" value="1">
+                </form>
+            </form>
     </body>
 </html>

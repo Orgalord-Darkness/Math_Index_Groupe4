@@ -6,6 +6,30 @@ if (empty($_GET)) {
     header('Location: ?page=accueil');
     exit;
 }
+//fonctions filtres formulaires 
+function addMessageIfValueEmpty(array $erreurs, string $field, $value)
+{
+    if (empty($value)) {
+        $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
+        echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
+    } elseif ($field === 'pdfExos' && isset($_FILES['pdfExos']) && $_FILES['pdfExos']['error'] === UPLOAD_ERR_NO_FILE) {
+        $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
+        echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
+    } elseif ($field === 'pdfCorrect' && isset($_FILES['pdfCorrect']) && $_FILES['pdfCorrect']['error'] === UPLOAD_ERR_NO_FILE) {
+        $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
+        echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
+    }
+    return $erreurs;
+}
+
+
+  function addChampErreur(string $field ){ 
+    if(isset($erreur[$field])){
+      foreach($erreurs[$field] as $erreur){
+        echo $erreur ; 
+      }
+    }
+  }
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();

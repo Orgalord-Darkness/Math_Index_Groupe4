@@ -82,9 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_POST)) {
 
                 <label for="role">Rôle :</label><br>
                 <select name="role" id="role">
-                    <option value="administrateur" <?= (isset($informations['role']) && $informations['role'] == 'administrateur') ? 'selected' : '' ?>>Administrateur</option>
-                    <option value="moderateur" <?= (isset($informations['role']) && $informations['role'] == 'moderateur') ? 'selected' : '' ?>>Modérateur</option>
-                    <option value="membre" <?= (isset($informations['role']) && $informations['role'] == 'membre') ? 'selected' : '' ?>>Membre</option>
+                    <option value="enseignant" <?= (isset($informations['role']) && $informations['role'] == 'enseignant') ? 'selected' : '' ?>>Enseignant</option>
+                    <option value="eleve" <?= (isset($informations['role']) && $informations['role'] == 'eleve') ? 'selected' : '' ?>>Elève</option>
                 </select>
                 <?php displayErrors($errors, 'role'); ?>
 
