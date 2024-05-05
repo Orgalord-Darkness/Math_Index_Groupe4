@@ -1,4 +1,11 @@
 <?php
+    $nom = $_POST['nom'] ; 
+    $classe = $_POST['classe'] ; 
+    $thema = $_POST['thema'] ; 
+    $mots_cles = $_POST['motscles'] ; 
+    $chapitre = $_POST['chapitre'] ; 
+    $source = $_POST['source'] ; 
+    
     if(isset($_POST['envoyer'])){ 
         if(isset($_FILES['pdfExos'])){ 
             $fichierNom = $_FILES['pdfExos']['name'] ; //Nom du fichier 
@@ -21,6 +28,25 @@
             $requete->bindParam(':extension', $fichierExtension) ; 
             $requete->bindParam(':taille', $fichierTaille) ; 
             $requete->execute() ;  
+
+            //requete d'insertion d'exercice 
+            
+	        $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
+	        $requete->bindParam(':nom', $nom_exercice) ;
+	        $requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
+	        $requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
+	        // $requete->bindParam(':matiere', $nouvelle_matiere) ;
+	        $requete->bindParam(':nchapitre', $nouveau_nchapitre) ;
+	        $requete->bindParam(':motscles', $nouveau_motscles) ;
+	        $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
+	        $requete->bindParam(':duree', $nouvelle_duree) ;
+	        $requete->bindParam(':id_origine', $id_origine, PDO::PARAM_INT) ; 
+	        $requete->bindParam(':origine', $origine_nom) ; 
+	        $requete->bindParam(':infos', $nouvelles_infos) ;
+	        $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
+	        $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection, PDO::PARAM_INT) ;
+	        $requete->bindParam(':id_Auteur', $id_Auteur, PDO::PARAM_INT) ;
+		     $test = $requete->execute(); 
         }
     }
 ?>
@@ -70,7 +96,7 @@
             <h1><strong>Fichiers</strong></h1>
             <br>
             <form method = "POST" enctype = "multipart/form-data">
-                <label for = "pdfExos">Fiche exercice(PDF, WORD)* : </label>
+                <label for = "pdfExos">Fiche corection(PDF, WORD)* : </label>
                 <br>
                 <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
