@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
     
         
         <div class="bloc_contenu2">
-        <p class="texteconection">Cet espace est reservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
+        <p class="texteconection">Cet espace est réservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
             en envoyant un mail à contact@lyceestvincent.net.  </p>
         
             <form class="box" action="#" method="post" name="login">

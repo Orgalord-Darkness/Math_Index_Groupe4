@@ -36,9 +36,9 @@ if(isset($_POST['rechercher'])){
 
 
 <div class="php_content">
-    <div class="title_categ">Mot de passe oublier </div>
+    <div class="title_categ">Mot de passe oublié </div>
         <div class="bloc_contenu2">
-        <p class="texteconection">Vous aller recevoir un mail dans votre boite mail avec vos login-mot passe si biens sur votre adresse-mail est le même que quand vous vous êtes inscris. </p>
+        <p class="texteconection">Vous allez recevoir un mail dans votre boite mail avec vos login-mot passe. Veuillez donc saisir votre adresse-mail utilisée lors de votre inscription. </p>
         
             <form class="box" action="?page=oubli" method="post" name="login">
                 <h1 class="box-title">Connexion</h1>
