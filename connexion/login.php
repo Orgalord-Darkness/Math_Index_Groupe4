@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                 <div>
                     <input type="submit" value="Connexion " name="submit" class="box-button2" ></input>
                 
-                    <a href="?page=oubli">mot de passe oublier</a>
+                    <a href="?page=oubli">mot de passe oublié</a>
                 </div>
                 
                 <?php if (!empty($message)) { ?>
