@@ -1,11 +1,6 @@
 
 <?php
-    $nom = $_POST['nom'] ; 
-    $classe = $_POST['classe'] ; 
-    $thema = $_POST['thema'] ; 
-    $mots_cles = $_POST['motscles'] ; 
-    $chapitre = $_POST['chapitre'] ; 
-    $source = $_POST['source'] ; 
+
     
     if(isset($_POST['envoyer'])){ 
         if(isset($_FILES['pdfExos'])){ 
