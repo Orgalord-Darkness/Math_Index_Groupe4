@@ -16,6 +16,7 @@ $requete->bindParam(':records_per_page', $page_afficher, PDO::PARAM_INT);
 $requete->execute();
 $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
 
+
 if(isset($_POST['rechercher'])){
   if(isset($_POST['mots_recherche'])){  
     $mot = $_POST['mots_recherche'] ; 
@@ -29,6 +30,7 @@ if(isset($_POST['rechercher'])){
     }
   }
 }
+
 ?>
 
 <body>
