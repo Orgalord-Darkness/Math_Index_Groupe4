@@ -158,7 +158,7 @@ $formulaire = [
 		        $requete->bindParam(':infos', $nouvelles_infos) ;
 		        $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
 		        $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection , PDO::PARAM_INT) ;
-		        $requete->bindParam(':id_Auteur', $id_Auteur, PDO::PARAM_INT) ;
+		        $requete->bindParam(':id_Auteur', $id_origine, PDO::PARAM_INT) ;
 			    $test = $requete->execute(); 
             }
         }
@@ -338,14 +338,6 @@ $formulaire = [
 								<?php 
 									if(isset($_POST['envoyer'])){ 
 										addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
-									}
-								?>
-								<label for = 'idAuteur'>Auteur : </label>
-								<br>
-								<input type = "int" name = "idAuteur" placeholder = "Auteur">
-								<?php 
-									if(isset($_POST['envoyer'])){ 
-										addMessageIfValueEmpty($erreurs, 'idAuteur', $_POST['idAuteur']) ;
 									}
 								?>
 
