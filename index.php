@@ -33,6 +33,7 @@ if (empty($_GET)) {
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();
+
 switch ($page) {
     //MENU SLIDE
     case 'accueil':
