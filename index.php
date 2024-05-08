@@ -23,13 +23,13 @@ if (empty($_GET)) {
 // }
 
 
-  function addChampErreur(string $field ){ 
-    if(isset($erreur[$field])){
-      foreach($erreurs[$field] as $erreur){
-        echo $erreur ; 
-      }
-    }
-  }
+//   function addChampErreur(string $field ){ 
+//     if(isset($erreur[$field])){
+//       foreach($erreurs[$field] as $erreur){
+//         echo $erreur ; 
+//       }
+//     }
+//   }
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();
