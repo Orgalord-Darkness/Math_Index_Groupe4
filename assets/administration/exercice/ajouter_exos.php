@@ -79,53 +79,54 @@ $formulaire = [
 		        $id_origine = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 
 
+				if(!empty($_FILES)){ 
+					$fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
+					$fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
+					$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
+					$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
+					$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
+					if($emplacement){ 
+						$chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+					}
+					$requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
+					VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
+		
+					$requete->bindParam(':name',$fichierExerciceNom) ;
+					$requete->bindParam(':chemin', $chemin) ; 
+					$requete->bindParam(':extension', $fichierType) ;
+					$requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
+					$requete->execute();
+					
 
-		        $fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
-		        $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
-				$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
-				$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-				$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
-				if($emplacement){ 
-				    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+					$fichierCorrectionNom = $_FILES['pdfCorrect']['name']; // Nom du fichier
+					$fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
+					$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
+					$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
+					$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
+					if($emplacement){ 
+						$chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
+					}
+					$requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
+						VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
+		
+					$requete->bindParam(':name',$fichierCorrectionNom) ;
+					$requete->bindParam(':chemin', $chemin) ; 
+					$requete->bindParam(':extension', $fichierType) ;
+					$requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
+					$requete->execute();
+
+					$requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
+					$requete->bindParam(':name',$fichierExerciceNom) ; 
+					$requete->execute() ; 
+					$pdfExos = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
+					$id_pdfExos = implode(';', array_column($pdfExos, 'id'));
+
+					$requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
+					$requete->bindParam(':name', $fichierCorrectionNom) ; 
+					$requete->execute() ; 
+					$pdfCorrect = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
+					$id_pdfCorrection = implode(';', array_column($pdfCorrect, 'id'));
 				}
-	            $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
-	   			 VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
-	 
-	            $requete->bindParam(':name',$fichierExerciceNom) ;
-	            $requete->bindParam(':chemin', $chemin) ; 
-	            $requete->bindParam(':extension', $fichierType) ;
-	            $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
-	            $requete->execute();
-	 			
-
-	            $fichierCorrectionNom = $_FILES['pdfCorrect']['name']; // Nom du fichier
-		        $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
-				$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
-				$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
-				$emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
-				if($emplacement){ 
-				    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
-				}
-	            $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
-	    			VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
-	  
-	            $requete->bindParam(':name',$fichierCorrectionNom) ;
-	            $requete->bindParam(':chemin', $chemin) ; 
-	            $requete->bindParam(':extension', $fichierType) ;
-	            $requete->bindParam(':taille', $fichierTaille, PDO::PARAM_INT) ;  
-	            $requete->execute();
-
-	            $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
-	            $requete->bindParam(':name',$fichierExerciceNom) ; 
-	            $requete->execute() ; 
-	            $pdfExos = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
-	            $id_pdfExos = implode(';', array_column($pdfExos, 'id'));
-
-	            $requete = $connexion->prepare("SELECT id FROM file WHERE name = :name ") ; 
-	            $requete->bindParam(':name', $fichierCorrectionNom) ; 
-	            $requete->execute() ; 
-	            $pdfCorrect = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
-	            $id_pdfCorrection = implode(';', array_column($pdfCorrect, 'id'));
 
 		        $nouveau_motscles = $_POST['motscles'] ; 
 		        $nouvelles_infos = $_POST['information'] ; 
