@@ -198,10 +198,24 @@ if(empty($erreurs)) {
               <label for = "classe">Classe*</label>
               <br>
               <select name = "classe">
-                <option value = "seconde">Seconde</option>
-                <option value = "premiere">Première</option>
-                <option value = "terminal">Terminal</option>
-                <option value = "Seconde2">Seconde2</option>
+              <?php 
+										$requete = $connexion->prepare("SELECT DISTINCT classroom_id FROM exercise");
+										$requete->execute();
+										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+										$classes = [] ; 
+										foreach($ids as $id){ 
+										    $requete_classe = $connexion->prepare("SELECT DISTINCT name FROM classroom WHERE id = :id") ; 
+										    $requete_classe->bindParam(':id', $id['classroom_id'], PDO::PARAM_INT) ; 
+										    $requete_classe->execute() ; 
+										    $classe = $requete_classe->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+										    if($classe) {  // Vérifiez si le résultat est non vide
+										        $classes[] = $classe['name'] ;  
+										    }
+										}
+										for($ind = 0 ; $ind < count($classes) ; $ind++){ 
+										    echo "<option value='".$classes[$ind]."'>".$classes[$ind]."</option>"; 
+										}
+									?>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
@@ -213,7 +227,24 @@ if(empty($erreurs)) {
               <label for = "thematique">Thématique* : </label>
               <br>
               <select name = "thematique">
-                <option value = "suite">Suite</option>
+              <?php 
+										$requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
+										$requete->execute();
+										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+										$themes = [] ; 
+										foreach($ids as $id){ 
+										    $requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
+										    $requete_theme->bindParam(':id', $id['thematic_id'], PDO::PARAM_INT) ; 
+										    $requete_theme->execute() ; 
+										    $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+										    if($theme) {  // Vérifiez si le résultat est non vide
+										        $themes[] = $theme['name'] ;  
+										    }
+										}
+										for($ind = 0 ; $ind < count($themes) ; $ind++){ 
+										    echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
+										}
+									?>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
