@@ -1,20 +1,4 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!empty($_POST['name'])) {
-        $last_name = htmlspecialchars($_POST['name']);
-        $id = $_POST['id'];
-
-        $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :id";
-        $modif = $connexion->prepare($sqlupdate);
-        $modif->bindParam(':id', $id) ; 
-        $modif->bindParam(':nom',$last_name) ; 
-         $test = $modif->execute() ; 
-        // header('Location: ?page=origin');
-        // exit();
-    } else {
-        echo "ATTENTION, ERREUR ! Les champs requis ne doivent pas être vides.";
-    }
-}
 function addMessageIfValueIsEmpty(array $errors, string $field): array
 {
     if (empty($_POST[$field])) {
@@ -56,14 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sqlupdate = "UPDATE origin SET name = :nom  WHERE id = :contactid";
         $modif = $connexion->prepare($sqlupdate);
         $modif->bindParam(':contactid', $contactid) ; 
-        $modif->bindParam(':nom',$nouveau_nom ) ; 
+        $modif->bindParam(':nom',$nouveau_nom ) ;
         // $modif->execute([
         //     ':nom' => $last_name,
         //     ':contactid' => $contactid,
         // ]);
         $test = $modif->execute() ; 
-        // header('Location: ?page=origin');
-        // exit();
+        header('Location: ?page=origine');
+        exit();
     }
 }else{
     echo "erreur de server" ; 
@@ -83,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bloc_contenu3">
         <div class="gestion_sources">
             <h1>Modifier une source</h1>
-            <form method="post" action="#">
+            <form method="POST" action="#">
                 <input type="hidden" name="id_modif" value="<?= isset($informations['id']) ? $informations['id'] : '' ?>">
 
                 <label for="nom">Nom :</label>
@@ -93,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<br>
                 <br>
 
-                <input type="submit" name="envoyer">
+                <a href="?page=origine"><input type="submit" name="envoyer"></a>
             </form>
         </div>
     </div>
