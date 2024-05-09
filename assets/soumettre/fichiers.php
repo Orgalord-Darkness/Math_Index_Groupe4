@@ -8,13 +8,9 @@
             $fichierEmpl = $_FILES['pdfExos']['tmp_name'] ; //Emplacement temporaire du fichier
             $fichierExtension = $_FILES['pdfExos']['type'] ; //type du fichier 
             $fichierTaille = $_FILES['pdfExos']['size'] ; //taille du fichier 
-            $emplacement = move_uploaded_file($fichierEmpl, "C:/Math_Index_Groupe4/assets/administration/fichier/".$fichierNom);
-
-            if ($emplacement) {
-                echo "Le fichier a été téléchargé avec succès.";
-                $chemin = "C:/Math_Index_Groupe4/assets/administration/fichier/".$fichierNom ;
-            } else {
-                echo "Une erreur s'est produite lors du téléchargement du fichier.";
+            $emplacement = move_uploaded_file($fichierEmpl,"C:/Math_Index_Groupe4/assets/administration/fichier/".$fichierNom) ; 
+            if($emplcement){ 
+                $chemin = "C:/Math_Index_Groupe4/assets/administration/fichier/".$fichierNom ; 
             }
 
             $requete = $connexion->prepare("INSERT INTO file(`id`, `name`,`original_name`,`extension`,`size`)
@@ -77,8 +73,6 @@
                 <br>
                 <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
-<<<<<<< HEAD
-=======
                 <button name = "envoyer">Envoyer</button> 
             </form> 
             <h1><strong>Fichiers</strong></h1>
@@ -88,8 +82,7 @@
                 <br>
                 <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
->>>>>>> 68f2c8a (correction de faute d'ortographe)
-                <button name = "envoyer"> 
+                <button name = "envoyer">Envoyer</button> 
             </form> 
     
         </div>
