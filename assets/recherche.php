@@ -6,28 +6,50 @@
 			<label for="thematique">Thématique :</label>
 			<br>
 			<select name = "thematique">
-				<option  value = "mathematique">Mathématiques</option>
-				<option value = "physique">Physique</option>
-				<option name = "Geometrie">Géométrie</option>
+			<?php 
+				$requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
+				$requete->execute();
+				$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+				$themes = [] ; 
+				foreach($ids as $id){ 
+				 	$requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
+					$requete_theme->bindParam(':id', $id['thematic_id'], PDO::PARAM_INT) ; 
+					$requete_theme->execute() ; 
+					 $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+					if($theme) {  // Vérifiez si le résultat est non vide
+					 	$themes[] = $theme['name'] ;  
+					 }
+				}
+				for($ind = 0 ; $ind < count($themes) ; $ind++){ 
+				echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
+				}
+			?>
 			</select>
 			<br>
 			<label for ="difficulte">Difficulté : </label>
 			<br>
 			<select name = "difficulte">
-				<!-- <option value = "college">Toutes</option>
-				<option value = "college">Collège</option>
-				<option value = "lycee">Lycée</option>
-				<option value = "lycee">BTS</option> -->
-				<option value = 0>Niveau 0</option>
+			<?php 
+				$requete = $connexion->prepare("SELECT DISTINCT difficulty FROM exercise ") ; 
+				$requete->execute() ; 
+				$difficultes = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+				foreach($difficultes as $difficulte){ 
+					 echo "<option value='".$difficulte['difficulty']."'>Niveau ".$difficulte['difficulty']."</option>"; 
+				}
+			?>
 			</select>
 			<br>
 			<label for = "motscles">Mots clés :</label>
 			<br>
 			<select name = "motscles" placeholder = "Sélectionner une thématique">
-				<option name = "Algèbre">Algèbre</option>
-				<option name = "Geometrie">Géométrie</option>
-				<option name = "equation">équation</option> 
-				<option name = "Physique Test">Physique Test</option>
+			<?php 
+				$requete = $connexion->prepare("SELECT DISTINCT keywords FROM exercise ") ; 
+				$requete->execute() ; 
+				$difficultes = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+				foreach($difficultes as $difficulte){ 
+					 echo "<option value='".$difficulte['keywords']."'>".$difficulte['keywords']."</option>"; 
+				}
+			?>
 			</select>
 			<br>
 			<div class="container_button">
