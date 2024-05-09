@@ -122,7 +122,10 @@ if(isset($_POST['rechercher'])){
                                     // echo "<td>" . $ligne['origin_id'] . "</td>";
                                     // echo "<td>" . $ligne['origin_name'] . "</td>"; 
                                     // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                    echo "<td>" .  $fichier_exercice." - ". $fichier_correction . "</td>";  
+                                    echo "<td><a href='http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" .
+                                    $fichier_exercice . "' download>" . $fichier_exercice . "</a> || " .
+                                   "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
+                                   . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";   
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
                                     echo "<td><form method='post' action='?page=modif_ex'>
                                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
@@ -173,7 +176,10 @@ if(isset($_POST['rechercher'])){
                                     // echo "<td>" . $ligne['origin_id'] . "</td>";
                                     // echo "<td>" . $ligne['origin_name'] . "</td>"; 
                                     // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                    echo "<td>" .  $fichier_exercice." - ". $fichier_correction . "</td>";  
+                                    echo "<td><a href='http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" .
+                                     $fichier_exercice . "' download>" . $fichier_exercice . "</a> || " .
+                                    "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
+                                    . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";  
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
                                     echo "<td><form method='post' action='?page=modif_ex'>
                                       <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
