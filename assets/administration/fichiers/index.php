@@ -2,54 +2,13 @@
 require_once('connexion/connexion.php');
 $connexion = connexionBdd();
 session_start();
-if (empty($_GET)) {
-    header('Location: ?page=accueil');
-    exit;
-}
-//fonctions filtres formulaires
-//function addMessageIfValueEmpty(array $erreurs, string $field, $value)
-// {
-//     if (empty($value)) {
-//         $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
-//         echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
-//     } elseif ($field === 'pdfExos' && isset($_FILES['pdfExos']) && $_FILES['pdfExos']['error'] === UPLOAD_ERR_NO_FILE) {
-//         $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
-//         echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
-//     } elseif ($field === 'pdfCorrect' && isset($_FILES['pdfCorrect']) && $_FILES['pdfCorrect']['error'] === UPLOAD_ERR_NO_FILE) {
-//         $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
-//         echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
-//     }
-//     return $erreurs;
-// } 
-// 
-
-
+// if (empty($_GET)) {
+//     header('Location: index.php?accueil=1');
+//     exit;
+// }
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();
-function addMessageIfValueEmpty(array $erreurs, string $field, $value)
-{
-    if (empty($value)) {
-        $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
-        echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
-    } elseif ($field === 'pdfExos' && isset($_FILES['pdfExos']) && $_FILES['pdfExos']['error'] === UPLOAD_ERR_NO_FILE) {
-        $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
-        echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
-    } elseif ($field === 'pdfCorrect' && isset($_FILES['pdfCorrect']) && $_FILES['pdfCorrect']['error'] === UPLOAD_ERR_NO_FILE) {
-        $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
-        echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
-    }
-    return $erreurs;
-}
-
-
-  function addChampErreur(array $erreurs, string $field ){ 
-    if(isset($erreur[$field])){
-      foreach($erreurs[$field] as $erreur){
-        echo $erreur ; 
-      }
-    }
-  } 
 switch ($page) {
     //MENU SLIDE
     case 'accueil':
@@ -143,11 +102,6 @@ switch ($page) {
         include_once('assets/administration/ajouter_sources.php');
         $title = "Administration sources";
         break;
-
-    case 'oubli' : 
-        include('connexion/mdp_oublier.php') ; 
-        $title = "mot de passe oublier" ; 
-        break ; 
     case 'supp' : 
         include_once('assets/administration/supprimer.php') ;
         $title = "supprimer" ; 
@@ -155,7 +109,6 @@ switch ($page) {
     case 'result' : 
         include_once('assets/administration/resultat.php') ; 
         $title = "résultats" ; 
-
         break ; 
     default:
         include_once('assets/accueil.php');
@@ -295,6 +248,44 @@ $content = ob_get_clean();
         </div>
 
     </section>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 <div class="footer">
     <p>Mention légales</p>&nbsp;&nbsp;

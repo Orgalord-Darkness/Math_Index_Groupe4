@@ -59,6 +59,10 @@
 									echo "<td>".$ligne['difficulty']."</td>" ; 
 									echo "<td>".$ligne['keywords']."</td>" ; 
 									echo "<td>".$ligne['duration']."</td>" ;
+									echo "<td><a href='http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" .
+									$fichier_exercice . "' download>" . $fichier_exercice . "</a> || " .
+								   "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
+								   . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";  
 									echo "</tr>" ; 
 								}
 												// for($ind = 0 ; $ind < strlen($fichiers_exos) ; $ind++){ 
