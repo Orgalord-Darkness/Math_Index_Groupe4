@@ -122,6 +122,19 @@ switch ($page) {
         include_once('assets/administration/origine/add_origine.php');
         $title = "Administration origines";
         break;
+    //ADMIN THEMATIC
+    case 'thematic':
+        include_once('assets/administration/thematique/gestion_thema.php');
+        $title = "Administration thématiques";
+        break;
+    case 'add_thematic':
+        include_once('assets/administration/thematique/add_thema.php');
+        $title = "Administration thématiques";
+        break;
+    case 'modif_thematic':
+        include_once('assets/administration/thematique/modif_thema.php');
+        $title = "Administration thématiques";
+        break;
     //ADMIN SOURCE
     case 'source':
         include_once('assets/administration/ajouter_sources.php');
