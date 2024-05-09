@@ -83,6 +83,7 @@
     }
 ?>
 <?php
+
     // if(isset($_POST['envoyer'])){ 
     //     if(isset($_FILES['pdfExos'])){ 
     //         $fichierNom = $_FILES['pdfExos']['name'] ; //Nom du fichier 
@@ -122,9 +123,9 @@
                         <img src="ico/nuage.png" width="40px" height="40px" >
                         <input type="file" name="pdfCorrect" >
                     </div>
+                <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
-                <button name = "envoyer">Enregistrer</button>               
-            </form> 
-    
+                <button name = "envoyer">Envoyer</button> 
+        
         </div>
 </div>
