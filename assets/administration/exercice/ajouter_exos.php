@@ -347,14 +347,6 @@ $formulaire = [
 										addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
 									}
 								?>
-								<label for = 'idAuteur'>Auteur : </label>
-								<br>
-								<input type = "int" name = "idAuteur" placeholder = "Auteur">
-								<?php 
-									if(isset($_POST['envoyer'])){ 
-										addMessageIfValueEmpty($erreurs, 'idAuteur', $_POST['idAuteur']) ;
-									}
-								?>
 
 							</div>
 				
