@@ -15,6 +15,36 @@ body{
 }
 
 /*VARIABLE*/
+.bloc_contenu3 form .custom-file-upload p{
+    margin-left: 0%;
+}
+.custom-file-upload{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width : 27rem;
+    height : 4.5rem ;
+    font-size : 20px ;
+    border : solid 3px rgb(230,230,230);
+    border-radius :8px/8px; 
+    margin-bottom: 2% ;
+    margin-top : 2% ;
+}
+input[type="file"] {
+    position: absolute!important;
+    border: solid red!important;
+    width: 20px!important;
+    height: 20px!important;
+    opacity:0!important;
+    left: 44%!important;
+}
+.title_soumettre{
+    color: black;
+    font-size: 30px;
+    margin: 2%;
+    font-weight: 600;
+    
+}
 .supprimer{
     background-color: none;
     border: none;
