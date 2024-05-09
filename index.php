@@ -318,12 +318,9 @@ if (empty($_GET)) {
     header('Location: ?page=accueil');
     exit;
 }
-<<<<<<< HEAD
-//fonctions filtres formulaires 
-// function addMessageIfValueEmpty(array $erreurs, string $field, $value)
-=======
-//fonctions filtres formulairesfunction addMessageIfValueEmpty(array $erreurs, string $field, $value)
->>>>>>> 691d5c1 (Correction bug fonction addMessageIfValueEmpty)
+
+//fonctions filtres formulaires
+//function addMessageIfValueEmpty(array $erreurs, string $field, $value)
 // {
 //     if (empty($value)) {
 //         $erreurs[$field] = sprintf("Le champ %s doit être renseigné.", $field);
@@ -336,13 +333,9 @@ if (empty($_GET)) {
 //         echo "<p class = 'erreur'>".$erreurs[$field]."</p>";
 //     }
 //     return $erreurs;
-<<<<<<< HEAD
 // }
-=======
 // } 
 // 
->>>>>>> 691d5c1 (Correction bug fonction addMessageIfValueEmpty)
-
 
 //   function addChampErreur(string $field ){ 
 //     if(isset($erreur[$field])){
