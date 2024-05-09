@@ -54,18 +54,6 @@
                 <br>
                 <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
                 <br>
-<<<<<<< HEAD
-=======
-                <button name = "envoyer">Envoyer</button> 
-            </form> 
-            <h1><strong>Fichiers</strong></h1>
-            <br>
-            <form method = "POST" enctype = "multipart/form-data">
-                <label for = "pdfExos">Fiche corection(PDF, WORD)* : </label>
-                <br>
-                <input type = "file" name  ="pdfExos" placeholder = "Séléctionner un fichier">
-                <br>
->>>>>>> 68f2c8a (correction de faute d'ortographe)
                 <button name = "envoyer"> 
             </form> 
             <h1><strong>Fichiers</strong></h1>
