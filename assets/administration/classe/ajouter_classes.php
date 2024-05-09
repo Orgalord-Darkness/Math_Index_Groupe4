@@ -1,8 +1,9 @@
 <?php
 	if($_SERVER['REQUEST_METHOD'] == "POST"){ 
 		if(isset($_POST['envoyer'])){ 
-			$Nclasse = $_POST['classe'] ; 
-			$requete= $connexion->prepare("INSERT INTO `classroom` (`id`, `name`) VALUES (NULL, :class); ") ; 
+			$Nclasse = $_POST['classe'] ; //thematic
+			                                            //thematic
+			$requete= $connexion->prepare("INSERT INTO `classroom`  (`id`, `name`) VALUES (NULL, :class); ") ; 
 			$requete->bindParam(':class', $Nclasse) ; 
 			$test = $requete->execute() ; 
 			header("Location: ?page=classe");
