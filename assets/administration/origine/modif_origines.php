@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <div class="bloc_contenu3">
         <div class="gestion_sources">
-            <h1>Modifier une source</h1>
+            <h1>Modifier une origine</h1>
             <form method="POST" action="#">
                 <input type="hidden" name="id_modif" value="<?= isset($informations['id']) ? $informations['id'] : '' ?>">
 
