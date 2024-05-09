@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
     
         
         <div class="bloc_contenu2">
-        <p class="texteconection">Cet espace est reservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
+        <p class="texteconection">Cet espace est réservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
             en envoyant un mail à contact@lyceestvincent.net.  </p>
         
             <form class="box" action="#" method="post" name="login">
@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                 <div>
                     <input type="submit" value="Connexion " name="submit" class="box-button2" ></input>
                 
-                    <a href="?page=oubli">mot de passe oublier</a>
+                    <a href="?page=oubli">mot de passe oublié</a>
                 </div>
                 
                 <?php if (!empty($message)) { ?>
