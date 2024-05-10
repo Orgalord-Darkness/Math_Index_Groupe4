@@ -84,9 +84,9 @@ $formulaire = [
 					$fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
 					$fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
 					$fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-					$emplacement =  move_uploaded_file($fichierTemp, "../fichiers/" . $fichierExerciceNom);
+					$emplacement =  move_uploaded_file($fichierTemp,  "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\"  . $fichierExerciceNom);
 					if($emplacement){ 
-						$chemin = "../fichiers/".$fichierExerciceNom; 
+						$chemin =   "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\" .$fichierExerciceNom; 
 					}
 					$requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
 					VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -102,9 +102,9 @@ $formulaire = [
 					$fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
 					$fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
 					$fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
-					$emplacement =  move_uploaded_file($fichierTemp, "../fichiers/" . $fichierCorrectionNom);
+					$emplacement =  move_uploaded_file($fichierTemp, "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\". $fichierCorrectionNom);
 					if($emplacement){ 
-						$chemin = "../fichiers/".$fichierCorrectionNom ; 
+						$chemin = "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\".$fichierCorrectionNom; 
 					}
 					$requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
 						VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -141,7 +141,7 @@ $formulaire = [
 				// $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_exos") ; 
 					// $id_pdfExos = $requete->execute() ; 
 					
-					$id_Auteur = $_POST['idAuteur'] ;
+					// $id_Auteur = $_POST['idAuteur'] ;
 					$origine_nom = $_POST['origine'] ;
 					// $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_correction");  
 					// $id_pdfCorrection = $requete->execute() ; 
@@ -160,7 +160,7 @@ $formulaire = [
 					$requete->bindParam(':infos', $nouvelles_infos) ;
 					$requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
 					$requete->bindParam(':id_pdfCorrect', $id_pdfCorrection , PDO::PARAM_INT) ;
-					$requete->bindParam(':id_Auteur', $id_Auteur, PDO::PARAM_INT) ;
+					$requete->bindParam(':id_Auteur', $id_origine, PDO::PARAM_INT) ;
 					$test = $requete->execute(); 
 				}else{ 
 					$erreurs['pdfExos'][] = "Le champ nom doit être renseigné." ;

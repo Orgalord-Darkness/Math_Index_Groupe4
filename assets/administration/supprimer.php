@@ -228,11 +228,11 @@
 				<div class='dialog-content'>
 					<form method = 'post'>
 						<button name = 'action' value = 'annuler' class='close' id='closeX'>
-							<img src='ico/croix-removebg2.png'>
+							<img src='/../../ico/croix-removebg2.png'>
 						</button>
 					</form>
 					 <div class='align'>
-						<img src='ico/check.svg'>
+						<img src='/../../ico/check.svg'>
 						<div>
 							<h1>Confirmer la suppression</h1>
 							<p>Êtes-vous certains de vouloir supprimer cette <?php echo $table ?> ?</p>
