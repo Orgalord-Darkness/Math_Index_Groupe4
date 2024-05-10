@@ -22,7 +22,6 @@ function addMessageIfValueEmpty(array $erreurs, string $field, $value)
     return $erreurs;
 }
 
-
   function addChampErreur(string $field ){ 
     if(isset($erreur[$field])){
       foreach($erreurs[$field] as $erreur){
@@ -33,6 +32,7 @@ function addMessageIfValueEmpty(array $erreurs, string $field, $value)
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();
+
 
 switch ($page) {
     //MENU SLIDE
