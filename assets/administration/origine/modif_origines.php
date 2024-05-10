@@ -1,21 +1,21 @@
 <?php
-function addMessageIfValueIsEmpty(array $errors, string $field): array
-{
-    if (empty($_POST[$field])) {
-        $errors[$field][] = sprintf('Le champ "%s" doit être renseigné.', $field);
-    }
+// function addMessageIfValueIsEmpty(array $errors, string $field): array
+// {
+//     if (empty($_POST[$field])) {
+//         $errors[$field][] = sprintf('Le champ "%s" doit être renseigné.', $field);
+//     }
 
-    return $errors;
-}
+//     return $errors;
+// }
 
-function displayErrors(array $errors, string $field): void
-{
-    if (isset($errors[$field])) {
-        foreach ($errors[$field] as $error) {
-            echo '<p class="error">' . $error . '</p>';
-        }
-    }
-}
+// function displayErrors(array $errors, string $field): void
+// {
+//     if (isset($errors[$field])) {
+//         foreach ($errors[$field] as $error) {
+//             echo '<p class="error">' . $error . '</p>';
+//         }
+//     }
+// }
 // Assurez-vous de la connexion à la base de données
 $connexion = connexionBdd();
 
