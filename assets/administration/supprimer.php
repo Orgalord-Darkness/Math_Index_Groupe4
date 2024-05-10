@@ -228,11 +228,11 @@
 				<div class='dialog-content'>
 					<form method = 'post'>
 						<button name = 'action' value = 'annuler' class='close' id='closeX'>
-							<img src='ico/croix-removebg2.png'>
+							<img src='../../../Math_Index_Groupe4/ico/croix-removebg2.png'>
 						</button>
 					</form>
 					 <div class='align'>
-						<img src='ico/check.svg'>
+						<img src='../../../Math_Index_Groupe4/ico/check.svg'>
 						<div>
 							<h1>Confirmer la suppression</h1>
 							<p>Êtes-vous certains de vouloir supprimer cette <?php echo $table ?> ?</p>
@@ -246,9 +246,9 @@
 					</form>
 				</div>
 				 <?php 
-					if(isset($table)){ 
-						 var_dump($table) ; 
-					}
+					// if(isset($table)){ 
+					// 	 var_dump($table) ; 
+					// }
 					?>
 			</div> 
 			<h1>
