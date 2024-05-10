@@ -1,21 +1,14 @@
 <?php
-	$erreurs = [] ; 
-	// if(isset($_POST['envoyer'])){
-	// 	if(empty($_POST['classe'])){ 
-	// 		$erreurs['classe'][] = "le champ nom classe doit-être rempli" ; 
-	// 	}
-	// }
-	if(empty($erreurs)){ 
-		if($_SERVER['REQUEST_METHOD'] == "POST"){ 
-			if(isset($_POST['envoyer'])){ 
-				$Nclasse = $_POST['classe'] ; 
-				$requete= $connexion->prepare("INSERT INTO `classroom` (`id`, `name`) VALUES (NULL, :class); ") ; 
-				$requete->bindParam(':class', $Nclasse) ; 
-				$test = $requete->execute() ; 
-				header("Location: ?page=classe");
-	            exit;
-			}	
-		}
+	if($_SERVER['REQUEST_METHOD'] == "POST"){ 
+		if(isset($_POST['envoyer'])){ 
+			$Nclasse = $_POST['classe'] ; //thematic
+			                                            //thematic
+			$requete= $connexion->prepare("INSERT INTO `classroom`  (`id`, `name`) VALUES (NULL, :class); ") ; 
+			$requete->bindParam(':class', $Nclasse) ; 
+			$test = $requete->execute() ; 
+			header("Location: ?page=classe");
+            exit;
+		}	
 	}
 ?>
 <div class="php_content">
@@ -25,7 +18,7 @@
 		<a href="?page=admin_ex"><p>Exercices</p></a>
 		<a href="#"><p>Matières</p></a>
 		<a href="?page=classe"><p>Classes</p></a>
-		<a href="#"><p>Thématiques</p></a>
+		<a href="?page=thematic"><p>Thématiques</p></a>
 		<a href="?page=origine"><p>Origines</p></a>
 	</div>
 	<div class="bloc_contenu3">

@@ -61,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="?page=admin_ex"><p>Exercices</p></a>
         <a href="#"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
-        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
     </div>
     <div class="bloc_contenu3">
         <div class="gestion_sources">
-            <h1>Modifier une source</h1>
+            <h1>Modifier une origine</h1>
             <form method="POST" action="#">
                 <input type="hidden" name="id_modif" value="<?= isset($informations['id']) ? $informations['id'] : '' ?>">
 
