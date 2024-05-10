@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="?page=admin_ex"><p>Exercices</p></a>
         <a href="#"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
-        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
     </div>
     <div class="bloc_contenu3">

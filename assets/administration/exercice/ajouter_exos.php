@@ -146,7 +146,10 @@ $formulaire = [
 					// $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_correction");  
 					// $id_pdfCorrection = $requete->execute() ; 
 
-					$requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
+					$requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`
+					,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,
+					`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine,
+					 :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
 					$requete->bindParam(':nom', $nom_exercice) ;
 					$requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
 					$requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
@@ -180,7 +183,7 @@ $formulaire = [
         <a href="?page=admin_ex"><p>Exercices</p></a>
         <a href="#"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
-        <a href="#"><p>Thématiques</p></a>
+        <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
 		</div>
 			<div class="bloc_contenu3">

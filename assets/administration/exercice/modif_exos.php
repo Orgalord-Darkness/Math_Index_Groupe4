@@ -138,7 +138,10 @@ if(empty($erreurs)) {
                 $pdf_correction = implode(';', array_column($pdfCorrect, 'id'));
             }
 
-        $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique,  chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId, origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC, created_by_id = 1 
+        $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique, 
+         chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId,
+          origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC,
+           created_by_id = 1 
               WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
         $requete->bindParam(':nom', $nouveau_nom);
