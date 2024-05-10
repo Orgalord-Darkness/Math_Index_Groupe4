@@ -246,9 +246,9 @@
 					</form>
 				</div>
 				 <?php 
-					if(isset($table)){ 
-						 var_dump($table) ; 
-					}
+					// if(isset($table)){ 
+					// 	 var_dump($table) ; 
+					// }
 					?>
 			</div> 
 			<h1>
