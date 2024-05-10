@@ -94,9 +94,9 @@ if(empty($erreurs)) {
           $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
           $fichierType = $_FILES['pdfExos']['type']; // Type MIME du fichier
           $fichierTaille = $_FILES['pdfExos']['size']; // Taille du fichier en octets
-          $emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierExerciceNom);
+          $emplacement =  move_uploaded_file($fichierTemp, "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\" . $fichierExerciceNom);
           if($emplacement){ 
-              $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierExerciceNom; 
+              $chemin = "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\".$fichierExerciceNom; 
           }
                 $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
              VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -112,9 +112,9 @@ if(empty($erreurs)) {
                 $fichierTemp = $_FILES['pdfCorrect']['tmp_name'] ; 
                 $fichierType = $_FILES['pdfCorrect']['type']; // Type MIME du fichier
                 $fichierTaille = $_FILES['pdfCorrect']['size']; // Taille du fichier en octets
-                $emplacement =  move_uploaded_file($fichierTemp, "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/" . $fichierCorrectionNom);
+                $emplacement =  move_uploaded_file($fichierTemp,"C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\" . $fichierCorrectionNom);
                 if($emplacement){ 
-                    $chemin = "C:/wamp64/www/MathIndex/Importation/maths_index3/assets/administration/fichiers/".$fichierCorrectionNom ; 
+                    $chemin = "C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\".$fichierCorrectionNom ; 
                 }
                 $requete=$connexion->prepare("INSERT INTO file(`id`, `name`, `original_name`,`extension`, `size`) 
               VALUES(Null, :name, :chemin, :extension, :taille) ; ") ;  
@@ -198,24 +198,10 @@ if(empty($erreurs)) {
               <label for = "classe">Classe*</label>
               <br>
               <select name = "classe">
-              <?php 
-										$requete = $connexion->prepare("SELECT DISTINCT classroom_id FROM exercise");
-										$requete->execute();
-										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
-										$classes = [] ; 
-										foreach($ids as $id){ 
-										    $requete_classe = $connexion->prepare("SELECT DISTINCT name FROM classroom WHERE id = :id") ; 
-										    $requete_classe->bindParam(':id', $id['classroom_id'], PDO::PARAM_INT) ; 
-										    $requete_classe->execute() ; 
-										    $classe = $requete_classe->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
-										    if($classe) {  // Vérifiez si le résultat est non vide
-										        $classes[] = $classe['name'] ;  
-										    }
-										}
-										for($ind = 0 ; $ind < count($classes) ; $ind++){ 
-										    echo "<option value='".$classes[$ind]."'>".$classes[$ind]."</option>"; 
-										}
-									?>
+                <option value = "seconde">Seconde</option>
+                <option value = "premiere">Première</option>
+                <option value = "terminal">Terminal</option>
+                <option value = "Seconde2">Seconde2</option>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
@@ -227,24 +213,7 @@ if(empty($erreurs)) {
               <label for = "thematique">Thématique* : </label>
               <br>
               <select name = "thematique">
-              <?php 
-										$requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
-										$requete->execute();
-										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
-										$themes = [] ; 
-										foreach($ids as $id){ 
-										    $requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
-										    $requete_theme->bindParam(':id', $id['thematic_id'], PDO::PARAM_INT) ; 
-										    $requete_theme->execute() ; 
-										    $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
-										    if($theme) {  // Vérifiez si le résultat est non vide
-										        $themes[] = $theme['name'] ;  
-										    }
-										}
-										for($ind = 0 ; $ind < count($themes) ; $ind++){ 
-										    echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
-										}
-									?>
+                <option value = "suite">Suite</option>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
