@@ -47,15 +47,6 @@ function addMessageIfValueEmpty(array $erreurs, string $field, $value)
     }
     return $erreurs;
 }
-
-
-  function addChampErreur(string $field ){ 
-    if(isset($erreur[$field])){
-      foreach($erreurs[$field] as $erreur){
-        echo $erreur ; 
-      }
-    }
-  } 
 switch ($page) {
     //MENU SLIDE
     case 'accueil':
