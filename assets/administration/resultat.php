@@ -10,14 +10,30 @@
         $test_thema = $requete->execute() ;  
         $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC) ;    
         $id_theme = implode(';', array_column($id_thematic, 'id'));
+
 		$requete = $connexion->prepare("SELECT * FROM exercise WHERE thematic_id = :thema AND keywords = :motscles AND difficulty = :niveau") ;
 		$requete->bindParam(':thema', $id_theme, PDO::PARAM_INT) ; 
 		$requete->bindParam(':motscles',$motscles) ;
-		$requete->bindParam('niveau',$difficulte, PDO::PARAM_INT) ;  
-
+		$requete->bindParam(':niveau',$difficulte, PDO::PARAM_INT) ; 
 		$requete->execute() ; 
 		$resultats = $requete->fetchAll(PDO::FETCH_ASSOC) ;  
 		$nbreResult = count($resultats); 
+
+		foreach($resultats as $ligne){ 
+			$id_file = $ligne['exercice_file_id'] ;
+			$requete=$connexion->prepare("SELECT name FROM file WHERE id = :pdf") ;  
+			$requete->bindParam(':pdf',$id_file) ; 
+			$requete->execute();
+			$pdf_exos = $requete->fetchAll(PDO::FETCH_ASSOC);  
+			$fichier_exercice = implode(';', array_column($pdf_exos, 'name'));
+
+			$id_correct = $ligne['correction_file_id'] ; 
+			$requete=$connexion->prepare("SELECT name FROM file WHERE id = :correct") ;  
+			$requete->bindParam(':correct',$id_correct) ; 
+			$requete->execute();
+			$pdf_correct = $requete->fetchAll(PDO::FETCH_ASSOC);  
+			$fichier_correction = implode(';', array_column($pdf_correct, 'name'));
+		}
 	}else{ 
 		$erreur = 'true' ; 
 	}
