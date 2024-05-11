@@ -4,7 +4,6 @@ if(isset($_SESSION['email'])) {
 
     //SCRIPT PHP PAGINATION
     $resultats_par_page = 2;
-
     $requete_total = $connexion->prepare("SELECT COUNT(*) AS total FROM exercise INNER JOIN user ON exercise.created_by_id = user.id WHERE user.email = :email");
     $requete_total->bindParam(':email', $user_email); // Ajout du paramètre :email
     $requete_total->execute();
