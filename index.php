@@ -200,7 +200,7 @@ $content = ob_get_clean();
                         echo '
                         <div class="pop_up" id="pop_up">
                             <a href="?page=contribu"><p>Administration</p></a>
-                            <a href="?page=connexion"><p>Déconnexion</p></a>
+                            <a href="connexion/logout.php"><p>Déconnexion</p></a>
                         </div>
                     </div>';
                 }
