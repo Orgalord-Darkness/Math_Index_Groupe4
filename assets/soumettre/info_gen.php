@@ -65,10 +65,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <label for = "classe">Classe<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "classe" id="classe">
-                        <option value=""></option>
-                        <option value = "seconde" <?= (isset($informations['classe']) && $informations['classe'] == 'seconde') ? 'selected' : '' ?>>Seconde</option>
-                        <option value = "premiere" <?= (isset($informations['classe']) && $informations['classe'] == 'premiere') ? 'selected' : '' ?>>Première</option>
-                        <option value = "terminal" <?= (isset($informations['classe']) && $informations['classe'] == 'terminale') ? 'selected' : '' ?>>Terminal</option>
+                    <?php 
+						$requete = $connexion->prepare("SELECT DISTINCT classroom_id FROM exercise");
+						$requete->execute();
+						$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+						$classes = [] ; 
+						foreach($ids as $id){ 
+							$requete_classe = $connexion->prepare("SELECT DISTINCT name FROM classroom WHERE id = :id") ; 
+							$requete_classe->bindParam(':id', $id['classroom_id'], PDO::PARAM_INT) ; 
+							$requete_classe->execute() ; 
+							$classe = $requete_classe->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+							if($classe) {  // Vérifiez si le résultat est non vide
+								 $classes[] = $classe['name'] ;  
+							}
+						}
+						for($ind = 0 ; $ind < count($classes) ; $ind++){ 
+						    echo "<option value='".$classes[$ind]."'>".$classes[$ind]."</option>"; 
+						}
+					?>
                     </select>
                     <?php displayErrors($errors, 'classe'); ?>
                     <br>
@@ -76,8 +90,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <label for = "thematique">Thématique<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "thematique" id="thematique">
-                        <option value=""></option>
-                        <option value = "suite" <?= (isset($informations['thematique']) && $informations['thematique'] == 'suite') ? 'selected' : '' ?>>Suite</option>
+                    <?php 
+                        $requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
+                        $requete->execute();
+                        $ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+                        $themes = [] ; 
+                        foreach($ids as $id){ 
+                            $requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
+                            $requete_theme->bindParam(':id', $id['thematic_id'], PDO::PARAM_INT) ; 
+                            $requete_theme->execute() ; 
+                            $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+                            if($theme) {  // Vérifiez si le résultat est non vide
+                                $themes[] = $theme['name'] ;  
+                            }
+                        }
+                        for($ind = 0 ; $ind < count($themes) ; $ind++){ 
+                        echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
+                        }
+                    ?>
                     </select>
                     <?php displayErrors($errors, 'thematique'); ?>
                     <br>
@@ -97,17 +127,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                     <br>
                     <select name = "difficulte" id="difficulte">
                         <option value=""></option>
-                        <option value = "Niveau1" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau1') ? 'selected' : '' ?>>Niveau 1</option>
-                        <option value = "Niveau2" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau2') ? 'selected' : '' ?>>Niveau 2</option>
-                        <option value = "Niveau3" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau3') ? 'selected' : '' ?>>Niveau 3</option>
-                        <option value = "Niveau4" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau4') ? 'selected' : '' ?>>Niveau 4</option>
-                        <option value = "Niveau5" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau5') ? 'selected' : '' ?>>Niveau 5</option>
-                        <option value = "Niveau6" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau6') ? 'selected' : '' ?>>Niveau 6</option>
-                        <option value = "Niveau7" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau7') ? 'selected' : '' ?>>Niveau 7</option>
-                        <option value = "Niveau8" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau8') ? 'selected' : '' ?>>Niveau 8</option>
-                        <option value = "Niveau9" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau9') ? 'selected' : '' ?>>Niveau 9</option>
-                        <option value = "Niveau10" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau10') ? 'selected' : '' ?>>Niveau 10</option>
-                        <option value = "Niveau11" <?= (isset($informations['difficulte']) && $informations['difficulte'] == 'Niveau11') ? 'selected' : '' ?>>Niveau 11</option>
+                        <option value = "Niveau1">Niveau 1</option>
+                        <option value = "Niveau2">Niveau 2</option>
+                        <option value = "Niveau3">Niveau 3</option>
+                        <option value = "Niveau4">Niveau 4</option>
+                        <option value = "Niveau5">Niveau 5</option>
+                        <option value = "Niveau6">Niveau 6</option>
+                        <option value = "Niveau7">Niveau 7</option>
+                        <option value = "Niveau8">Niveau 8</option>
+                        <option value = "Niveau9">Niveau 9</option>
+                        <option value = "Niveau10">Niveau 10</option>
+                        <option value = "Niveau11">Niveau 11</option>
                     </select>
                     <?php displayErrors($errors, 'difficulte'); ?>
                     <br>
