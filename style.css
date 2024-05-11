@@ -30,7 +30,7 @@ body{
     margin-bottom: 2% ;
     margin-top : 2% ;
 }
-input[type="file"] {
+.custom-file-upload input[type="file"] {
     position: absolute!important;
     border: solid red!important;
     width: 20px!important;
@@ -1364,4 +1364,13 @@ form button {
 .bouton_tableau_noback{
     background: none;
     border: none;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond gris semi-transparent */
+    z-index: 9999; /* Assure que la modal-overlay est au-dessus de tout le contenu */
 }
