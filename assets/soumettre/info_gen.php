@@ -1,24 +1,12 @@
 <?php
-$errors = [];
-
+$errors = []; 
 function addMessageIfValueIsEmpty(array $errors, string $field): array
-{
-    if (empty($_POST[$field])) {
-        $errors[$field][] = sprintf('Le champ "%s" doit être renseigné.', $field);
-    }
-
-    return $errors;
-}
-
-function displayErrors(array $errors, string $field): void
-{
-    if (isset($errors[$field])) {
-        foreach ($errors[$field] as $error) {
-            echo '<p class="error">' . $error . '</p>';
-        }
-    }
-}
-
+  {
+      if (empty($_POST[$field])) {
+          $errors[$field][] = sprintf('Le champ "%s" doit être renseigné.', $field);
+      }
+  
+} 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     $errors = addMessageIfValueIsEmpty($errors, 'nom_exercice');
     $errors = addMessageIfValueIsEmpty($errors, 'matiere');
@@ -28,12 +16,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     $errors = addMessageIfValueIsEmpty($errors, 'motscles');
     $errors = addMessageIfValueIsEmpty($errors, 'difficulte');
     $errors = addMessageIfValueIsEmpty($errors, 'duree');
-    
-    if (empty($errors)) {
-        header("Location: ?page=source_soumettre");
-        exit;
-    }
 }
+function displayErrors(array $errors, string $field): void
+{
+    if (isset($errors[$field])) {
+        foreach ($errors[$field] as $error) {
+            echo '<p class="error">' . $error . '</p>';
+        }
+    }
+} 
 ?>
 <div class="php_content">
     <div class="title_categ">Soumettre un exercice</div>
@@ -43,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
         <a href="?page=fichiers_soumettre"><p>Fichiers</p></a>
     </div>
     <div class="bloc_contenu3">
-        <form method="POST" action="?page='sources'">
+        <form method="POST" action="?page=source_soumettre">
+
             <div>
                 <div>
                     <label for = "nom_exercice">Nom de l'exercice<span class="etoile">*</span> :</label>

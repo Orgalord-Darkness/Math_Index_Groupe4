@@ -1,6 +1,8 @@
 <?php
 $errors = [];
-
+if(isset($_POST['nom_exercice'])){ 
+    $nom_exos = $_POST['nom_exercice'] ; 
+}
 function addMessageIfValueIsEmpty(array $errors, string $field): array
 {
     if (empty($_POST[$field])) {
@@ -77,6 +79,13 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                     <button type="submit" name="envoyer">Continuer</button>
                 </div>
         </form>
+        <?php
+            if(isset($nom_exos)){ 
+                var_dump($nom_exos) ; 
+            }else{ 
+                echo "pas de exos"  ;
+            }
+        ?>
     </div>     
 </div>
 <?php
