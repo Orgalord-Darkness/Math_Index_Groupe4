@@ -1,14 +1,14 @@
 <?php
 // Vérifiez si la commande SQL est présente dans les données du formulaire
-if (isset($_POST['id_suppression'])) {
-    // Récupérez la commande SQL à partir des données du formulaire
-    $id_suppression = $_POST['id_suppression'];
-    $requete = $connexion->prepare("DELETE FROM origin WHERE id = :id");
-    $requete->bindParam(':id', $id_suppression);
-    $requete->execute();
-} else {
-    echo "erreur de suppression";
-}
+// if (isset($_POST['id_suppression'])) {
+//     // Récupérez la commande SQL à partir des données du formulaire
+//     $id_suppression = $_POST['id_suppression'];
+//     $requete = $connexion->prepare("DELETE FROM origin WHERE id = :id");
+//     $requete->bindParam(':id', $id_suppression);
+//     $requete->execute();
+// } else {
+//     echo "erreur de suppression";
+// }
 
 //SCRIPT PHP PAGINATION
 $resultats_par_page = 2;
@@ -114,13 +114,13 @@ $origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
                                     </form>
                                 </td>";
                             echo "<td>
-                                    <form method='POST'>
-                                        <div class='bouton_suppr'>
-                                            <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
-                                            <a name='id_suppression' href='#' onclick='this.parentNode.parentNode.submit(); return false;'>
-                                            <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
-                                        </div>
-                                    </form>
+                                <form method='post' action = '?page=supp'>
+                                    <div class='bouton_suppr'>
+                                        <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                                        <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;
+                                        <a href='?page=supp&id_suppression=" . $ligne['id'] . "&table=origin'>Supprimer </a>
+                                    </div>
+                                </form>
                                 </td>";
                             echo "</tr>";
                         }
