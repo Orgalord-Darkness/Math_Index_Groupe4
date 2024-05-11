@@ -1,9 +1,9 @@
-﻿<link rel="stylesheet" href="style.css" />
 <?php
 require_once('connexion.php');
 $co = connexionBdd();
 // Initialisation de la variable de message
 $message = '';
+
 
 if (isset($_POST['submit'])) {
     $username = $_POST['email'];
@@ -35,32 +35,39 @@ if (isset($_POST['submit'])) {
             $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
         }
     }
+    
+    if(isset($_POST["oubli"])){
+        header('location: ?page=oubli');
+        exit();
+    }
 }
 ?>
 <div class="php_content">
     <div class="title_categ">Connexion</div>
-    
-        
         <div class="bloc_contenu2">
-        <p class="texteconection">Cet espace est réservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
-            en envoyant un mail à contact@lyceestvincent.net.  </p>
+        <p>Cet espace est réservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
+            en envoyant un mail à contact@lyceestvincent.net.</p>
         
             <form class="box" action="#" method="post" name="login">
                 <label for = "email">Email : </label>
                 <br>
-                <input type="mail" class="box-input" name="email" placeholder="Adresse mail" style="width: 30%; height: 60px;">
+                <input type="mail" class="box-input" name="email" placeholder="Adresse mail....">
                 <br>
                 <label for = "password">Mot de passe : </label>
                 <br>
-                <input type="password" class="box-input" name="password" placeholder="Mot de passe" style="margin-top:1%; width: 30%; height: 60px;">
-                <div>
-                    <input type="submit" value="Connexion " name="submit" class="box-button2" ></input>
-                
-                    <a href="?page=oubli">mot de passe oublié</a>
+                <input type="password" class="box-input" name="password" placeholder="Mot de passe....">
+                <div class="container_button_connect">
+                <form action="?page=accueil" method="POST">
+                    <button type="submit" name="submit">Se connecter</button>
+                </form>
+                <form action="?page=oubli" method="POST">
+                    <button type="submit" name="oubli">mot de passe oublié</button>
+                </form>
                 </div>
-                
+                <div class="errorform">
                 <?php if (!empty($message)) { ?>
-                    <p class="errorMessage"><?php echo $message; ?></p>
+                    <p class="error"><?php echo $message; ?></p>
                 <?php } ?>
+                </div>
             </form>
         </div>
