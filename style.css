@@ -30,7 +30,7 @@ body{
     margin-bottom: 2% ;
     margin-top : 2% ;
 }
-input[type="file"] {
+.custom-file-upload input[type="file"] {
     position: absolute!important;
     border: solid red!important;
     width: 20px!important;
