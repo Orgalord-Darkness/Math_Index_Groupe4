@@ -1,6 +1,36 @@
 <?php
     $affichage = "Choisir un fichier à télécharger" ;
     $affichageC = "Choisir un fichier à télécharger" ; 
+    if(isset($_POST['nom_exercice'])){ 
+        $nom_exercice = $_POST['nom_exercice'] ; 
+        $thematique = $_POST['thematique'] ; 
+        $classe = $_POST['classe'] ; 
+        $nchapitre = $_POST['nchapitre'] ; 
+        $difficulte = $_POST['difficulte'] ; 
+        $duree = $_POST['duree'] ; 
+        $motscles = $_POST['motscles'] ; 
+        $origine = $_POST['origine'] ; 
+    }
+    if(!empty($nom_exercice)){ 
+        $requete_thema= $connexion->prepare("SELECT id FROM thematic WHERE name = :nom") ;
+        $requete_thema->bindParam(':nom',$thematique) ; 
+        $requete_thema->execute() ; 
+        $id_thematique = $requete_thema->fetchAll(PDO::FETCH_ASSOC) ; 
+        $id_thema = implode(';',$id_thematique['id']) ; 
+        
+        $requete_classe = $connexion->prepare("SELECT id FROM classroom WHERE name = :nom") ; 
+        $requete_classe->bindParam(':nom',$classe) ;
+        $requete_classe->execute() ; 
+        $tabclasse = $requete_classe->fetchAll(PDO::FETCH_ASSOC) ; 
+        $id_classe = implode(';',$tabclasse['id']) ;
+        
+        $requete_origine = $connexion->prepare("SELECT id FROM origin WHERE name = :nom") ; 
+        $requete_origine->bindParam(':nom',$origine) ;
+        $requete_origine->execute() ; 
+        $tabori = $requete_origine->fetchAll(PDO::FETCH_ASSOC) ; 
+        $id_origine= implode(';',$tabori['id']) ;
+
+    }
     if(isset($_POST['envoyer'])){ 
         if(isset($_FILES['pdfExos'])){ 
            $affichage = $_FILES['pdfExos']['name'] ; 
@@ -62,23 +92,36 @@
              
 
             //requete d'insertion d'exercice 
-            
-	        // $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
-	        // $requete->bindParam(':nom', $nom_exercice) ;
-	        // $requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
-	        // $requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
-	        // // $requete->bindParam(':matiere', $nouvelle_matiere) ;
-	        // $requete->bindParam(':nchapitre', $nouveau_nchapitre) ;
-	        // $requete->bindParam(':motscles', $nouveau_motscles) ;
-	        // $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
-	        // $requete->bindParam(':duree', $nouvelle_duree) ;
-	        // $requete->bindParam(':id_origine', $id_origine, PDO::PARAM_INT) ; 
-	        // $requete->bindParam(':origine', $origine_nom) ; 
-	        // $requete->bindParam(':infos', $nouvelles_infos) ;
-	        // $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
-	        // $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection, PDO::PARAM_INT) ;
-	        // $requete->bindParam(':id_Auteur', $id_Auteur, PDO::PARAM_INT) ;
-		    //  $test = $requete->execute(); 
+            $requete_pdfExos = $connexion->prepare("SELECT id FROM file WHERE name = :nom") ; 
+            $requete_pdfExos->bindParam(':nom',$_FILES['pdfExos']['name']) ;
+            $requete_pdfExos->execute() ; 
+            $tabpdfExos = $requete_pdfExos->fetchAll(PDO::FETCH_ASSOC) ; 
+            $id_pdfExos = implode(';',$tabpdfExos['id']) ;
+
+            $requete_pdfCorrection = $connexion->prepare("SELECT id FROM file WHERE name = :nom") ; 
+            $requete_pdfCorrection->bindParam(':nom',$_FILES['pdfCorrect']['name']) ;
+            $requete_pdfCorrection->execute() ; 
+            $tabpdfCorrection = $requete_pdfExos->fetchAll(PDO::FETCH_ASSOC) ; 
+            $id_pdfCorrection = implode(';',$tabpdfExos['id']) ;
+
+	        $requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`,
+            `difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,
+            `created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree,
+             :id_origine, :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
+	        $requete->bindParam(':nom', $nom_exercice) ;
+	        $requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
+	        $requete->bindParam(':id_thematique', $id_thematique, PDO::PARAM_INT) ;
+	        $requete->bindParam(':nchapitre', $nouveau_nchapitre) ;
+	        $requete->bindParam(':motscles', $nouveau_motscles) ;
+	        $requete->bindParam(':difficulte', $nouvelle_difficulte) ;
+	        $requete->bindParam(':duree', $nouvelle_duree) ;
+	        $requete->bindParam(':id_origine', $id_origine, PDO::PARAM_INT) ; 
+	        $requete->bindParam(':origine', $origine_nom) ; 
+	        $requete->bindParam(':infos', $nouvelles_infos) ;
+	        $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
+	        $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection, PDO::PARAM_INT) ;
+	        $requete->bindParam(':id_Auteur', $id_origine, PDO::PARAM_INT) ;
+		     $test = $requete->execute(); 
         }
     }
 ?>

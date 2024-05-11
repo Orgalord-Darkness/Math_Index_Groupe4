@@ -2,6 +2,12 @@
 $errors = [];
 if(isset($_POST['nom_exercice'])){ 
     $nom_exos = $_POST['nom_exercice'] ; 
+    $classe = $_POST['classe'] ; 
+    $thematique = $_POST['thematique'] ; 
+    $nChapitre = $_POST['nChapitre'] ; 
+    $motsCles = $_POST['motscles'] ; 
+    $difficulte = $_POST['difficulte'] ; 
+    $duree = $_POST['duree'] ; 
 }
 function addMessageIfValueIsEmpty(array $errors, string $field): array
 {
@@ -75,6 +81,13 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                     <?php displayErrors($errors, 'info_comple'); ?>
                     <br>
                     <br>
+                    <input type = 'hidden' name = 'nom_exercice' value = <?php echo $nom_exos ;  ?>>
+                    <input type = 'hidden' name = 'thematique'value = <?php echo $thematique ;  ?>>
+                    <input type = 'hidden' name = 'classe'value = <?php echo $classe ;  ?>>
+                    <input type = 'hidden' name = 'nchapitre' value = <?php echo $nChapitre ;  ?>>
+                    <input type = 'hidden' name = 'difficulte' value = <?php echo $difficulte ;  ?>>
+                    <input type = 'hidden' name = 'motscles'value = <?php echo $motsCles;  ?>>
+                    <input type = 'hidden' name = 'duree' value = <?php echo $duree ;  ?>>
                 <div class="container_button2">
                     <button type="submit" name="envoyer">Continuer</button>
                 </div>
