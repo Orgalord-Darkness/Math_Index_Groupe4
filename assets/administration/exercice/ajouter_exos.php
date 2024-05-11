@@ -78,6 +78,13 @@ $formulaire = [
 		        $requete->execute() ; 
 		        $id_origine = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 
+				$auteur = $_SESSION['email'] ; 
+				$requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
+				$requete_createby->bindParam(':email',$auteur) ; 
+				$requete_createby->execute() ; 
+				$id_Aut = $requete_createby->fetchAll(PDO::FETCH_ASSOC) ; 
+				$id_auteur = implode(';', array_column($id_Aut, 'id')) ; 
+
 
 				if (!empty($_FILES['pdfExos']['name']) && !empty($_FILES['pdfCorrect']['name'])) {
 					$fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
@@ -126,7 +133,7 @@ $formulaire = [
 					$requete->execute() ; 
 					$pdfCorrect = $requete->FetchAll(PDO::FETCH_ASSOC) ; 
 					$id_pdfCorrection = implode(';', array_column($pdfCorrect, 'id'));
-				
+				 
 
 					$nouveau_motscles = $_POST['motscles'] ; 
 					$nouvelles_infos = $_POST['information'] ; 
@@ -163,7 +170,7 @@ $formulaire = [
 					$requete->bindParam(':infos', $nouvelles_infos) ;
 					$requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
 					$requete->bindParam(':id_pdfCorrect', $id_pdfCorrection , PDO::PARAM_INT) ;
-					$requete->bindParam(':id_Auteur', $id_origine, PDO::PARAM_INT) ;
+					$requete->bindParam(':id_Auteur', $id_auteur, PDO::PARAM_INT) ;
 					$test = $requete->execute(); 
 				}else{ 
 					$erreurs['pdfExos'][] = "Le champ nom doit être renseigné." ;
@@ -390,7 +397,13 @@ $formulaire = [
 				</form>
 				<?php
 					if(isset($_POST['envoyer'])){ 
-						//var_dump($test) ; 
+						var_dump($test) ; 
+						echo "<br> " ; 
+						var_dump($id_auteur) ; 
+						echo '<br>' ; 
+						var_dump($id_Aut) ; 
+						echo '<br>' ; 
+						var_dump($auteur) ; 
 					}
 				?>
 			</div>

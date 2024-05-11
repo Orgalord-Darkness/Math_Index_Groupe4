@@ -30,6 +30,13 @@
             $tabori = $requete_origine->fetchAll(PDO::FETCH_ASSOC) ; 
             $id_origine= implode(';',array_column($tabori,'id')) ;
 
+            $auteur = $_SESSION['email'] ; 
+            $requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
+            $requete_createby->bindParam(':email',$auteur) ; 
+            $requete_createby->execute() ; 
+            $id_Aut = $requete_createby->fetchAll(PDO::FETCH_ASSOC) ; 
+            $id_auteur = implode(';', array_column($id_Aut, 'id')) ; 
+
         }
         if(isset($_POST['envoyer'])){ 
             if (!empty($_FILES['pdfExos']['name']) && !empty($_FILES['pdfCorrect']['name'])) {
@@ -98,7 +105,7 @@
                 $requete->bindParam(':infos', $info) ;
                 $requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
                 $requete->bindParam(':id_pdfCorrect', $id_pdfCorrection, PDO::PARAM_INT) ;
-                $requete->bindParam(':id_Auteur', $id_origine, PDO::PARAM_INT) ;
+                $requete->bindParam(':id_Auteur', $id_auteur, PDO::PARAM_INT) ;
                 $test = $requete->execute(); 
             }
         }

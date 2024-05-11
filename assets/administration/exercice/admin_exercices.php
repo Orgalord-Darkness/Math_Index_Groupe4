@@ -2,7 +2,11 @@
 $connexion = connexionBdd();
 
 // Comptage total des enregistrements
-$total_rows = 10;
+$requete = $connexion->prepare("SELECT count(*) FROM exercise") ; 
+$requete->execute() ; 
+$nbre = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+$nbreDonnee = implode(';', array_column($nbre, 'count(*)')) ; 
+$total_rows = $nbreDonnee;
 $page_afficher = 4;
 $current_page = isset($_GET['num']) ? intval($_GET['num']) : 1;
 
@@ -66,8 +70,7 @@ if(isset($_POST['rechercher'])){
                                 <th>Durée</th>
                                 <th class="big_table">Mots clés</th>
                                 <th>Fichiers</th>
-                                <th>Modifier</th>
-                                <th>Supprimer</th>
+                                <th>Actions</th>
                             </thead>
                             <tbody>
                               <form method=post>
@@ -180,14 +183,26 @@ if(isset($_POST['rechercher'])){
                                      $fichier_exercice . "' download>" . $fichier_exercice . "</a> || " .
                                     "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
                                     . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";   
-                                    // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
-                                    echo "<td><form method='post' action='?page=modif_ex'>
-                                      <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                      <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                                  </form></td>";
-                                      echo "<td><form method = 'POST' action='?page=supp'>
-                                      <input type = 'hidden' name = 'table' value = 'exercise'>
-                                      <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                                    echo "<td>
+                                    <form method='post'>
+                                        <div class='bouton_suppr'>
+                                            <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                                            <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                            <a href='?page=modif_ex&id_modif=" . $ligne['id'] . "'>Modifier</a>
+                                        </div>
+                                    </form>
+                                </td>";
+                            echo "<td>
+                                <form method='post' action = '?page=supp'>
+                                    <div class='bouton_suppr'>
+                                        <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                                        <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;
+                                        <a href='?page=supp&id_suppression=" . $ligne['id'] . "&table=exercise'>Supprimer </a>
+                                    </div>
+                                </form>
+                                </td>";
+                            echo "</tr>";
+                          
 
                                     echo "<tr>" ; 
                                   }
@@ -197,6 +212,14 @@ if(isset($_POST['rechercher'])){
                             </form>
                             </tbody>
                           </table>
+                          <?php 
+                            if(isset($_SESSION['email'])){ 
+                              // var_dump($_SESSION['email']) ; 
+                              // echo "<br>" ; 
+                              // var_dump($nbreDonnee) ; 
+                              // echo "<br>" ; 
+                            }
+                          ?>
                         </div>
                       <?php
                          echo "<div class='pagination'>";

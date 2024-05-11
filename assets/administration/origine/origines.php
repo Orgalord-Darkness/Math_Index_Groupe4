@@ -109,7 +109,7 @@ $origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
                                         <div class='bouton_suppr'>
                                             <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
                                             <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-                                            <a href='?page=modif_ori&id=" . $ligne['id'] . "'>Modifier</a>
+                                            <a href='?page=modif_ori&id_modif=" . $ligne['id'] . "'>Modifier</a>
                                         </div>
                                     </form>
                                 </td>";
