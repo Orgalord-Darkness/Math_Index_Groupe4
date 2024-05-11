@@ -1,5 +1,10 @@
 <?php
-$id = $_POST['id_modif'] ; 
+if(isset($_POST['id_modif'])){ 
+  $id = $_POST['id_modif'] ; 
+}
+if(isset($_GET['id_modif'])){ 
+  $id = $_GET['id_modif'] ; 
+}
 $erreurs = [];
 $formulaire = [
     'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
@@ -80,6 +85,13 @@ if(empty($erreurs)) {
         $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC);
         $theme = implode(';', array_column($id_thematic, 'id'));
 
+        $auteur = $_SESSION['email'] ; 
+				$requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
+				$requete_createby->bindParam(':email',$auteur) ; 
+				$requete_createby->execute() ; 
+				$id_Aut = $requete_createby->fetchAll(PDO::FETCH_ASSOC) ; 
+				$id_auteur = implode(';', array_column($id_Aut, 'id')) ; 
+
         $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :originName");
         $requete->bindParam(':originName', $nouvelle_origine);
         $test_origin = $requete->execute();
@@ -149,6 +161,7 @@ if(empty($erreurs)) {
          chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId,
           origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC,
            created_by_id = :email 
+           created_by_id = :email 
               WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
         $requete->bindParam(':nom', $nouveau_nom);
@@ -163,7 +176,7 @@ if(empty($erreurs)) {
         $requete->bindParam(':info', $nouvelles_infos);
         $requete->bindParam(':originN', $origin_n);
         $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT);
-        $requete->bindParam(':originId', $id_auteur, PDO::PARAM_INT);
+        $requete->bindParam(':email', $id_auteur) ; 
 
         $resultat = $requete->execute();
         var_dump($resultat);
