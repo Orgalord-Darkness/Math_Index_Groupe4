@@ -115,6 +115,11 @@ function displayErrors(array $errors, string $field): void
                     <input name = "motscles" id="motscles" placeholer = "mots clés">
                     <?php displayErrors($errors, 'motscles'); ?>
                     <br>
+                    <label for = "info">Informations : </label>
+                    <br>
+                    <input name = 'info' placeholder = 'informations sur exercices'> 
+                    <br>
+                    <?php displayErrors($errors, 'info'); ?>
                     <label for = "difficulte">Difficultés<span class="etoile">*</span> :</label>
                     <br>
                     <select name = "difficulte" id="difficulte">

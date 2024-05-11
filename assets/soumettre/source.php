@@ -4,10 +4,11 @@ if(isset($_POST['nom_exercice'])){
     $nom_exos = $_POST['nom_exercice'] ; 
     $classe = $_POST['classe'] ; 
     $thematique = $_POST['thematique'] ; 
-    $nChapitre = $_POST['nChapitre'] ; 
+    $nChapitre = $_POST['nchapitre'] ; 
     $motsCles = $_POST['motscles'] ; 
     $difficulte = $_POST['difficulte'] ; 
     $duree = $_POST['duree'] ; 
+    $info = $_POST['info'] ; 
 }
 function addMessageIfValueIsEmpty(array $errors, string $field): array
 {
@@ -31,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     $errors = addMessageIfValueIsEmpty($errors, 'nom_source');
     $errors = addMessageIfValueIsEmpty($errors, 'info_comple');
     
-    if (empty($errors)) {
-        header("Location: ?page=fichiers_soumettre");
-        exit;
-    }
+    // if (empty($errors)) {
+    //     header("Location: ?page=fichiers_soumettre");
+    //     exit;
+    // }
 }
 $requete = $connexion->prepare("SELECT name FROM origin");
 $requete->execute();
@@ -49,7 +50,7 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
         <a href="?page=fichiers_soumettre"><p>Fichiers</p></a>
     </div>
     <div class="bloc_contenu3">
-        <form method="POST" action="">
+        <form method="POST" action="?page=fichiers_soumettre">
             <div>
                 <div>
                 <?php if (empty($origines)) : ?>
@@ -81,13 +82,14 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                     <?php displayErrors($errors, 'info_comple'); ?>
                     <br>
                     <br>
-                    <input type = 'hidden' name = 'nom_exercice' value = <?php echo $nom_exos ;  ?>>
-                    <input type = 'hidden' name = 'thematique'value = <?php echo $thematique ;  ?>>
-                    <input type = 'hidden' name = 'classe'value = <?php echo $classe ;  ?>>
-                    <input type = 'hidden' name = 'nchapitre' value = <?php echo $nChapitre ;  ?>>
-                    <input type = 'hidden' name = 'difficulte' value = <?php echo $difficulte ;  ?>>
-                    <input type = 'hidden' name = 'motscles'value = <?php echo $motsCles;  ?>>
-                    <input type = 'hidden' name = 'duree' value = <?php echo $duree ;  ?>>
+                    <input type="hidden" name="nom_exercice" value="<?php echo $nom_exos; ?>">
+                    <input type = 'hidden' name = 'thematique'value = "<?php echo $thematique ;?>">
+                    <input type = 'hidden' name = 'classe'value = "<?php echo $classe ;  ?>">
+                    <input type = 'hidden' name = 'nchapitre' value =" <?php echo $nChapitre ;  ?>">
+                    <input type = 'hidden' name = 'difficulte' value = "<?php echo $difficulte ;  ?>">
+                    <input type = 'hidden' name = 'motscles'value = "<?php echo $motsCles;  ?>">
+                    <input type = 'hidden' name = 'duree' value = "<?php echo $duree ;  ?>">
+                    <input type = 'hidden' name = 'info' value = "<?php echo $info ;  ?>">
                 <div class="container_button2">
                     <button type="submit" name="envoyer">Continuer</button>
                 </div>
@@ -98,6 +100,9 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
             }else{ 
                 echo "pas de exos"  ;
             }
+            if(isset($_POST['envoyer'])){ 
+                var_dump($_POST['nom_exercice']) ;
+            } 
         ?>
     </div>     
 </div>
