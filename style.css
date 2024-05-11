@@ -94,9 +94,6 @@ h2{
     border: solid black 1px;
     border-radius: 50%;
 }
-.bouton_ajouter{
-    
-}
 /*Login */
 .box-button2 {
     border-radius: 5%;
@@ -188,7 +185,6 @@ h2{
 .name_of_school{
     font-size: 15px;
     color: #5D7285;
-;
 }
 .container_menutaskbar{
     display: flex;
