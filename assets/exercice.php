@@ -1,11 +1,35 @@
 <?php
-// Connexion à la base de données en utilisant la fonction connexionBdd()
-$connexion = connexionBdd();
+//SCRIPT POUR RECUPERER LES 3 EXERCICES PUBLIER LES PLUS RECENTS :
+$date_actuelle = date("Y-m-d H:i:s");
+$SQL = "SELECT date_ajout FROM exercise";
+$stmt = $connexion->query($SQL);
 
-$sql = "SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id FROM exercise";
+//SCRIPT PHP PAGINATION
+$resultats_par_page = 2;
 
-// Exécution de la requête
-$result = $connexion->query($sql);
+$requete_total = $connexion->prepare("SELECT COUNT(*) AS total FROM exercise;");
+$requete_total->execute();
+$total_rows = $requete_total->fetch(PDO::FETCH_ASSOC)['total'];
+$total_pages = ceil($total_rows / $resultats_par_page);
+
+if (isset($_GET['num']) && is_numeric($_GET['num'])) {
+    $page = intval($_GET['num']);
+    if ($page < 1) {
+        $page = 1;
+    } elseif ($page > $total_pages) {
+        $page = $total_pages;
+    }
+} else {
+    $page = 1;
+}
+
+$offset = ($page - 1) * $resultats_par_page;
+
+$requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id FROM exercise LIMIT :offset, :limit;");
+$requete->bindParam(':offset', $offset, PDO::PARAM_INT);
+$requete->bindParam(':limit', $resultats_par_page, PDO::PARAM_INT);
+$requete->execute();
+$donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <div class="php_content">
@@ -23,26 +47,22 @@ $result = $connexion->query($sql);
                       <th>Fichiers</th>
                   </thead>
                   <tbody>
-                      <?php
-                      // Vérifier si la requête a réussi
-                      if ($result->rowCount() > 0) {
-                          // Parcourir les résultats et afficher dans le tableau HTML
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                              echo "<tr>";
-                              echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                              echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
-                              echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
-                              echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
-                              echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                              echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
-                              echo "</tr>";
-                              echo'CA MARCHE';
-                          }
-                      } else {
-                          // En cas d'erreur dans la requête
-                          echo "<p>Vous n'avez pas encore créé d'exercice.</p>";
-                      }
-                      ?>                    
+                  <?php
+                    if ($stmt->rowCount() > 0) {
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
+                            echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
+                            echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<p>Il n'y a pas de nouvelle exercice pour la moment.</p>";
+                    }
+                    ?>
                   </tbody>
                 </table>
         </div>
@@ -58,28 +78,35 @@ $result = $connexion->query($sql);
                     <th>Fichiers</th>
                 </thead>
                 <tbody>
-                    <?php
-                if ($result) {
-                          // Parcourir les résultats et afficher dans le tableau HTML
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                              echo "<tr>";
-                              echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                              echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
-                              echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
-                              echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
-                              echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                              echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
-                              echo "</tr>";
-                              echo'CA MARCHE';
-                          }
-                      } else {
-                          // En cas d'erreur dans la requête
-                          echo "Erreur dans la requête : " . $connexion->errorInfo()[2];
-                      }
-                      ?>
+                <?php
+                    if (!empty($donnees)) {
+                        foreach ($donnees as $row) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
+                            echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
+                            echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<p>Il n'y a pas d'exercice pour le moment.</p>";
+                    }
+                    ?>
                 </tbody>
                 </table>
         </div>
-        <div class="pagination">PAGINATION</div>
+        <div class='pagination'>
+            <?php
+            if ($total_pages > 1) {
+                echo "<a href='?page=classe&num=" . ($page > 1 ? $page - 1 : 1) . "'>&laquo;</a>";
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<a href='?page=classe&num=$i'" . ($page == $i ? " class='active'" : "") . ">$i</a>";
+                }
+                echo "<a href='?page=classe&num=" . ($page < $total_pages ? $page + 1 : $total_pages) . "'>&raquo;</a>";
+            }
+            ?>
+        </div>
     </div>
 </div>

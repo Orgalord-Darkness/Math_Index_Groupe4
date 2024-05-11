@@ -2,16 +2,6 @@
 if(isset($_SESSION['email'])) {
     $user_email = $_SESSION['email'];
 
-    $sql = "SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id 
-    FROM exercise
-    INNER JOIN user ON exercise.created_by_id = user.id
-    WHERE user.email = :email";
-    
-    $stmt = $connexion->prepare($sql);
-
-    $stmt->bindParam(':email', $user_email);
-    $stmt->execute();
-
     //SCRIPT PHP PAGINATION
     $resultats_par_page = 2;
 
@@ -34,7 +24,12 @@ if(isset($_SESSION['email'])) {
 
     $offset = ($page - 1) * $resultats_par_page;
 
-    $requete = $connexion->prepare("SELECT * FROM `classroom` LIMIT :offset, :limit;");
+    $requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id 
+                                    FROM exercise
+                                    INNER JOIN user ON exercise.created_by_id = user.id
+                                    WHERE user.email = :email
+                                    LIMIT :offset, :limit;");
+    $requete->bindParam(':email', $user_email);
     $requete->bindParam(':offset', $offset, PDO::PARAM_INT);
     $requete->bindParam(':limit', $resultats_par_page, PDO::PARAM_INT);
     $requete->execute();
@@ -56,8 +51,8 @@ if(isset($_SESSION['email'])) {
                 </thead>
                 <tbody>
                     <?php
-                    if ($stmt->rowCount() > 0) {
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    if (!empty($donnees)) {
+                        foreach ($donnees as $row) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
