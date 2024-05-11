@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
         <a href="?page=fichiers_soumettre"><p>Fichiers</p></a>
     </div>
     <div class="bloc_contenu3">
-        <form method="POST" action="">
+        <form method="POST" action="?page='sources'">
             <div>
                 <div>
                     <label for = "nom_exercice">Nom de l'exercice<span class="etoile">*</span> :</label>
