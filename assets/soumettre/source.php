@@ -95,14 +95,14 @@ $origines = $requete->fetchAll(PDO::FETCH_ASSOC);
                 </div>
         </form>
         <?php
-            if(isset($nom_exos)){ 
-                var_dump($nom_exos) ; 
-            }else{ 
-                echo "pas de exos"  ;
-            }
-            if(isset($_POST['envoyer'])){ 
-                var_dump($_POST['nom_exercice']) ;
-            } 
+            // if(isset($nom_exos)){ 
+            //     var_dump($nom_exos) ; 
+            // }else{ 
+            //     echo "pas de exos"  ;
+            // }
+            // if(isset($_POST['envoyer'])){ 
+            //     var_dump($_POST['nom_exercice']) ;
+            // } 
         ?>
     </div>     
 </div>

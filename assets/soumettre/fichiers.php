@@ -159,27 +159,27 @@
                     <input type = 'hidden' name = 'origine' value = "<?php echo $origine ;?>">
                 <button name = "envoyer">Envoyer</button> 
             <?php
-                if(isset($nom_exercice)){ 
-                    var_dump($nom_exercice) ;
-                    echo "<br> tab pdf : </br>" ; 
-                    var_dump( $tabpdfCorrection) ;
-                    echo "id pdf Correction <br>" ;  
-                    var_dump( $id_pdfCorrection) ; 
-                    echo "nom fichier <br> : " ; 
-                    var_dump($fichierCorrectionNom) ; 
-                    echo 'emplacement <br>' ; 
-                    var_dump($emplacement) ; 
-                    echo 'requete pdf <br>' ; 
-                    var_dump($verif) ;  
-                    echo 'tab fichier exos <br>' ; 
-                    var_dump($tabpdfExos) ; 
+                // if(isset($nom_exercice)){ 
+                //     var_dump($nom_exercice) ;
+                //     echo "<br> tab pdf : </br>" ; 
+                //     var_dump( $tabpdfCorrection) ;
+                //     echo "id pdf Correction <br>" ;  
+                //     var_dump( $id_pdfCorrection) ; 
+                //     echo "nom fichier <br> : " ; 
+                //     var_dump($fichierCorrectionNom) ; 
+                //     echo 'emplacement <br>' ; 
+                //     var_dump($emplacement) ; 
+                //     echo 'requete pdf <br>' ; 
+                //     var_dump($verif) ;  
+                //     echo 'tab fichier exos <br>' ; 
+                //     var_dump($tabpdfExos) ; 
 
-                }else{ 
-                    echo "pas de nom exercice" ; 
-                }
-                if(isset($err)){ 
-                    var_dump($err) ; 
-                }
+                // }else{ 
+                //     echo "pas de nom exercice" ; 
+                // }
+                // if(isset($err)){ 
+                //     var_dump($err) ; 
+                // }
                 
             ?>
         </div>
