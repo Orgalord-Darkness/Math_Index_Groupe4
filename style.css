@@ -15,6 +15,15 @@ body{
 }
 
 /*VARIABLE*/
+.container_popup{
+    display: flex;
+    width: auto;
+    height: max-content;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
 .bloc_contenu3 form .custom-file-upload p{
     margin-left: 0%;
 }
