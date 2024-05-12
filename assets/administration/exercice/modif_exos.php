@@ -186,9 +186,17 @@ if(empty($erreurs)) {
 }
 ?>
 
-
-    <h1 class = "titre_section">Administration</h1>
-    <div class = "ajout_exos">
+<div class="php_content">
+		<div class="title_categ">Administration</div>
+		<div class="sections">
+			<a href="?page=contribu"><p>Contributeurs</p></a>
+			<a href="?page=admin_ex"><p>Exercices</p></a>
+			<a href="#"><p>Matières</p></a>
+			<a href="?page=classe"><p>Classes</p></a>
+			<a href="?page=thematic"><p>Thématiques</p></a>
+			<a href="?page=origine"><p>Origines</p></a>
+		</div>
+    <div class = "bloc_contenu3">
       <form method= "POST" enctype = "multipart/form-data">
         <h1>Modifier un exercice</h1>
           <div>
@@ -315,7 +323,7 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'duree', $_POST['duree']) ;
                   }
                 ?>
-              <input name = "id_manu" placeholder = "id_modif">
+              <!-- <input name = "id_manu" placeholder = "id_modif"> -->
             </div>
           </div>
           <br>
@@ -340,81 +348,81 @@ if(empty($erreurs)) {
           <input type="hidden" name="save_id" value="<?php echo $id; ?>">
           <button name = "envoyer">Continuer</button>
           <?php 
-          if(isset($resultat) && $resultat == "true"){
-            echo "resultat"."<br>" ;  
-            var_dump($resultat) ; 
-          }else{ 
-            echo "echec modif" ; 
-          }
+      //     if(isset($resultat) && $resultat == "true"){
+      //       echo "resultat"."<br>" ;  
+      //       var_dump($resultat) ; 
+      //     }else{ 
+      //       echo "echec modif" ; 
+      //     }
          
-         echo "class : <br>" ;    
-         if(isset($test_class)) { 
-            var_dump($test_class) ;
-            echo "id class : "."<br>" ; 
-            var_dump($id_class) ; 
-          }else{ 
-            echo "Pas encore class" ; 
-          }
-          echo "thema : <br>" ; 
-        if(isset($test_thema)){ 
-          var_dump($test_thema) ;
-          echo "id thema "."<br>" ; 
-            var_dump($id_thematic) ;   
-        }else { 
-          echo "pas encore thematique" ; 
-        }
-        echo "<br> id modif :<br> " ; 
-        if(isset($id)){ 
-          echo "<br>" ; 
-          echo "pourmodif" ; 
-          var_dump($id) ; 
-          echo"<br>"."Pour la superglobale" ; 
-          var_dump($_POST['id_modif']) ; 
-          echo "Pour les variables" ; 
-        }
-        if(isset($nouveau_nom)){ 
-          var_dump($nouveau_nom) ; 
-        }else{
-         echo "<br> problème nom " ; }
-        echo "<br> Resultat : <br> " ;   
-        var_dump($resultat) ; 
-        echo "<br>origine : <br>" ; 
-        if(isset( $origin_id)){ 
-          var_dump($origin_id) ; 
-        }else{echo "erreur id origine <br>" ; 
-        }
-       echo "<br>requete select origine : <br> " ; 
-       if(isset($test_origin)){ 
-        var_dump($test_origin) ; 
-       }else{ 
-        echo " requete inexistante<br> " ; 
-       }
-       echo "resultat origine :<br> " ; 
-       if(isset($id_origin)){ 
-          var_dump($id_origin) ; 
-       }else{ 
-          echo "pas de résultat origine <br>" ; 
-       }
-        if(isset($nouveau_nom)){
-          var_dump($nouveau_nom) ; 
-        }else{ echo "erreur nom exercice <br>" ; }
-        echo "fichiers exo insert : <br>" ; 
-        if(isset($test_fichierE)){ 
-          var_dump($test_fichierE) ; 
-        }else{ 
-          echo "inexistant<br>" ; 
-        }
-        if(isset($test_fichierC)){ 
-          var_dump($test_fichierC) ; 
-        }else{ 
-          echo "<br> inexistant" ; 
-        }
-        echo "pour les id de fichiers : " ; 
-        if(isset($pdf_exos)){
-          var_dump($pdf_exos) ; 
-        }else{ 
-          echo " inexistant " ; 
-        }
+      //    echo "class : <br>" ;    
+      //    if(isset($test_class)) { 
+      //       var_dump($test_class) ;
+      //       echo "id class : "."<br>" ; 
+      //       var_dump($id_class) ; 
+      //     }else{ 
+      //       echo "Pas encore class" ; 
+      //     }
+      //     echo "thema : <br>" ; 
+      //   if(isset($test_thema)){ 
+      //     var_dump($test_thema) ;
+      //     echo "id thema "."<br>" ; 
+      //       var_dump($id_thematic) ;   
+      //   }else { 
+      //     echo "pas encore thematique" ; 
+      //   }
+      //   echo "<br> id modif :<br> " ; 
+      //   if(isset($id)){ 
+      //     echo "<br>" ; 
+      //     echo "pourmodif" ; 
+      //     var_dump($id) ; 
+      //     echo"<br>"."Pour la superglobale" ; 
+      //     var_dump($_POST['id_modif']) ; 
+      //     echo "Pour les variables" ; 
+      //   }
+      //   if(isset($nouveau_nom)){ 
+      //     var_dump($nouveau_nom) ; 
+      //   }else{
+      //    echo "<br> problème nom " ; }
+      //   echo "<br> Resultat : <br> " ;   
+      //   var_dump($resultat) ; 
+      //   echo "<br>origine : <br>" ; 
+      //   if(isset( $origin_id)){ 
+      //     var_dump($origin_id) ; 
+      //   }else{echo "erreur id origine <br>" ; 
+      //   }
+      //  echo "<br>requete select origine : <br> " ; 
+      //  if(isset($test_origin)){ 
+      //   var_dump($test_origin) ; 
+      //  }else{ 
+      //   echo " requete inexistante<br> " ; 
+      //  }
+      //  echo "resultat origine :<br> " ; 
+      //  if(isset($id_origin)){ 
+      //     var_dump($id_origin) ; 
+      //  }else{ 
+      //     echo "pas de résultat origine <br>" ; 
+      //  }
+      //   if(isset($nouveau_nom)){
+      //     var_dump($nouveau_nom) ; 
+      //   }else{ echo "erreur nom exercice <br>" ; }
+      //   echo "fichiers exo insert : <br>" ; 
+      //   if(isset($test_fichierE)){ 
+      //     var_dump($test_fichierE) ; 
+      //   }else{ 
+      //     echo "inexistant<br>" ; 
+      //   }
+      //   if(isset($test_fichierC)){ 
+      //     var_dump($test_fichierC) ; 
+      //   }else{ 
+      //     echo "<br> inexistant" ; 
+      //   }
+      //   echo "pour les id de fichiers : " ; 
+      //   if(isset($pdf_exos)){
+      //     var_dump($pdf_exos) ; 
+      //   }else{ 
+      //     echo " inexistant " ; 
+      //   }
         ?>        
       </form>
     </div>

@@ -70,7 +70,7 @@ if(isset($_POST['rechercher'])){
                                 <th>Durée</th>
                                 <th class="big_table">Mots clés</th>
                                 <th>Fichiers</th>
-                                <th>Actions</th>
+                                <th class="big_table">Actions</th>
                             </thead>
                             <tbody>
                               <form method=post>
