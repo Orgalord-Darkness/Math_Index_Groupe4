@@ -1,5 +1,11 @@
 <?php
-$id = $_POST['id_modif'] ; 
+if(isset($_POST['id_modif'])){ 
+  $id = $_POST['id_modif'] ; 
+}
+if(isset($_GET['id_modif'])){ 
+  $id = $_GET['id_modif'] ; 
+}
+
 $erreurs = [];
 $formulaire = [
     'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
@@ -80,6 +86,20 @@ if(empty($erreurs)) {
         $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC);
         $theme = implode(';', array_column($id_thematic, 'id'));
 
+        $auteur = $_SESSION['email'] ; 
+				$requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
+				$requete_createby->bindParam(':email',$auteur) ; 
+				$requete_createby->execute() ; 
+				$id_Aut = $requete_createby->fetchAll(PDO::FETCH_ASSOC) ; 
+				$id_auteur = implode(';', array_column($id_Aut, 'id')) ; 
+
+        $auteur = $_SESSION['email'] ; 
+				$requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
+				$requete_createby->bindParam(':email',$auteur) ; 
+				$requete_createby->execute() ; 
+				$id_Aut = $requete_createby->fetchAll(PDO::FETCH_ASSOC) ; 
+				$id_auteur = implode(';', array_column($id_Aut, 'id')) ; 
+
         $requete = $connexion->prepare("SELECT id FROM origin WHERE name = :originName");
         $requete->bindParam(':originName', $nouvelle_origine);
         $test_origin = $requete->execute();
@@ -148,8 +168,7 @@ if(empty($erreurs)) {
         $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique, 
          chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId,
           origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC,
-           created_by_id = :email 
-              WHERE id = :id");
+           created_by_id = :email WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
         $requete->bindParam(':nom', $nouveau_nom);
         $requete->bindParam(':classe', $classe, PDO::PARAM_INT);
@@ -163,7 +182,7 @@ if(empty($erreurs)) {
         $requete->bindParam(':info', $nouvelles_infos);
         $requete->bindParam(':originN', $origin_n);
         $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT);
-        $requete->bindParam(':originId', $id_auteur, PDO::PARAM_INT);
+        $requete->bindParam(':email', $id_auteur, PDO::PARAM_INT) ;  
 
         $resultat = $requete->execute();
         var_dump($resultat);
@@ -181,8 +200,16 @@ if(empty($erreurs)) {
 }
 ?>
 
-
-    <h1 class = "titre_section">Administration</h1>
+<div class="php_content">
+		<div class="title_categ">Administration</div>
+		<div class="sections">
+			<a href="?page=contribu"><p>Contributeurs</p></a>
+			<a href="?page=admin_ex"><p>Exercices</p></a>
+			<a href="#"><p>Matières</p></a>
+			<a href="?page=classe"><p>Classes</p></a>
+			<a href="?page=thematic"><p>Thématiques</p></a>
+			<a href="?page=origine"><p>Origines</p></a>
+		</div>
     <div class = "bloc_contenu3">
       <form method= "POST" enctype = "multipart/form-data">
           <div>
@@ -208,10 +235,14 @@ if(empty($erreurs)) {
               <label for = "classe">Classe*</label>
               <br>
               <select name = "classe">
-                <option value = "seconde">Seconde</option>
-                <option value = "premiere">Première</option>
-                <option value = "terminal">Terminal</option>
-                <option value = "Seconde2">Seconde2</option>
+              <?php 
+										$requete = $connexion->prepare("SELECT DISTINCT name FROM classroom ; ") ; 
+										$requete->execute() ; 
+										$classes = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+										foreach($classes as $classe){ 
+											echo "<option value='".$classe['name']."'>".$classe['name']."</option>"; 
+										}
+									?>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
@@ -223,7 +254,16 @@ if(empty($erreurs)) {
               <label for = "thematique">Thématique* : </label>
               <br>
               <select name = "thematique">
-                <option value = "suite">Suite</option>
+              <?php 
+										$requete = $connexion->prepare("SELECT DISTINCT name FROM thematic ; ") ; 
+										$requete->execute() ; 
+										$themes = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+										foreach($themes as $theme){ 
+											echo "<option value='".$theme['name']."'>".$theme['name']."</option>"; 
+										}
+
+
+									?>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
@@ -309,6 +349,8 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'duree', $_POST['duree']) ;
                   }
                 ?>
+              <!-- <input name = "id_manu" placeholder = "id_modif"> -->
+              <!-- <input name = "id_manu" placeholder = "id_modif"> -->
             </div>
           </div>
           <br>
@@ -330,7 +372,8 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
                   }
                 ?>
-          <input type="hidden" name="save_id" value="<?php echo $id; ?>">
+          <input type="hidden" name="id_modif" value="<?php echo $id; ?>">
+          <?php var_dump($id); ?>
           <button name = "envoyer">Continuer</button>
           <?php 
       //     if(isset($resultat) && $resultat == "true"){
@@ -339,7 +382,81 @@ if(empty($erreurs)) {
       //     }else{ 
       //       echo "echec modif" ; 
       //     }
+      //     if(isset($resultat) && $resultat == "true"){
+      //       echo "resultat"."<br>" ;  
+      //       var_dump($resultat) ; 
+      //     }else{ 
+      //       echo "echec modif" ; 
+      //     }
          
+      //    echo "class : <br>" ;    
+      //    if(isset($test_class)) { 
+      //       var_dump($test_class) ;
+      //       echo "id class : "."<br>" ; 
+      //       var_dump($id_class) ; 
+      //     }else{ 
+      //       echo "Pas encore class" ; 
+      //     }
+      //     echo "thema : <br>" ; 
+      //   if(isset($test_thema)){ 
+      //     var_dump($test_thema) ;
+      //     echo "id thema "."<br>" ; 
+      //       var_dump($id_thematic) ;   
+      //   }else { 
+      //     echo "pas encore thematique" ; 
+      //   }
+      //   echo "<br> id modif :<br> " ; 
+      //   if(isset($id)){ 
+      //     echo "<br>" ; 
+      //     echo "pourmodif" ; 
+      //     var_dump($id) ; 
+      //     echo"<br>"."Pour la superglobale" ; 
+      //     var_dump($_POST['id_modif']) ; 
+      //     echo "Pour les variables" ; 
+      //   }
+      //   if(isset($nouveau_nom)){ 
+      //     var_dump($nouveau_nom) ; 
+      //   }else{
+      //    echo "<br> problème nom " ; }
+      //   echo "<br> Resultat : <br> " ;   
+      //   var_dump($resultat) ; 
+      //   echo "<br>origine : <br>" ; 
+      //   if(isset( $origin_id)){ 
+      //     var_dump($origin_id) ; 
+      //   }else{echo "erreur id origine <br>" ; 
+      //   }
+      //  echo "<br>requete select origine : <br> " ; 
+      //  if(isset($test_origin)){ 
+      //   var_dump($test_origin) ; 
+      //  }else{ 
+      //   echo " requete inexistante<br> " ; 
+      //  }
+      //  echo "resultat origine :<br> " ; 
+      //  if(isset($id_origin)){ 
+      //     var_dump($id_origin) ; 
+      //  }else{ 
+      //     echo "pas de résultat origine <br>" ; 
+      //  }
+      //   if(isset($nouveau_nom)){
+      //     var_dump($nouveau_nom) ; 
+      //   }else{ echo "erreur nom exercice <br>" ; }
+      //   echo "fichiers exo insert : <br>" ; 
+      //   if(isset($test_fichierE)){ 
+      //     var_dump($test_fichierE) ; 
+      //   }else{ 
+      //     echo "inexistant<br>" ; 
+      //   }
+      //   if(isset($test_fichierC)){ 
+      //     var_dump($test_fichierC) ; 
+      //   }else{ 
+      //     echo "<br> inexistant" ; 
+      //   }
+      //   echo "pour les id de fichiers : " ; 
+      //   if(isset($pdf_exos)){
+      //     var_dump($pdf_exos) ; 
+      //   }else{ 
+      //     echo " inexistant " ; 
+      //   }
       //    echo "class : <br>" ;    
       //    if(isset($test_class)) { 
       //       var_dump($test_class) ;
