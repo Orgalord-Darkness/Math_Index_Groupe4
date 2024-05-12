@@ -7,16 +7,16 @@
 	// }
 	//if($_SERVER['REQUEST_METHOD'] == "POST"){ 
 	if(empty($erreurs)){
-		if(isset($_POST['id_modif'])){
-			$id = $_POST['id_modif'];
+		if(isset($_GET['id_modif'])){
+			$id = $_GET['id_modif'];
 			if(isset($_POST['envoyer'])){  
 				$classe = $_POST['classe']; // Récupération du nom de la classe
 				$requete = $connexion->prepare("UPDATE classroom SET name = :classe WHERE id= :id");
 				$requete->bindParam(':id', $id);
 				$requete->bindParam(':classe', $classe); // Liaison avec la variable contenant le nom de la classe
 				$resultat = $requete->execute();
-				header("Location: ?page=classe");
-				exit;
+				// header("Location: ?page=classe");
+				// exit;
 			}
 		}
 	}
@@ -44,14 +44,26 @@
 						addMessageIfValueEmpty($erreurs, 'classe', $_POST['classe']) ;
 					}
 				?>
-				<input type="hidden" name="id_modif" value="<?php echo $id; ?>"> <!-- Ajout d'un champ caché pour envoyer l'ID -->
+				<input type="hidden" name="id_modif" value="<?php  if(isset($id)){echo $id;} ?>"> <!-- Ajout d'un champ caché pour envoyer l'ID -->
 				<input type="submit" name="envoyer">
 				<?php 
-					// if(isset($resultat)){ 
-					// 	var_dump($resultat) ;
-					// }else{ 
-					// 	echo "erreur de requete" ; 
-					// }
+					echo "superglobale : <br>" ; 
+					if(isset($_GET['id_modif'])){ 
+						echo $_GET['id_modif']."<br>"  ; 
+					}else{ 
+						echo 'pas de superglobale'."<br>" ; 
+					}
+					echo "variable id <br>" ; 
+					if(isset($id)){ 
+						var_dump($id) ; 
+					}else{ 
+						echo "pas de variable id <br>" ; 
+					}
+					if(isset($resultat)){ 
+						var_dump($resultat) ;
+					}else{ 
+						echo "erreur de requete" ; 
+					}
 				?>
 			</form>
 		</div>

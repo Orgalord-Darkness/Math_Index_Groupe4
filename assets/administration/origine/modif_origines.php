@@ -31,7 +31,7 @@ $informations = $stmt->fetch(PDO::FETCH_ASSOC);
 // Vérifiez si des erreurs existent déjà ou non
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $errors = addMessageIfValueIsEmpty($errors, 'nom');
+    // $errors = addMessageIfValueEmpty($errors, 'nom');
 
     if (empty($errors)) {
         $nouveau_nom = htmlspecialchars($_POST['nom']);
@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ?page=origine');
         exit();
     }
+    
 }else{
     echo "erreur de server" ; 
 }
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="nom">Nom :</label>
                 <br>
                 <input type="text" name="nom" id="nom" value="<?= isset($informations['name']) ? htmlspecialchars($informations['name']) : '' ?>">
-                <?php displayErrors($errors, 'nom'); ?>
+                <?php //displayErrors($errors, 'nom'); ?>
 				<br>
                 <br>
 

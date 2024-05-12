@@ -106,22 +106,23 @@ $origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
                             echo "<tr>";
                             echo "<td>" . $ligne['name'] . "</td>";
                             echo "<td>
-                                    <form method='post'>
-                                        <div class='bouton_suppr'>
-                                            <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                            <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-                                            <a href='?page=modif_classe&id=" . $ligne['id'] . "'>Modifier</a>
-                                        </div>
-                                    </form>
-                                </td>";
+                                <form method='post' action = '?page=modif_classe'>
+                                    <div class='bouton_suppr'>
+                                        <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                                        <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                        <a href='?page=modif_classe&id_modif=" . $ligne['id'] . "'>Modifier " . $ligne['id'] . "</a>
+                                    </div>
+                                </form>
+                            </td>";
+                    
                             echo "<td>
-                                    <form method='POST'>
-                                        <div class='bouton_suppr'>
-                                            <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
-                                            <a name='id_suppression' href='#' onclick='this.parentNode.parentNode.submit(); return false;'>
-                                            <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
-                                        </div>
-                                    </form>
+                                <form method='post' action = '?page=supp'>
+                                <div class='bouton_suppr'>
+                                    <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                                    <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;
+                                    <a href='?page=supp&id_suppression=" . $ligne['id'] . "&table=classroom'>Supprimer </a>
+                                </div>
+                                </form>
                                 </td>";
                             echo "</tr>";
                         }
