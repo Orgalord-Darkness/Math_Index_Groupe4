@@ -137,15 +137,20 @@
                 <label for = "pdfExos">Fiche exercice(PDF, WORD)* : </label>
                      <!--<div class="custom-file-upload">-->
                         <p><?php echo $affichage ; ?></p>
-                        <img src="ico/nuage.png" width="40px" height="40px" >
-                        <input type="file" name="pdfExos" >
+                        <div class="container_fichier">
+                            <input type="file" name="pdfExos" >
+                            <img src="ico/nuage.png" width="40px" height="40px" >
+                        </div>
+
                     <!-- </div>-->
                 <br>
                 <label for = "pdfExos">Fiche de corection(PDF, WORD)* : </label>
                     <!--<div class="custom-file-upload">-->
                     <p><?php echo $affichageC ; ?></p>
-                        <img src="ico/nuage.png" width="40px" height="40px" >
+                    <div class="container_fichier">
                         <input type="file" name="pdfCorrect" >
+                        <img src="ico/nuage.png" width="40px" height="40px" >
+                    </div>
                    <!-- </div>-->
                 <br>
                     <input type="hidden" name="nom_exercice" value="<?php echo $nom_exercice; ?>">
