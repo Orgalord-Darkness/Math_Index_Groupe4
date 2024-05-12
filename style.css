@@ -118,10 +118,13 @@ h2{
 }
 .container_button_connect{
     display: flex;
-    width: 40%;
+    width: 100%;
     height: auto;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+    text-wrap: nowrap;
+
+
 }
 .errorform { 
     margin-left: 3%;
