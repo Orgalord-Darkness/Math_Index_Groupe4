@@ -126,13 +126,7 @@ if(isset($_POST['rechercher'])){
                                     "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
                                     . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";  
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
-                                    echo "<td><form method='post' action='?page=modif_ex'>
-                                      <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                      <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                                  </form></td>";
-                                      echo "<td><form method = 'POST' action='?page=supp'>
-                                      <input type = 'hidden' name = 'table' value = 'exercise'>
-                                      <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                
                                       echo "<td>
                                       <form method='post'>
                                                     <div class='bouton_suppr'>
