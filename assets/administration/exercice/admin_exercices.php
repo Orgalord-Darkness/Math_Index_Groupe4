@@ -66,8 +66,7 @@ if(isset($_POST['rechercher'])){
                                 <th>Durée</th>
                                 <th class="big_table">Mots clés</th>
                                 <th>Fichiers</th>
-                                <th>Modifier</th>
-                                <th>Supprimer</th>
+                                <th class = "big_table" >Actions</th>
                             </thead>
                             <tbody>
                               <form method=post>
@@ -134,7 +133,22 @@ if(isset($_POST['rechercher'])){
                                       echo "<td><form method = 'POST' action='?page=supp'>
                                       <input type = 'hidden' name = 'table' value = 'exercise'>
                                       <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
-
+                                      echo "<td>
+                                      <form method='post'>
+                                                    <div class='bouton_suppr'>
+                                                          <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                                                          <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                                          <a href='?page=modif_exos&id_modif=" . $ligne['id'] . "'>Modifier</a>
+                                                    </div>
+                                                </form>
+                                                <form method='POST'>
+                                                    <div class='bouton_suppr'>
+                                                          <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                                                          <a href='?page=supp&table=exercise&id_suppression=" . $ligne['id'] . "'>
+                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                                                    </div>
+                                                </form>
+                                            </td>";
                                     echo "<tr>" ; 
                                   }
                                    $total_pages = ceil($total_rows / $page_afficher);

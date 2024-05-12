@@ -89,6 +89,13 @@ if(empty($erreurs)) {
         $pdfExos = isset($_FILES['pdfExos']) ? $_FILES['pdfExos'] : null;
         $pdfCorrect = isset($_FILES['pdfCorrect']) ? $_FILES['pdfCorrect'] : null;
 
+        $email = $_SESSION['email'] ; 
+        $requete_createdby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ; 
+        $requete_createdby->bindParam(':email',$email) ; 
+        $requete_createdby->execute() ; 
+        $auteur = $requete_createdby->fetchAll(PDO::FETCH_ASSOC) ; 
+        $id_auteur = implode(';', array_column($auteur, 'id')) ; 
+
         if($_FILES['pdfExos']['error'] === UPLOAD_ERR_OK) {
           $fichierExerciceNom = $_FILES['pdfExos']['name']; // Nom du fichier
           $fichierTemp = $_FILES['pdfExos']['tmp_name'] ; 
@@ -141,7 +148,7 @@ if(empty($erreurs)) {
         $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique, 
          chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId,
           origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC,
-           created_by_id = 1 
+           created_by_id = :email 
               WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
         $requete->bindParam(':nom', $nouveau_nom);
@@ -156,6 +163,7 @@ if(empty($erreurs)) {
         $requete->bindParam(':info', $nouvelles_infos);
         $requete->bindParam(':originN', $origin_n);
         $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT);
+        $requete->bindParam(':originId', $id_auteur, PDO::PARAM_INT);
 
         $resultat = $requete->execute();
         var_dump($resultat);
@@ -175,9 +183,8 @@ if(empty($erreurs)) {
 
 
     <h1 class = "titre_section">Administration</h1>
-    <div class = "ajout_exos">
+    <div class = "bloc_contenu3">
       <form method= "POST" enctype = "multipart/form-data">
-        <h1>Modifier un exercice</h1>
           <div>
             <div>
               <label for = "nom_exercice">Nom de l'exercice*</label>
@@ -302,7 +309,6 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'duree', $_POST['duree']) ;
                   }
                 ?>
-              <input name = "id_manu" placeholder = "id_modif">
             </div>
           </div>
           <br>
@@ -327,81 +333,81 @@ if(empty($erreurs)) {
           <input type="hidden" name="save_id" value="<?php echo $id; ?>">
           <button name = "envoyer">Continuer</button>
           <?php 
-          if(isset($resultat) && $resultat == "true"){
-            echo "resultat"."<br>" ;  
-            var_dump($resultat) ; 
-          }else{ 
-            echo "echec modif" ; 
-          }
+      //     if(isset($resultat) && $resultat == "true"){
+      //       echo "resultat"."<br>" ;  
+      //       var_dump($resultat) ; 
+      //     }else{ 
+      //       echo "echec modif" ; 
+      //     }
          
-         echo "class : <br>" ;    
-         if(isset($test_class)) { 
-            var_dump($test_class) ;
-            echo "id class : "."<br>" ; 
-            var_dump($id_class) ; 
-          }else{ 
-            echo "Pas encore class" ; 
-          }
-          echo "thema : <br>" ; 
-        if(isset($test_thema)){ 
-          var_dump($test_thema) ;
-          echo "id thema "."<br>" ; 
-            var_dump($id_thematic) ;   
-        }else { 
-          echo "pas encore thematique" ; 
-        }
-        echo "<br> id modif :<br> " ; 
-        if(isset($id)){ 
-          echo "<br>" ; 
-          echo "pourmodif" ; 
-          var_dump($id) ; 
-          echo"<br>"."Pour la superglobale" ; 
-          var_dump($_POST['id_modif']) ; 
-          echo "Pour les variables" ; 
-        }
-        if(isset($nouveau_nom)){ 
-          var_dump($nouveau_nom) ; 
-        }else{
-         echo "<br> problème nom " ; }
-        echo "<br> Resultat : <br> " ;   
-        var_dump($resultat) ; 
-        echo "<br>origine : <br>" ; 
-        if(isset( $origin_id)){ 
-          var_dump($origin_id) ; 
-        }else{echo "erreur id origine <br>" ; 
-        }
-       echo "<br>requete select origine : <br> " ; 
-       if(isset($test_origin)){ 
-        var_dump($test_origin) ; 
-       }else{ 
-        echo " requete inexistante<br> " ; 
-       }
-       echo "resultat origine :<br> " ; 
-       if(isset($id_origin)){ 
-          var_dump($id_origin) ; 
-       }else{ 
-          echo "pas de résultat origine <br>" ; 
-       }
-        if(isset($nouveau_nom)){
-          var_dump($nouveau_nom) ; 
-        }else{ echo "erreur nom exercice <br>" ; }
-        echo "fichiers exo insert : <br>" ; 
-        if(isset($test_fichierE)){ 
-          var_dump($test_fichierE) ; 
-        }else{ 
-          echo "inexistant<br>" ; 
-        }
-        if(isset($test_fichierC)){ 
-          var_dump($test_fichierC) ; 
-        }else{ 
-          echo "<br> inexistant" ; 
-        }
-        echo "pour les id de fichiers : " ; 
-        if(isset($pdf_exos)){
-          var_dump($pdf_exos) ; 
-        }else{ 
-          echo " inexistant " ; 
-        }
+      //    echo "class : <br>" ;    
+      //    if(isset($test_class)) { 
+      //       var_dump($test_class) ;
+      //       echo "id class : "."<br>" ; 
+      //       var_dump($id_class) ; 
+      //     }else{ 
+      //       echo "Pas encore class" ; 
+      //     }
+      //     echo "thema : <br>" ; 
+      //   if(isset($test_thema)){ 
+      //     var_dump($test_thema) ;
+      //     echo "id thema "."<br>" ; 
+      //       var_dump($id_thematic) ;   
+      //   }else { 
+      //     echo "pas encore thematique" ; 
+      //   }
+      //   echo "<br> id modif :<br> " ; 
+      //   if(isset($id)){ 
+      //     echo "<br>" ; 
+      //     echo "pourmodif" ; 
+      //     var_dump($id) ; 
+      //     echo"<br>"."Pour la superglobale" ; 
+      //     var_dump($_POST['id_modif']) ; 
+      //     echo "Pour les variables" ; 
+      //   }
+      //   if(isset($nouveau_nom)){ 
+      //     var_dump($nouveau_nom) ; 
+      //   }else{
+      //    echo "<br> problème nom " ; }
+      //   echo "<br> Resultat : <br> " ;   
+      //   var_dump($resultat) ; 
+      //   echo "<br>origine : <br>" ; 
+      //   if(isset( $origin_id)){ 
+      //     var_dump($origin_id) ; 
+      //   }else{echo "erreur id origine <br>" ; 
+      //   }
+      //  echo "<br>requete select origine : <br> " ; 
+      //  if(isset($test_origin)){ 
+      //   var_dump($test_origin) ; 
+      //  }else{ 
+      //   echo " requete inexistante<br> " ; 
+      //  }
+      //  echo "resultat origine :<br> " ; 
+      //  if(isset($id_origin)){ 
+      //     var_dump($id_origin) ; 
+      //  }else{ 
+      //     echo "pas de résultat origine <br>" ; 
+      //  }
+      //   if(isset($nouveau_nom)){
+      //     var_dump($nouveau_nom) ; 
+      //   }else{ echo "erreur nom exercice <br>" ; }
+      //   echo "fichiers exo insert : <br>" ; 
+      //   if(isset($test_fichierE)){ 
+      //     var_dump($test_fichierE) ; 
+      //   }else{ 
+      //     echo "inexistant<br>" ; 
+      //   }
+      //   if(isset($test_fichierC)){ 
+      //     var_dump($test_fichierC) ; 
+      //   }else{ 
+      //     echo "<br> inexistant" ; 
+      //   }
+      //   echo "pour les id de fichiers : " ; 
+      //   if(isset($pdf_exos)){
+      //     var_dump($pdf_exos) ; 
+      //   }else{ 
+      //     echo " inexistant " ; 
+      //   }
         ?>        
       </form>
     </div>
