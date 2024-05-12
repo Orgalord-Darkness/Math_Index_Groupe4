@@ -35,10 +35,10 @@ ob_start();
 
 
 switch ($page) {
-    //MENU SLIDE
+    // MENU SLIDE
     case 'accueil':
         include_once('assets/accueil.php');
-       $title = "Accueil";
+        $title = "Accueil";
         break;
     case 'exercice':
         include_once('assets/exercice.php');
@@ -49,10 +49,14 @@ switch ($page) {
         $title = "Recherche";
         break;
     case 'mesexercices':
-        include_once('assets/mesexercices.php');
-        $title = "Mes exercices";
+        if(isset($_SESSION['email'])){
+            include_once('assets/mesexercices.php');
+            $title = "Mes exercices";
+        }else{
+            $title = "Erreur 404";
+        }       
         break;
-    //SOUMETTRE
+    // SOUMETTRE
     case 'soumettre':
         include_once('assets/soumettre/info_gen.php');
         $title = "Soumettre";
@@ -65,94 +69,87 @@ switch ($page) {
         include_once('assets/soumettre/fichiers.php');
         $title = "Soumettre";
         break;
-    //CONNEXION
+    // CONNEXION
     case 'connexion':
         include_once('connexion/login.php');
         $title = "Connexion";
         break;
-    //ADMIN EXERCICE
+    // ADMIN EXERCICE
     case 'admin_ex':
-        include_once('assets/administration/exercice/admin_exercices.php');
-        $title = "Administration exercices";
-        break;
     case 'add_ex':
-        include_once('assets/administration/exercice/ajouter_exos.php');
-        $title = "Administration exercices";
-        break;
     case 'modif_ex':
-        include_once('assets/administration/exercice/modif_exos.php');
-        $title = "Administration exercices";
+        if(isset($_SESSION['email'])) {
+            include_once('assets/administration/exercice/admin_exercices.php');
+            $title = "Administration exercices";
+        } else {
+            $title = "Erreur 404";
+        }
         break;
-    //ADMIN CONTRIBUTEUR
+    // ADMIN CONTRIBUTEUR
     case 'contribu':
-        include_once('assets/administration/contributeurs/gestion_contri.php');
-        $title = "Administration contributeurs";
-        break;
     case 'modif_contribu':
-        include_once('assets/administration/contributeurs/modification_contri.php');
-        $title = "Administration contributeurs";
-        break;
     case 'add_contribu':
-        include_once('assets/administration/contributeurs/ajouter_contri.php');
-        $title = "Administration contributeurs";
+        if(isset($_SESSION['email'])) {
+            include_once('assets/administration/contributeurs/gestion_contri.php');
+            $title = "Administration contributeurs";
+        } else {
+            $title = "Erreur 404";
+        }
         break;
-    //ADMIN CLASSE
+    // ADMIN CLASSE
     case 'classe':
-        include_once('assets/administration/classe/classes.php');
-        $title = "Administration classes";
-        break;
     case 'add_classe':
-        include_once('assets/administration/classe/ajouter_classes.php');
-        $title = "Administration classes";
-        break;
     case 'modif_classe':
-        include_once('assets/administration/classe/modif_classes.php');
-        $title = "Administration classes";
+        if(isset($_SESSION['email'])) {
+            include_once('assets/administration/classe/classes.php');
+            $title = "Administration classes";
+        } else {
+            $title = "Erreur 404";
+        }
         break;
-    //ADMIN ORIGINE
+    // ADMIN ORIGINE
     case 'origine':
-        include_once('assets/administration/origine/origines.php');
-        $title = "Administration origines";
-        break;
     case 'modif_ori':
-        include_once('assets/administration/origine/modif_origines.php');
-        $title = "Administration origines";
-        break;
     case 'add_ori':
-        include_once('assets/administration/origine/add_origine.php');
-        $title = "Administration origines";
+        if(isset($_SESSION['email'])) {
+            include_once('assets/administration/origine/origines.php');
+            $title = "Administration origines";
+        } else {
+            echo"";
+        }
         break;
-    //ADMIN THEMATIC
+    // ADMIN THEMATIC
     case 'thematic':
-        include_once('assets/administration/thematique/gestion_thema.php');
-        $title = "Administration thématiques";
-        break;
     case 'add_thematic':
-        include_once('assets/administration/thematique/add_thema.php');
-        $title = "Administration thématiques";
-        break;
     case 'modif_thematic':
-        include_once('assets/administration/thematique/modif_thema.php');
-        $title = "Administration thématiques";
+        if(isset($_SESSION['email'])) {
+            include_once('assets/administration/thematique/gestion_thema.php');
+            $title = "Administration thématiques";
+        } else {
+            $title = "Erreur 404";
+        }
         break;
-    //ADMIN SOURCE
+    // ADMIN SOURCE
     case 'source':
-        include_once('assets/administration/ajouter_sources.php');
-        $title = "Administration sources";
+        if(isset($_SESSION['email'])) {
+            include_once('assets/administration/ajouter_sources.php');
+            $title = "Administration sources";
+        } else {
+            $title = "Erreur 404";
+        }
         break;
-
+    // FIN ADMIN
     case 'oubli' : 
         include('connexion/mdp_oublier.php') ; 
-        $title = "mot de passe oublier" ; 
+        $title = "Mot de passe oublié" ; 
         break ; 
     case 'supp' : 
         include_once('assets/administration/supprimer.php') ;
-        $title = "supprimer" ; 
+        $title = "Supprimer" ; 
         break ; 
     case 'result' : 
         include_once('assets/administration/resultat.php') ; 
-        $title = "résultats" ; 
-
+        $title = "Résultats" ; 
         break ; 
     default:
         include_once('assets/accueil.php');
