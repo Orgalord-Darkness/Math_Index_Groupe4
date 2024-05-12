@@ -45,12 +45,15 @@ if (isset($_POST['submit'])) {
 <div class="php_content">
     <div class="title_categ">Connexion</div>
         <div class="bloc_contenu2">
+
         <p>Cet espace est réservé aux enseignants du lycée Saint-Vincent-Senlis. Si vous n'avez pas encore de compte, veuillez effectuer votre demande directement 
             en envoyant un mail à contact@lyceestvincent.net.</p>
+
         
             <form class="box" action="#" method="post" name="login">
                 <label for = "email">Email : </label>
                 <br>
+
                 <input type="mail" class="box-input" name="email" placeholder="Adresse mail....">
                 <br>
                 <label for = "password">Mot de passe : </label>
@@ -65,6 +68,7 @@ if (isset($_POST['submit'])) {
                 </form>
                 </div>
                 <div class="errorform">
+
                 <?php if (!empty($message)) { ?>
                     <p class="error"><?php echo $message; ?></p>
                 <?php } ?>

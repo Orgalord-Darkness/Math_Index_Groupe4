@@ -15,6 +15,7 @@ body{
 }
 
 /*VARIABLE*/
+
 .container_popup{
     display: flex;
     width: auto;
@@ -96,6 +97,9 @@ h2{
     border: solid black 1px;
     border-radius: 50%;
 }
+
+
+
 /*Login */
 .box-button2 {
     border-radius: 5%;
@@ -131,6 +135,7 @@ h2{
     margin-bottom: 1%;
     margin-top: 1%;
 }
+
 /*SLIDE GAUCHE*/
 .bloc_invisible{
     display: flex;
@@ -1377,3 +1382,4 @@ form button {
     background-color: rgba(0, 0, 0, 0.5); /* Fond gris semi-transparent */
     z-index: 9999; /* Assure que la modal-overlay est au-dessus de tout le contenu */
 }
+

@@ -1,4 +1,5 @@
 <?php
+
 // Récupération de l'email soumis par le formulaire
 if(isset($_POST['rechercher'])){ 
     // Connexion à la base de données//
@@ -15,12 +16,14 @@ if(isset($_POST['rechercher'])){
         $username = $user['email'];
         $password = $user['password'];
         
+
     
         // Envoyer l'email avec les informations de connexion
         $subject = "Informations de connexion";
         $message = "Bonjour,\n\nVoici vos informations de connexion :\n\nNom d'utilisateur: $username\nMot de passe: $password";
         //mail($email, $subject, $message);
     
+
         echo "Un e-mail contenant vos informations de connexion a été envoyé à votre adresse e-mail.";
     } else {
         echo "Aucun utilisateur trouvé avec cette adresse e-mail.";

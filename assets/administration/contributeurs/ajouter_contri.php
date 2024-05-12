@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
 
         if ($existing_user) {
             // L'utilisateur est déjà inscrit
-            $erreurutiinscrit= 'echo "<p>Erreur : Utilisateur déjà inscrit</p>"';
+          echo "";
         } else {
             // Hash du mot de passe
             $password = password_hash($password, PASSWORD_ARGON2I);
@@ -119,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
                         echo '<p class="error">' . $error . '</p>';
                     }
                 } ?><br>
+
                 <?php if(isset($erreurutiinscrit)){
                     echo "<p class='error'>Erreur : Utilisateur déjà inscrit ! </p> ";
                 }  ?>
