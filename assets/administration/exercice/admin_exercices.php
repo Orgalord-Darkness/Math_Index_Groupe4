@@ -2,7 +2,11 @@
 $connexion = connexionBdd();
 
 // Comptage total des enregistrements
-$total_rows = 10;
+$requete = $connexion->prepare("SELECT count(*) FROM exercise ; ") ; 
+$requete->execute() ; 
+$tabNbre = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+$nbre = implode(';', array_column($tabNbre,'count(*)')) ;  
+$total_rows = $nbre ;
 $page_afficher = 4;
 $current_page = isset($_GET['num']) ? intval($_GET['num']) : 1;
 
@@ -66,7 +70,7 @@ if(isset($_POST['rechercher'])){
                                 <th>Durée</th>
                                 <th class="big_table">Mots clés</th>
                                 <th>Fichiers</th>
-                                <th class = "big_table">Actions</th>
+                                <th class = "big_table" >Actions</th>
                             </thead>
                             <tbody>
                               <form method=post>
@@ -121,17 +125,20 @@ if(isset($_POST['rechercher'])){
                                     // echo "<td>" . $ligne['origin_id'] . "</td>";
                                     // echo "<td>" . $ligne['origin_name'] . "</td>"; 
                                     // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                    echo "<td><a href='http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" .
+                                    echo "<td><a href='C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
+                                    " .
                                      $fichier_exercice . "' download>" . $fichier_exercice . "</a> || " .
-                                    "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
+                                    "<a href = 'C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
+                                    " 
                                     . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";  
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
+                
                                       echo "<td>
-                                      <form method='post'>
+                                               <form method='post'>
                                                     <div class='bouton_suppr'>
                                                           <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
                                                           <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-                                                          <a href='?page=modif_exos&id_modif=" . $ligne['id'] . "'>Modifier</a>
+                                                          <a href='?page=modif_ex&id_modif=" . $ligne['id'] . "'>Modifier</a>
                                                     </div>
                                                 </form>
                                                 <form method='POST'>
@@ -188,13 +195,22 @@ if(isset($_POST['rechercher'])){
                                     "<a href = 'http://localhost/Math_Index_Groupe4/assets/administration/fichiers/" 
                                     . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";   
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
-                                    echo "<td><form method='post' action='?page=modif_ex'>
-                                      <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                      <button type='submit' name='modif'>Modifier " . $ligne['id'] . "</button>
-                                  </form></td>";
-                                      echo "<td><form method = 'POST' action='?page=supp'>
-                                      <input type = 'hidden' name = 'table' value = 'exercise'>
-                                      <button class = 'openDialog'name='id_suppression' value='" . $ligne['id'] . "'>Supprimer</button></form></td>";
+                                    echo "<td>
+                                               <form method='post'>
+                                                    <div class='bouton_suppr'>
+                                                          <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                                                          <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                                          <a href='?page=modif_ex&id_modif=" . $ligne['id'] . "'>Modifier</a>
+                                                    </div>
+                                                </form>
+                                                <form method='POST'>
+                                                    <div class='bouton_suppr'>
+                                                          <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                                                          <a href='?page=supp&table=exercise&id_suppression=" . $ligne['id'] . "'>
+                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                                                    </div>
+                                                </form>
+                                            </td>";
 
                                     echo "<tr>" ; 
                                   }
