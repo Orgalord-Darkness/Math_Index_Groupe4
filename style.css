@@ -27,7 +27,7 @@ body{
 .bloc_contenu3 form .custom-file-upload p{
     margin-left: 0%;
 }
-.custom-file-upload{
+.container_fichier{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -39,14 +39,7 @@ body{
     margin-bottom: 2% ;
     margin-top : 2% ;
 }
-.custom-file-upload input[type="file"] {
-    position: absolute!important;
-    border: solid red!important;
-    width: 20px!important;
-    height: 20px!important;
-    opacity:0!important;
-    left: 44%!important;
-}
+
 .title_soumettre{
     color: black;
     font-size: 30px;
