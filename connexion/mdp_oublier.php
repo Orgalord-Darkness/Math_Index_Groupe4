@@ -1,7 +1,4 @@
 <?php
-
-
-
 // Récupération de l'email soumis par le formulaire
 if(isset($_POST['rechercher'])){ 
     // Connexion à la base de données//
