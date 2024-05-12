@@ -5,12 +5,7 @@ if(isset($_POST['id_modif'])){
 if(isset($_GET['id_modif'])){ 
   $id = $_GET['id_modif'] ; 
 }
-if(isset($_POST['id_modif'])){ 
-  $id = $_POST['id_modif'] ; 
-}
-if(isset($_GET['id_modif'])){ 
-  $id = $_GET['id_modif'] ; 
-}
+
 $erreurs = [];
 $formulaire = [
     'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
@@ -173,9 +168,7 @@ if(empty($erreurs)) {
         $requete = $connexion->prepare("UPDATE exercise SET name = :nom, classroom_id= :classe, thematic_id = :thematique, 
          chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId,
           origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC,
-           created_by_id = :email 
-           created_by_id = :email 
-              WHERE id = :id");
+           created_by_id = :email WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
         $requete->bindParam(':nom', $nouveau_nom);
         $requete->bindParam(':classe', $classe, PDO::PARAM_INT);
@@ -189,8 +182,7 @@ if(empty($erreurs)) {
         $requete->bindParam(':info', $nouvelles_infos);
         $requete->bindParam(':originN', $origin_n);
         $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT);
-        $requete->bindParam(':email', $id_auteur) ; 
-        $requete->bindParam(':email', $id_auteur) ; 
+        $requete->bindParam(':email', $id_auteur, PDO::PARAM_INT) ;  
 
         $resultat = $requete->execute();
         var_dump($resultat);
@@ -243,10 +235,24 @@ if(empty($erreurs)) {
               <label for = "classe">Classe*</label>
               <br>
               <select name = "classe">
-                <option value = "seconde">Seconde</option>
-                <option value = "premiere">Première</option>
-                <option value = "terminal">Terminal</option>
-                <option value = "Seconde2">Seconde2</option>
+              <?php 
+										$requete = $connexion->prepare("SELECT DISTINCT classroom_id FROM exercise");
+										$requete->execute();
+										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+										$classes = [] ; 
+										foreach($ids as $ligne){ 
+										    $requete_classe = $connexion->prepare("SELECT DISTINCT name FROM classroom WHERE id = :id") ; 
+										    $requete_classe->bindParam(':id', $ligne['classroom_id'], PDO::PARAM_INT) ; 
+										    $requete_classe->execute() ; 
+										    $classe = $requete_classe->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+										    if($classe) {  // Vérifiez si le résultat est non vide
+										        $classes[] = $classe['name'] ;  
+										    }
+										}
+										for($ind = 0 ; $ind < count($classes) ; $ind++){ 
+										    echo "<option value='".$classes[$ind]."'>".$classes[$ind]."</option>"; 
+										}
+									?>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
@@ -258,7 +264,24 @@ if(empty($erreurs)) {
               <label for = "thematique">Thématique* : </label>
               <br>
               <select name = "thematique">
-                <option value = "suite">Suite</option>
+              <?php 
+										$requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
+										$requete->execute();
+										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
+										$themes = [] ; 
+										foreach($ids as $ligne){ 
+										    $requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
+										    $requete_theme->bindParam(':id', $ligne['thematic_id'], PDO::PARAM_INT) ; 
+										    $requete_theme->execute() ; 
+										    $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
+										    if($theme) {  // Vérifiez si le résultat est non vide
+										        $themes[] = $theme['name'] ;  
+										    }
+										}
+										for($ind = 0 ; $ind < count($themes) ; $ind++){ 
+										    echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
+										}
+									?>
               </select>
               <?php 
                   if(isset($_POST['envoyer'])){ 
@@ -367,7 +390,8 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
                   }
                 ?>
-          <input type="hidden" name="save_id" value="<?php echo $id; ?>">
+          <input type="hidden" name="id_modif" value="<?php echo $id; ?>">
+          <?php var_dump($id); ?>
           <button name = "envoyer">Continuer</button>
           <?php 
       //     if(isset($resultat) && $resultat == "true"){
