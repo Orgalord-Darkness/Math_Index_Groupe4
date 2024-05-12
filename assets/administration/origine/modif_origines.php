@@ -20,7 +20,7 @@
 $connexion = connexionBdd();
 
 // Vérifiez si 'id' est défini dans $_GET
-$contactid = isset($_GET['id']) ? $_GET['id'] : null;
+$contactid = isset($_GET['id_modif']) ? $_GET['id_modif'] : null;
 
 // Sélectionnez les informations de la base de données
 $sql = "SELECT * FROM origin WHERE id = :id";
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php //displayErrors($errors, 'nom'); ?>
 				<br>
                 <br>
-
+                <input type = "hidden" name = 'id_modif' value = "<?php echo $contactid ?>" > 
                 <a href="?page=origine"><input type="submit" name="envoyer"></a>
             </form>
         </div>
