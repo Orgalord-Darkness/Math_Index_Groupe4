@@ -2,11 +2,16 @@
 	$connexion = connexionBdd() ; 
 	if(isset($_POST['table'])){ 
 		$table = $_POST['table'] ;  
+	}
+	if(isset($_GET['table'])){ 
+		$table = $_GET['table'] ; 	
 	}else { 
 		$table = 'pas de table' ;
 	}
 	if(isset($_POST['id_suppression'])){ 
 		$id = $_POST['id_suppression'] ; 
+	}if(isset($_GET['id_suppression'])){ 
+		$id = $_GET['id_suppression'] ; 
 	}else{ 
 		$id = 'pas de id' ; 
 	}
@@ -191,16 +196,15 @@
       }
 
       /* Styles pour la superposition modale */
-      .modal-overlay {
-      	/*display: none;*/
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Couleur semi-transparente */
-        z-index: 999; /* Valeur de z-index pour être en dessous de la boîte de dialogue mais au-dessus du reste de la page */
-      }
+	  .modal-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(100, 400, 0, 0.5); /* Fond gris semi-transparent */
+			z-index: 9999; /* Assure que la modal-overlay est au-dessus de tout le contenu */
+		}
        .boutonAction button { 
        		width : 23rem;
        		height : 3rem ;
@@ -222,12 +226,13 @@
 	</head>
 	<body>
 		<div class = "php_content">
-			<div class='modal-overlay'></div>
-
+		<div class = "modal-overlay"></div>
 			<div id='dialog' class='dialog'>
 				<div class='dialog-content'>
 					<form method = 'post'>
 						<button name = 'action' value = 'annuler' class='close' id='closeX'>
+						<input type='hidden' name='id_suppression' value='<?php echo $id; ?>'>
+						<input type = 'hidden' name = 'table' value = '<?php echo $table ; ?>'>
 							<img src='../../../Math_Index_Groupe4/ico/croix-removebg2.png'>
 						</button>
 					</form>
