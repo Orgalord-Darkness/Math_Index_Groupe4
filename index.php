@@ -199,8 +199,16 @@ $content = ob_get_clean();
                         </div>';
                         echo '
                         <div class="pop_up" id="pop_up">
-                            <a href="?page=contribu"><p>Administration</p></a>
-                            <a href="?page=connexion"><p>Déconnexion</p></a>
+
+                            <div class="container_popup">
+                                <a href="?page=contribu"><p>Administration</p></a>
+                                <img src="ico/admin_logo.svg" alt="logo administration" width="30px" height="30px">
+                            </div>
+                            <div class="container_popup">
+                                <a href="connexion/logout.php"><p>Déconnexion</p></a>
+                                <img src="ico/logo_deco.svg" alt="logo administration" width="30px" height="30px">
+                            </div>
+
                         </div>
                     </div>';
                 }
