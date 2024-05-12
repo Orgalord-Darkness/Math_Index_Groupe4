@@ -4,6 +4,24 @@ if(isset($_SESSION['email'])) {
 
     //SCRIPT PHP PAGINATION
     $resultats_par_page = 2;
+    $requete_total = $connexion->prepare("SELECT COUNT(*) AS total FROM exercise INNER JOIN user ON exercise.created_by_id = user.id WHERE user.email = :email");
+    $requete_total->bindParam(':email', $user_email); // Ajout du paramètre :email
+    $requete_total->execute();
+    $total_rows = $requete_total->fetch(PDO::FETCH_ASSOC)['total'];
+    $total_pages = ceil($total_rows / $resultats_par_page);
+
+    if (isset($_GET['num']) && is_numeric($_GET['num'])) {
+        $page = intval($_GET['num']);
+        if ($page < 1) {
+            $page = 1;
+        } elseif ($page > $total_pages) {
+            $page = $total_pages;
+        }
+    } else {
+        $page = 1;
+    }
+
+
 
     $requete_total = $connexion->prepare("SELECT COUNT(*) AS total FROM exercise INNER JOIN user ON exercise.created_by_id = user.id WHERE user.email = :email");
     $requete_total->bindParam(':email', $user_email); // Ajout du paramètre :email
@@ -35,6 +53,7 @@ if(isset($_SESSION['email'])) {
     $requete->execute();
     $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <div class="php_content">
     <div class="title_categ">Mes exercices</div>
     <div class="bloc_contenu">

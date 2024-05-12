@@ -15,10 +15,20 @@ body{
 }
 
 /*VARIABLE*/
+
+.container_popup{
+    display: flex;
+    width: auto;
+    height: max-content;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
 .bloc_contenu3 form .custom-file-upload p{
     margin-left: 0%;
 }
-.custom-file-upload{
+.container_fichier{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -30,14 +40,7 @@ body{
     margin-bottom: 2% ;
     margin-top : 2% ;
 }
-.custom-file-upload input[type="file"] {
-    position: absolute!important;
-    border: solid red!important;
-    width: 20px!important;
-    height: 20px!important;
-    opacity:0!important;
-    left: 44%!important;
-}
+
 .title_soumettre{
     color: black;
     font-size: 30px;
@@ -94,39 +97,45 @@ h2{
     border: solid black 1px;
     border-radius: 50%;
 }
-.bouton_ajouter{
-    
-}
+
+
+
 /*Login */
 .box-button2 {
     border-radius: 5%;
     border: aliceblue;
     background-color: #f6f6f6;
-    font-size: 99%;
-    height: 37px;
-    margin-top: 1%;
-    width: 16%;
-    font-weight :bolder ; 
+    font-size: 15px;
+    width: 270px;
+    height: 75px;
+    text-wrap: nowrap;
+    font-weight :bolder ;
     color : rgb(60,60,60) ; 
 
-  }
-.box div { 
-    display : flex ; 
-    flex-direction:  row ; 
-    width : 55rem ; 
+}
+.container_button_connect{
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: space-between;
+    align-items: center;
+    text-wrap: nowrap;
+
+
+}
+.errorform { 
+    margin-left: 3%;
 }
 .box input { 
-    padding : 1% ; 
-    padding-left : 3% ; 
-    display : flex ; 
-    flex-direction : column ;
+    width: 27rem;
+    height: 4.5rem;
+    font-size: 20px;
+    border: solid 3px rgb(230, 230, 230);
+    border-radius: 8px / 8px;
+    margin-bottom: 1%;
+    margin-top: 1%;
 }
-.box a { 
-    margin-left: 2% ; 
-    margin-top : 2.5% ; 
-    display : flex ; 
-    flex-direction : column ; 
-}
+
 /*SLIDE GAUCHE*/
 .bloc_invisible{
     display: flex;
@@ -188,7 +197,6 @@ h2{
 .name_of_school{
     font-size: 15px;
     color: #5D7285;
-;
 }
 .container_menutaskbar{
     display: flex;
@@ -1374,3 +1382,4 @@ form button {
     background-color: rgba(0, 0, 0, 0.5); /* Fond gris semi-transparent */
     z-index: 9999; /* Assure que la modal-overlay est au-dessus de tout le contenu */
 }
+
