@@ -5,6 +5,12 @@ if(isset($_POST['id_modif'])){
 if(isset($_GET['id_modif'])){ 
   $id = $_GET['id_modif'] ; 
 }
+if(isset($_POST['id_modif'])){ 
+  $id = $_POST['id_modif'] ; 
+}
+if(isset($_GET['id_modif'])){ 
+  $id = $_GET['id_modif'] ; 
+}
 $erreurs = [];
 $formulaire = [
     'nom_exercice' => isset($_POST['nom_exercice']) ? $_POST['nom_exercice'] : "",
@@ -84,6 +90,13 @@ if(empty($erreurs)) {
         $test_thema = $requete->execute();
         $id_thematic = $requete->fetchAll(PDO::FETCH_ASSOC);
         $theme = implode(';', array_column($id_thematic, 'id'));
+
+        $auteur = $_SESSION['email'] ; 
+				$requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
+				$requete_createby->bindParam(':email',$auteur) ; 
+				$requete_createby->execute() ; 
+				$id_Aut = $requete_createby->fetchAll(PDO::FETCH_ASSOC) ; 
+				$id_auteur = implode(';', array_column($id_Aut, 'id')) ; 
 
         $auteur = $_SESSION['email'] ; 
 				$requete_createby = $connexion->prepare("SELECT id FROM user WHERE email = :email") ;
@@ -177,6 +190,7 @@ if(empty($erreurs)) {
         $requete->bindParam(':originN', $origin_n);
         $requete->bindParam(':originId', $origin_id, PDO::PARAM_INT);
         $requete->bindParam(':email', $id_auteur) ; 
+        $requete->bindParam(':email', $id_auteur) ; 
 
         $resultat = $requete->execute();
         var_dump($resultat);
@@ -194,6 +208,17 @@ if(empty($erreurs)) {
 }
 ?>
 
+<div class="php_content">
+		<div class="title_categ">Administration</div>
+		<div class="sections">
+			<a href="?page=contribu"><p>Contributeurs</p></a>
+			<a href="?page=admin_ex"><p>Exercices</p></a>
+			<a href="#"><p>Matières</p></a>
+			<a href="?page=classe"><p>Classes</p></a>
+			<a href="?page=thematic"><p>Thématiques</p></a>
+			<a href="?page=origine"><p>Origines</p></a>
+		</div>
+    <div class = "bloc_contenu3">
 <div class="php_content">
 		<div class="title_categ">Administration</div>
 		<div class="sections">
@@ -330,6 +355,7 @@ if(empty($erreurs)) {
                     addMessageIfValueEmpty($erreurs, 'duree', $_POST['duree']) ;
                   }
                 ?>
+              <!-- <input name = "id_manu" placeholder = "id_modif"> -->
               <!-- <input name = "id_manu" placeholder = "id_modif"> -->
             </div>
           </div>

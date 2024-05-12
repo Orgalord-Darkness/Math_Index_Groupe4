@@ -171,7 +171,6 @@ $formulaire = [
 					$requete->bindParam(':id_pdfExos', $id_pdfExos, PDO::PARAM_INT ) ; 
 					$requete->bindParam(':id_pdfCorrect', $id_pdfCorrection , PDO::PARAM_INT) ;
 					$requete->bindParam(':id_Auteur', $id_auteur, PDO::PARAM_INT) ;
-					$requete->bindParam(':id_Auteur', $id_auteur, PDO::PARAM_INT) ;
 					$test = $requete->execute(); 
 				}else{ 
 					$erreurs['pdfExos'][] = "Le champ nom doit être renseigné." ;
