@@ -49,12 +49,12 @@ switch ($page) {
         $title = "Recherche";
         break;
     case 'mesexercices':
-        if(isset($_SESSION['email'])){
+      //  if(isset($_SESSION['email'])){
             include_once('assets/mesexercices.php');
             $title = "Mes exercices";
-        }else{
+       // }else{
             $title = "Erreur 404";
-        }       
+        //}       
         break;
     // SOUMETTRE
     case 'soumettre':
@@ -78,23 +78,23 @@ switch ($page) {
     case 'admin_ex':
     case 'add_ex':
     case 'modif_ex':
-        if(isset($_SESSION['email'])) {
+       // if(isset($_SESSION['email'])) {
             include_once('assets/administration/exercice/admin_exercices.php');
             $title = "Administration exercices";
-        } else {
+       // } else {
             $title = "Erreur 404";
-        }
+        //}
         break;
     // ADMIN CONTRIBUTEUR
     case 'contribu':
     case 'modif_contribu':
     case 'add_contribu':
-        if(isset($_SESSION['email'])) {
+        //if(isset($_SESSION['email'])) {
             include_once('assets/administration/contributeurs/gestion_contri.php');
             $title = "Administration contributeurs";
-        } else {
+        //} else {
             $title = "Erreur 404";
-        }
+        //}
         break;
     // ADMIN CLASSE
     case 'classe':
@@ -131,12 +131,12 @@ switch ($page) {
         break;
     // ADMIN SOURCE
     case 'source':
-        if(isset($_SESSION['email'])) {
+       // if(isset($_SESSION['email'])) {
             include_once('assets/administration/ajouter_sources.php');
             $title = "Administration sources";
-        } else {
+        //} else {
             $title = "Erreur 404";
-        }
+       // }
         break;
     // FIN ADMIN
     case 'oubli' : 
