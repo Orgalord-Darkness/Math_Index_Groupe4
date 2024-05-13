@@ -407,9 +407,7 @@ if(empty($erreurs)) {
                   }
                 ?>
           <input type="hidden" name="id_modif" value="<?php echo $id; ?>">
-          <?php var_dump($id); ?>
-          <input type="hidden" name="id_modif" value="<?php echo $id; ?>">
-          <?php var_dump($id); ?>
+          <?php //var_dump($id); ?>
           <button name = "envoyer">Continuer</button>
           <?php 
       //     if(isset($resultat) && $resultat == "true"){
