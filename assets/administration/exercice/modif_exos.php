@@ -236,22 +236,12 @@ if(empty($erreurs)) {
               <br>
               <select name = "classe">
               <?php 
-										$requete = $connexion->prepare("SELECT DISTINCT classroom_id FROM exercise");
-										$requete->execute();
-										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
-										$classes = [] ; 
-										foreach($ids as $ligne){ 
-										    $requete_classe = $connexion->prepare("SELECT DISTINCT name FROM classroom WHERE id = :id") ; 
-										    $requete_classe->bindParam(':id', $ligne['classroom_id'], PDO::PARAM_INT) ; 
-										    $requete_classe->execute() ; 
-										    $classe = $requete_classe->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
-										    if($classe) {  // Vérifiez si le résultat est non vide
-										        $classes[] = $classe['name'] ;  
-										    }
-										}
-										for($ind = 0 ; $ind < count($classes) ; $ind++){ 
-										    echo "<option value='".$classes[$ind]."'>".$classes[$ind]."</option>"; 
-										}
+									$requete = $connexion->prepare("SELECT DISTINCT name FROM classroom ; ") ; 
+                  $requete->execute() ; 
+                  $classes = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+                  foreach($classes as $classe){ 
+                    echo "<option value='".$classe['name']."'>".$classe['name']."</option>"; 
+                  }
 									?>
               </select>
               <?php 
@@ -265,22 +255,12 @@ if(empty($erreurs)) {
               <br>
               <select name = "thematique">
               <?php 
-										$requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
-										$requete->execute();
-										$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
-										$themes = [] ; 
-										foreach($ids as $ligne){ 
-										    $requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
-										    $requete_theme->bindParam(':id', $ligne['thematic_id'], PDO::PARAM_INT) ; 
-										    $requete_theme->execute() ; 
-										    $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
-										    if($theme) {  // Vérifiez si le résultat est non vide
-										        $themes[] = $theme['name'] ;  
-										    }
-										}
-										for($ind = 0 ; $ind < count($themes) ; $ind++){ 
-										    echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
-										}
+									$requete = $connexion->prepare("SELECT DISTINCT name FROM thematic ; ") ; 
+                  $requete->execute() ; 
+                  $themes = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+                  foreach($themes as $theme){ 
+                    echo "<option value='".$theme['name']."'>".$theme['name']."</option>"; 
+                  }
 									?>
               </select>
               <?php 
