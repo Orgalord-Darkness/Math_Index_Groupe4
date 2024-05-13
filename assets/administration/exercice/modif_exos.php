@@ -190,7 +190,6 @@ if(empty($erreurs)) {
          chapter = :nchapitre,  keywords = :motscles, difficulty = :difficulte, duration = :duree, origin_id = :originId,
           origin_name = :originN, origin_information = :info, exercice_file_id = :pdfE, correction_file_id = :pdC,
            created_by_id = :email WHERE id = :id");
-           created_by_id = :email WHERE id = :id");
         $requete->bindParam(':id', $id, PDO::PARAM_INT);
         $requete->bindParam(':nom', $nouveau_nom);
         $requete->bindParam(':classe', $classe, PDO::PARAM_INT);
