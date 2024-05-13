@@ -67,6 +67,7 @@ if(isset($_SESSION['email'])) {
                     <th>Durée</th>
                     <th class="big_table">Mots clés</th>
                     <th>Fichiers</th>
+                    <th>Actions</th>
                 </thead>
                 <tbody>
                     <?php
@@ -78,7 +79,12 @@ if(isset($_SESSION['email'])) {
                             echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
                             echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                            echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
+                            echo "<td><a href='C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
+                                    " .
+                                     $fichier_exercice . "' download>Fichier Exercice</a> || " .
+                                    "<a href = 'C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
+                                    " 
+                                    . $fichier_correction . "' download>Fichier Exercice</a>"."</td>";  
                             echo "</tr>";
                         }
                     } else {
