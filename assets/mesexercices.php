@@ -94,8 +94,12 @@ if(isset($_SESSION['email'])) {
                             echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
                             echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                            echo "<td><a href='" . $chemin . "/" . $fichier_exercice . "' download>Fichier Exercice</a> || " .
-                            "<a href='" . $chemin . "/" . $fichier_correction . "' download>Fichier Correction</a></td>";
+                            echo "<td><a href='C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
+                                    " .
+                                     $fichier_exercice . "' download>Fichier Exercice</a> || " .
+                                    "<a href = 'C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
+                                    " 
+                                    . $fichier_correction . "' download>Fichier Exercice</a>"."</td>";  
                        
                             echo "<td>
                                     <form method='post'>
