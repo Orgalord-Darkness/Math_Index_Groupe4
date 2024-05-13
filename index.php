@@ -29,6 +29,7 @@ function addMessageIfValueEmpty(array $erreurs, string $field, $value)
       }
     }
   }
+  $chemin = __DIR__ . "/assets/administration/fichiers";
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();

@@ -125,12 +125,9 @@ if(isset($_POST['rechercher'])){
                                     // echo "<td>" . $ligne['origin_id'] . "</td>";
                                     // echo "<td>" . $ligne['origin_name'] . "</td>"; 
                                     // echo "<td>" . $ligne['origin_information'] . "</td>"; 
-                                    echo "<td><a href='C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
-                                    " .
-                                     $fichier_exercice . "' download>" . $fichier_exercice . "</a> || " .
-                                    "<a href = 'C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
-                                    " 
-                                    . $fichier_correction . "' download>". $fichier_correction . "</a>"."</td>";  
+                                    echo "<td><a href='" . $chemin . "/" . $fichier_exercice . "' download>Fichier Exercice</a> || " .
+                                    "<a href='" . $chemin . "/" . $fichier_correction . "' download>Fichier Correction</a></td>";
+                                
                                     // echo "<td>" . $ligne['created_by_id'] . "</td>"; 
                 
                                       echo "<td>
