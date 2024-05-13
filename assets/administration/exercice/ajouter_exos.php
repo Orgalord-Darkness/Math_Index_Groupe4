@@ -153,9 +153,12 @@ $formulaire = [
 					// $requete = $connexion->prepare("SELECT id FROM file WHERE name = :pdf_correction");  
 					// $id_pdfCorrection = $requete->execute() ; 
 
-					$requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,`keywords`
-					,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,`correction_file_id`,
-					`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte, :duree, :id_origine,
+					$requete = $connexion->prepare("INSERT INTO exercise(`id`,`name`,`classroom_id`,`thematic_id`,`chapter`,
+					`keywords`
+					,`difficulty`,`duration`,`origin_id`,`origin_name`,`origin_information`,`exercice_file_id`,
+					`correction_file_id`,
+					`created_by_id`) VALUES(NULL,:nom, :id_class, :id_thematique, :nchapitre, :motscles, :difficulte,
+					 :duree, :id_origine,
 					 :origine, :infos,:id_pdfExos,:id_pdfCorrect,:id_Auteur ) ;") ; 
 					$requete->bindParam(':nom', $nom_exercice) ;
 					$requete->bindParam(':id_class', $id_classe, PDO::PARAM_INT ) ;
