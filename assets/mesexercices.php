@@ -42,7 +42,7 @@ if(isset($_SESSION['email'])) {
 
     $offset = ($page - 1) * $resultats_par_page;
 
-    $requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id 
+    $requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id, correction_file_id
                                     FROM exercise
                                     INNER JOIN user ON exercise.created_by_id = user.id
                                     WHERE user.email = :email
@@ -73,18 +73,27 @@ if(isset($_SESSION['email'])) {
                     <?php
                     if (!empty($donnees)) {
                         foreach ($donnees as $row) {
+                            $id_file = $row['exercice_file_id'] ;
+                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf") ;  
+                            $requete->bindParam(':pdf',$id_file) ; 
+                            $requete->execute();
+                            $pdf_exos = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                            $fichier_exercice = implode(';', array_column($pdf_exos, 'name'));
+
+                            $id_correct = $row['correction_file_id'] ; 
+                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :correct") ;  
+                            $requete->bindParam(':correct',$id_correct) ; 
+                            $requete->execute();
+                            $pdf_correct = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                            $fichier_correction = implode(';', array_column($pdf_correct, 'name'));
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
                             echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                            echo "<td><a href='C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
-                                    " .
-                                     $fichier_exercice . "' download>Fichier Exercice</a> || " .
-                                    "<a href = 'C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
-                                    " 
-                                    . $fichier_correction . "' download>Fichier Exercice</a>"."</td>";  
+                            echo "<td><a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_exercice . "' download>Exercice</a> || " . "<a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_correction . "' download>Correction</a></td>";
+
                             echo "</tr>";
                         }
                     } else {
