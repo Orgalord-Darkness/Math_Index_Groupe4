@@ -42,7 +42,7 @@ if(isset($_SESSION['email'])) {
 
     $offset = ($page - 1) * $resultats_par_page;
 
-    $requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id, correction_file_id
+    $requete = $connexion->prepare("SELECT  *
                                     FROM exercise
                                     INNER JOIN user ON exercise.created_by_id = user.id
                                     WHERE user.email = :email
@@ -93,7 +93,22 @@ if(isset($_SESSION['email'])) {
                             echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
                             echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
                             echo "<td><a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_exercice . "' download>Exercice</a> || " . "<a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_correction . "' download>Correction</a></td>";
-
+                            echo "<td>
+                                               <form method='post'>
+                                                    <div class='bouton_suppr'>
+                                                          <input type='hidden' name='id_modif' value='" . $row['id'] . "'>
+                                                          <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                                                          <a href='?page=modif_ex&id_modif=" . $row['id'] . "'>Modifier</a>
+                                                    </div>
+                                                </form>
+                                                <form method='POST'>
+                                                    <div class='bouton_suppr'>
+                                                          <input type='hidden' name='id_suppression' value='" . $row['id'] . "'>
+                                                          <a href='?page=supp&table=exercise&id_suppression=" . $row['id'] . "'>
+                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                                                    </div>
+                                                </form>
+                                            </td>";
                             echo "</tr>";
                         }
                     } else {
