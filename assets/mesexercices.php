@@ -42,7 +42,7 @@ if(isset($_SESSION['email'])) {
 
     $offset = ($page - 1) * $resultats_par_page;
 
-    $requete = $connexion->prepare("SELECT *
+    $requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id 
                                     FROM exercise
                                     INNER JOIN user ON exercise.created_by_id = user.id
                                     WHERE user.email = :email
@@ -52,8 +52,6 @@ if(isset($_SESSION['email'])) {
     $requete->bindParam(':limit', $resultats_par_page, PDO::PARAM_INT);
     $requete->execute();
     $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
-
-    
 ?>
 
 <div class="php_content">
@@ -69,25 +67,12 @@ if(isset($_SESSION['email'])) {
                     <th>Durée</th>
                     <th class="big_table">Mots clés</th>
                     <th>Fichiers</th>
-                    <th class = "big table">Actions</th> 
+                    <th>Actions</th>
                 </thead>
                 <tbody>
                     <?php
                     if (!empty($donnees)) {
                         foreach ($donnees as $row) {
-                            $id_file = $row['exercice_file_id'] ;
-                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf") ;  
-                            $requete->bindParam(':pdf',$id_file) ; 
-                            $requete->execute();
-                            $pdf_exos = $requete->fetchAll(PDO::FETCH_ASSOC);  
-                            $fichier_exercice = implode(';', array_column($pdf_exos, 'name'));
-
-                            $id_correct = $row['correction_file_id'] ; 
-                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :correct") ;  
-                            $requete->bindParam(':correct',$id_correct) ; 
-                            $requete->execute();
-                            $pdf_correct = $requete->fetchAll(PDO::FETCH_ASSOC);  
-                            $fichier_correction = implode(';', array_column($pdf_correct, 'name'));
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
@@ -100,23 +85,6 @@ if(isset($_SESSION['email'])) {
                                     "<a href = 'C:\\wamp64\\www\\Math_Index_Groupe4\\assets\\administration\\fichiers\\
                                     " 
                                     . $fichier_correction . "' download>Fichier Exercice</a>"."</td>";  
-                       
-                            echo "<td>
-                                    <form method='post'>
-                                                    <div class='bouton_suppr'>
-                                                          <input type='hidden' name='id_modif' value='" . $row['id'] . "'>
-                                                          <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-                                                          <a href='?page=modif_ex&id_modif=" . $row['id'] . "'>Modifier</a>
-                                                    </div>
-                                                </form>
-                                                <form method='POST'>
-                                                    <div class='bouton_suppr'>
-                                                          <input type='hidden' name='id_suppression' value='" . $row['id'] . "'>
-                                                          <a href='?page=supp&table=exercise&id_suppression=" . $row['id'] . "'>
-                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
-                                                    </div>
-                                                </form>
-                                            </td>";
                             echo "</tr>";
                         }
                     } else {
