@@ -25,7 +25,7 @@ if (isset($_GET['num']) && is_numeric($_GET['num'])) {
 
 $offset = ($page - 1) * $resultats_par_page;
 
-$requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id FROM exercise LIMIT :offset, :limit;");
+$requete = $connexion->prepare("SELECT name, thematic_id, difficulty, duration, keywords, exercice_file_id, correction_file_id FROM exercise LIMIT :offset, :limit;");
 $requete->bindParam(':offset', $offset, PDO::PARAM_INT);
 $requete->bindParam(':limit', $resultats_par_page, PDO::PARAM_INT);
 $requete->execute();
@@ -49,14 +49,27 @@ $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
                   <tbody>
                   <?php
                     if ($stmt->rowCount() > 0) {
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        foreach ($donnees as $row) {
+                            $id_file = $row['exercice_file_id'] ;
+                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf") ;  
+                            $requete->bindParam(':pdf',$id_file) ; 
+                            $requete->execute();
+                            $pdf_exos = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                            $fichier_exercice = implode(';', array_column($pdf_exos, 'name'));
+
+                            $id_correct = $row['correction_file_id'] ; 
+                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :correct") ;  
+                            $requete->bindParam(':correct',$id_correct) ; 
+                            $requete->execute();
+                            $pdf_correct = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                            $fichier_correction = implode(';', array_column($pdf_correct, 'name'));
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
                             echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                            echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
+                            echo "<td><a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_exercice . "' download>Exercice</a> || " . "<a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_correction . "' download>Correction</a></td>";
                             echo "</tr>";
                         }
                     } else {
@@ -81,13 +94,26 @@ $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
                 <?php
                     if (!empty($donnees)) {
                         foreach ($donnees as $row) {
+                            $id_file = $row['exercice_file_id'] ;
+                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf") ;  
+                            $requete->bindParam(':pdf',$id_file) ; 
+                            $requete->execute();
+                            $pdf_exos = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                            $fichier_exercice = implode(';', array_column($pdf_exos, 'name'));
+
+                            $id_correct = $row['correction_file_id'] ; 
+                            $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :correct") ;  
+                            $requete->bindParam(':correct',$id_correct) ; 
+                            $requete->execute();
+                            $pdf_correct = $requete->fetchAll(PDO::FETCH_ASSOC);  
+                            $fichier_correction = implode(';', array_column($pdf_correct, 'name'));
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['thematic_id']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['difficulty']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['duration']) . "</td>";
                             echo "<td class=\"gras_time\">" . htmlspecialchars($row['keywords']) . "</td>";
-                            echo "<td><div class=\"bulle_mc\">" . htmlspecialchars($row['exercice_file_id']) . "</div></td>";
+                            echo "<td><a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_exercice . "' download>Exercice</a> || " . "<a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_correction . "' download>Correction</a></td>";
                             echo "</tr>";
                         }
                     } else {
@@ -100,11 +126,11 @@ $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
         <div class='pagination'>
             <?php
             if ($total_pages > 1) {
-                echo "<a href='?page=classe&num=" . ($page > 1 ? $page - 1 : 1) . "'>&laquo;</a>";
+                echo "<a href='?page=exercice&num=" . ($page > 1 ? $page - 1 : 1) . "'>&laquo;</a>";
                 for ($i = 1; $i <= $total_pages; $i++) {
-                    echo "<a href='?page=classe&num=$i'" . ($page == $i ? " class='active'" : "") . ">$i</a>";
+                    echo "<a href='?page=exercice&num=$i'" . ($page == $i ? " class='active'" : "") . ">$i</a>";
                 }
-                echo "<a href='?page=classe&num=" . ($page < $total_pages ? $page + 1 : $total_pages) . "'>&raquo;</a>";
+                echo "<a href='?page=exercice&num=" . ($page < $total_pages ? $page + 1 : $total_pages) . "'>&raquo;</a>";
             }
             ?>
         </div>

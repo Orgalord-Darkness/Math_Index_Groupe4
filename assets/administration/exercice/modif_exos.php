@@ -435,15 +435,15 @@ if(empty($erreurs)) {
       //   }else { 
       //     echo "pas encore thematique" ; 
       //   }
-      //   echo "<br> id modif :<br> " ; 
-      //   if(isset($id)){ 
-      //     echo "<br>" ; 
-      //     echo "pourmodif" ; 
-      //     var_dump($id) ; 
-      //     echo"<br>"."Pour la superglobale" ; 
-      //     var_dump($_POST['id_modif']) ; 
-      //     echo "Pour les variables" ; 
-      //   }
+        // echo "<br> id modif :<br> " ; 
+        // if(isset($id)){ 
+        //   echo "<br>" ; 
+        //   echo "pourmodif" ; 
+        //   var_dump($id) ; 
+          // echo"<br>"."Pour la superglobale" ; 
+          // var_dump($_POST['id_modif']) ; 
+          // echo "Pour les variables" ; 
+        // }
       //   if(isset($nouveau_nom)){ 
       //     var_dump($nouveau_nom) ; 
       //   }else{

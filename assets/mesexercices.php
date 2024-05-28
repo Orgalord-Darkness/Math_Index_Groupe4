@@ -52,6 +52,9 @@ if(isset($_SESSION['email'])) {
     $requete->bindParam(':limit', $resultats_par_page, PDO::PARAM_INT);
     $requete->execute();
     $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
+    $requete = $connexion->prepare("SELECT * FROM exercise ; ") ; 
+    $requete->execute(); 
+    $exercices = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 ?>
 
 <div class="php_content">
@@ -72,7 +75,7 @@ if(isset($_SESSION['email'])) {
                 <tbody>
                     <?php
                     if (!empty($donnees)) {
-                        foreach ($donnees as $row) {
+                        foreach ($exercices as $row) {
                             $id_file = $row['exercice_file_id'] ;
                             $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf") ;  
                             $requete->bindParam(':pdf',$id_file) ; 
@@ -104,8 +107,8 @@ if(isset($_SESSION['email'])) {
                                                 <form method='POST'>
                                                     <div class='bouton_suppr'>
                                                           <input type='hidden' name='id_suppression' value='" . $row['id'] . "'>
-                                                          <a href='?page=supp&table=exercise&id_suppression=" . $row['id'] . "'>
-                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                                                          <a href='?page=supp&table=mesexercices&id_suppression=" . $row['id'] . "'>
+                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer".$row['id']."</a>
                                                     </div>
                                                 </form>
                                             </td>";
@@ -121,11 +124,11 @@ if(isset($_SESSION['email'])) {
         <div class='pagination'>
             <?php
             if ($total_pages > 1) {
-                echo "<a href='?page=classe&num=" . ($page > 1 ? $page - 1 : 1) . "'>&laquo;</a>";
+                echo "<a href='?page=mesexercices&num=" . ($page > 1 ? $page - 1 : 1) . "'>&laquo;</a>";
                 for ($i = 1; $i <= $total_pages; $i++) {
-                    echo "<a href='?page=classe&num=$i'" . ($page == $i ? " class='active'" : "") . ">$i</a>";
+                    echo "<a href='?page=mesexercices&num=$i'" . ($page == $i ? " class='active'" : "") . ">$i</a>";
                 }
-                echo "<a href='?page=classe&num=" . ($page < $total_pages ? $page + 1 : $total_pages) . "'>&raquo;</a>";
+                echo "<a href='?page=mesexercices&num=" . ($page < $total_pages ? $page + 1 : $total_pages) . "'>&raquo;</a>";
             }
             ?>
         </div>

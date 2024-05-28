@@ -19,7 +19,6 @@
 		case 'exercise':
 			if(isset($_POST['id_suppression'])){ 
 			    $id = $_POST['id_suppression'] ; 
-			    // $table = 'classroom' ; 
 			    if(isset($_POST['action']) && $_POST['action'] === 'confirmer'){ 
 			        $requete = $connexion->prepare("DELETE FROM $table WHERE id = :id") ; 
 			        $requete->bindParam(':id', $id) ; 
@@ -38,6 +37,29 @@
 			}
 
 			break ; 
+		case 'mesexercices':
+			$adapt = 'exercise' ; 
+			if(isset($_POST['id_suppression'])){ 
+			    $id = $_POST['id_suppression'] ; 
+			    if(isset($_POST['action']) && $_POST['action'] === 'confirmer'){ 
+			        $requete = $connexion->prepare("DELETE FROM $adapt WHERE id = :id") ; 
+			        $requete->bindParam(':id', $id) ; 
+			        $result = $requete->execute() ;
+			    }
+			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
+			        header('Location: ?page=mesexercices');
+			        exit(); 
+			    }
+			} else { 
+			    echo "erreur de id suppression" ; 
+			    if(isset($_POST['action']) && $_POST['action'] === 'annuler'){ 
+			        header('Location: ?page=mesexercices');
+			        exit();
+			    }
+			}
+
+			break ; 
+
 		case 'classroom' : 
 			if(isset($_POST['id_suppression'])){ 
 			    $id = $_POST['id_suppression'] ; 
