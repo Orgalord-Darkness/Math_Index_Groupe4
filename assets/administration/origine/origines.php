@@ -63,6 +63,7 @@ $origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
                     <a href="?page=add_ori" class="bouton_ajouter">Ajouter +</a>
                 </div>
             </form>
+            <p class='title_exo'>Toutes les origines</p>
             <table>
                 <thead>
                     <th>Nom</th>

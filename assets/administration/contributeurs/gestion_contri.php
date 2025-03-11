@@ -124,7 +124,7 @@ if (isset($_POST['recherche'])) {
               $chunked_data = array_chunk($donnees, $resultats_par_page);
               foreach ($chunked_data as $chunk) { ?>
                     <div class='container_one_exo'>
-                    <p class='title_exo'>Tous les exercices</p>
+                    <p class='title_exo'>Tous les contributeurs</p>
                     <table>
                     <thead>
                     <th class='big_table'>Nom</th>

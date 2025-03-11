@@ -64,6 +64,7 @@ $origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
                       <a href="?page=add_thematic" class="bouton_ajouter">Ajouter +</a>  
                   </div>
             </form>
+            <p class='title_exo'>Toutes les thématiques</p>
             <table>
                 <thead>
                     <th>Nom</th>
