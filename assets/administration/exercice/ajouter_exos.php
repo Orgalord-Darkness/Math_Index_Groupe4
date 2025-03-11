@@ -372,7 +372,13 @@ $formulaire = [
 								<input type = "file" name = "pdf_correction"> -->
 								<label for = 'pdfExos'>Fichier exercice : </label>
 								<br>
-								<input type = "file" name = "pdfExos" placeholder = "ID exos">
+								<div class="container_fichier">
+									<input type="file" id="fileInput" name="pdfExos" style="display: none;">
+									<label for="fileInput" class="upload-button">
+										<span>Uploader votre fichier</span>
+										<img src="ico/nuage.png" alt="nuage icone">
+									</label>
+								</div>
 								<?php 
 									if(isset($_POST['envoyer'])){ 
 										addMessageIfValueEmpty($erreurs, 'pdfExos', $_FILES['pdfExos']) ;
@@ -380,7 +386,13 @@ $formulaire = [
 								?>
 								<label for = 'pdfCorrect'>Fichier de correction : </label>
 								<br>
-								<input type = "file" name = "pdfCorrect" placeholder = "IDCorrect">
+								<div class="container_fichier">
+									<input type="file" id="fileInput" name="pdfCorrect" style="display: none;">
+									<label for="fileInput" class="upload-button">
+										<span>Uploader votre fichier</span>
+										<img src="ico/nuage.png" alt="nuage icone">
+									</label>
+								</div>
 								<?php 
 									if(isset($_POST['envoyer'])){ 
 										addMessageIfValueEmpty($erreurs, 'pdfCorrect', $_FILES['pdfCorrect']) ;
