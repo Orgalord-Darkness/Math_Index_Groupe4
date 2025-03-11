@@ -43,137 +43,143 @@
 	$exercices = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
 ?>
 <style>
-	form{
-		display : flex ; 
-		flex-direction : row ;
-		
+	.bloc_contenu form input{ 
+		width : 250px;
+		height : 4rem ;
+		font-size : 20px ;
+		border : solid 3px rgb(230,230,230);
+		border-radius :8px/8px; 
+		margin-bottom: 2% ;
+		margin-top : 2% ;
+	}
+	.bloc_contenu form label{
+		text-wrap: nowrap;
+	}
+	form select{
+		margin: 0%;
+		width: 250px;
+	}
+	.container_select_input{
+		display: flex;
+		width: auto;
+		height: auto;
+		flex-direction: column;
+		margin: 2%;
+	}
+	[class^="container_button"]{
+		width: auto;
 	}
 </style>
-<div class="title_categ">Rechercher un exercice</div>
+
 <div class="php_content">
-	<div class="bloc_contenu3">
-		<form method = "POST" action = '?page=recherche'>
-			<label for="thematique">Thématique :</label>
-			<select name = "thematique">
-			<?php 
-				$requete = $connexion->prepare("SELECT DISTINCT thematic_id FROM exercise");
-				$requete->execute();
-				$ids = $requete->fetchAll(PDO::FETCH_ASSOC);
-				$themes = [] ; 
-				foreach($ids as $id){ 
-				 	$requete_theme = $connexion->prepare("SELECT DISTINCT name FROM thematic WHERE id = :id") ; 
-					$requete_theme->bindParam(':id', $id['thematic_id'], PDO::PARAM_INT) ; 
-					$requete_theme->execute() ; 
-					 $theme = $requete_theme->fetch(PDO::FETCH_ASSOC) ;  // Utilisez fetch() pour récupérer une seule ligne
-					if($theme) {  // Vérifiez si le résultat est non vide
-					 	$themes[] = $theme['name'] ;  
-					 }
-				}
-				for($ind = 0 ; $ind < count($themes) ; $ind++){ 
-				echo "<option value='".$themes[$ind]."'>".$themes[$ind]."</option>"; 
-				}
-			?>
-			</select>
-			<label for ="difficulte">Difficulté : </label>
-			<select name = "difficulte">
-			<?php 
-				for($ind = 0 ; $ind < 12 ; $ind++){
-					echo "<option value = ".$ind.">Niveau".$ind."</option>" ; 
-				}
-			?>
-			</select>
-			<label for = "motscles">Mots clés :</label>
-			<input name = "motscles">
-			<div class="container_button">
-				<button type  ="submit" name = "recherche">Rechercher</button>
-			</div>
-		</form>
-		<table>
-             <thead>
-                <th class="big_table">Nom</th>
-                <th class="big_table">Difficulté</th>
-                 <th class="big_table">Mots clés</th>
-				<th class="big_table">Durée</th>
-                <th class="big_table">Fichiers</th>
-                 <th class = "big_table" >Actions</th>
-            </thead>
-             <tbody>
-                <form method=post>
-                              <?php
-								if(isset($resultats)){
+	<div class="title_categ">Rechercher un exercice</div>
+	<div class="bloc_contenu">
+		<div class="container_one_exo">
+			<form class="contribu_form" method="POST" action="?page=recherche">
+				<div class="container_admin_search">
+					<div class="container_select_input">
+						<label for="thematique">Thématique :</label>
+						<select name="thematique">
+							<?php 
+								$requete = $connexion->prepare("
+									SELECT DISTINCT t.name 
+									FROM exercise e
+									JOIN thematic t ON e.thematic_id = t.id
+								");
+								$requete->execute();
+								$themes = $requete->fetchAll(PDO::FETCH_COLUMN); // Récupération directe des noms des thématiques
 
-										foreach($resultats as $ligne) { 
-											echo "<tr>" ; 
-											echo "<td>".$ligne['name']."</td>" ; 
-											echo "<td>".$ligne['difficulty']."</td>" ; 
-											echo "<td>".$ligne['keywords']."</td>" ; 
-											echo "<td>".$ligne['duration']."</td>" ;
-											echo "<td><a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_exercice . "' download>Exercice</a> || " . "<a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_correction . "' download>Correction</a></td>";
-										   echo "<td>
-										   <form method='post'>
-												<div class='bouton_suppr'>
-													  <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-													  <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-													  <a href='?page=modif_ex&id_modif=" . $ligne['id'] . "'>Modifier</a>
-												</div>
-											</form>
-											<form method='POST'>
-												<div class='bouton_suppr'>
-													  <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
-													  <a href='?page=supp&table=exercise&id_suppression=" . $ligne['id'] . "'>
-													  <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
-												</div>
-											</form>
-										</td>";
-								echo "<tr>" ;  
-											echo "</tr>" ; 
-										}
-								}else{
-                                  foreach($exercices as $ligne){ 
-                                    echo "<tr>" ; 
-
-                                    $id_file = $ligne['exercice_file_id'] ;
-                                    $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf") ;  
-                                    $requete->bindParam(':pdf',$id_file) ; 
-                                    $requete->execute();
-                                    $pdf_exos = $requete->fetchAll(PDO::FETCH_ASSOC);  
-                                    $fichier_exercice = implode(';', array_column($pdf_exos, 'name'));
-
-                                    $id_correct = $ligne['correction_file_id'] ; 
-                                    $requete=$connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :correct") ;  
-                                    $requete->bindParam(':correct',$id_correct) ; 
-                                    $requete->execute();
-                                    $pdf_correct = $requete->fetchAll(PDO::FETCH_ASSOC);  
-                                    $fichier_correction = implode(';', array_column($pdf_correct, 'name'));
-
-									echo "<td>".$ligne['name']."</td>" ; 
-                                    echo "<td>" ."Niveau : ". $ligne['difficulty'] . "</td>";
-                                    echo "<td><div class = 'bulle_mc'>" . $ligne['keywords'] ."</div>" ."</td>";
-									echo "<td>".$ligne['duration']." h00"."</td>" ; 
-									echo "<td><a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_exercice . "' download>Exercice</a> || " . "<a href='/Math_Index_Groupe4/assets/administration/fichiers/" . $fichier_correction . "' download>Correction</a></td>";
-                
-                                      echo "<td>
-                                               <form method='post'>
-                                                    <div class='bouton_suppr'>
-                                                          <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                                          <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-                                                          <a href='?page=modif_ex&id_modif=" . $ligne['id'] . "'>Modifier</a>
-                                                    </div>
-                                                </form>
-                                                <form method='POST'>
-                                                    <div class='bouton_suppr'>
-                                                          <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
-                                                          <a href='?page=supp&table=exercise&id_suppression=" . $ligne['id'] . "'>
-                                                          <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
-                                                    </div>
-                                                </form>
-                                            </td>";
-                                    echo "<tr>" ; 
-                                  }
+								if (empty($themes)) {
+									echo "<option value='' selected>Aucune thématique</option>";
+								} else {
+									foreach ($themes as $theme) { 
+										echo "<option value='$theme'>$theme</option>"; 
+									}
 								}
-                              ?>
-                            </form>
-                            </tbody>
-                          </table> 
-	</div>
+							?>
+						</select>
+					</div>
+
+					<div class="container_select_input">
+						<label for="difficulte">Difficulté :</label>
+						<select name="difficulte">
+							<?php 
+								for ($ind = 0; $ind < 12; $ind++) {
+									echo "<option value='$ind'>Niveau $ind</option>"; 
+								}
+							?>
+						</select>
+					</div>
+
+					<div class="container_select_input">
+						<label for="motscles">Mots clés :</label>
+						<input type="text" name="motscles" placeholder="Rechercher par mots clés...">
+					</div>
+
+					<div class="container_button">
+						<button type="submit" name="recherche">Rechercher</button>
+					</div>
+				</div>
+			</form>
+			<table>
+				<thead>
+					<th class="big_table">Nom</th>
+					<th class="big_table">Difficulté</th>
+					<th class="big_table">Mots clés</th>
+					<th class="big_table">Durée</th>
+					<th class="big_table">Fichiers</th>
+					<th class = "big_table" >Actions</th>
+				</thead>
+				<tbody>
+					<form method="post">
+						<?php
+						$data = isset($resultats) ? $resultats : $exercices;
+
+						foreach ($data as $ligne) {
+							echo "<tr>";
+							echo "<td>{$ligne['name']}</td>";
+							echo "<td>Niveau : {$ligne['difficulty']}</td>";
+							echo "<td><div class='bulle_mc'>{$ligne['keywords']}</div></td>";
+							echo "<td>{$ligne['duration']} h00</td>";
+
+							// Récupération des fichiers exercice et correction
+							$id_file = $ligne['exercice_file_id'];
+							$requete = $connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :pdf");
+							$requete->bindParam(':pdf', $id_file);
+							$requete->execute();
+							$fichier_exercice = $requete->fetchColumn();
+
+							$id_correct = $ligne['correction_file_id'];
+							$requete = $connexion->prepare("SELECT DISTINCT name FROM file WHERE id = :correct");
+							$requete->bindParam(':correct', $id_correct);
+							$requete->execute();
+							$fichier_correction = $requete->fetchColumn();
+
+							echo "<td>
+									<a href='/Math_Index_Groupe4/assets/administration/fichiers/{$fichier_exercice}' download>Exercice</a> ||
+									<a href='/Math_Index_Groupe4/assets/administration/fichiers/{$fichier_correction}' download>Correction</a>
+								</td>";
+
+							echo "<td>
+									<div class='bouton_suppr'>
+										<input type='hidden' name='id_modif' value='{$ligne['id']}'>
+										<img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+										<a href='?page=modif_ex&id_modif={$ligne['id']}'>Modifier</a>
+									</div>
+									<div class='bouton_suppr'>
+										<input type='hidden' name='id_suppression' value='{$ligne['id']}'>
+										<a href='?page=supp&table=exercise&id_suppression={$ligne['id']}'>
+											<img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer
+										</a>
+									</div>
+								</td>";
+							echo "</tr>";
+						}
+						?>
+					</form>
+				</tbody>
+			</table>
+			</div>
+			<div class="pagination"></div> 
+		</div>
 </div>

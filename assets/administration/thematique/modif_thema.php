@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="sections">
         <a href="?page=contribu"><p>Contributeurs</p></a>
         <a href="?page=admin_ex"><p>Exercices</p></a>
-        <a href="#"><p>Matières</p></a>
+        <a href="?page=matiere"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
         <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
@@ -82,18 +82,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
-<?php 
-    // echo "id modif : <br>" ; 
-    // if(isset($contactid)){ 
-    //     var_dump($contactid)  ;
-    // }else{ 
-    //     echo "erreur de post id modif" ; 
-    // }
-    // echo "<br>requete : <br>" ; 
-    // if(isset($test)){ 
-    //     var_dump($test) ; 
-    // }else{ 
-    //     echo "erreur de test"  ;
-    // }
-
-?>

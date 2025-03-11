@@ -1,7 +1,7 @@
 <?php
 //SCRIPT POUR RECUPERER LES 3 EXERCICES PUBLIER LES PLUS RECENTS :
 
-$SQL = "SELECT * FROM exercise ORDER BY date_ajout DESC LIMIT 3";
+$SQL = "SELECT * FROM exercise ORDER BY created_at DESC LIMIT 3";
 $stmt = $connexion->query($SQL);
 
 //SCRIPT PHP PAGINATION

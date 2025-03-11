@@ -29,7 +29,8 @@ function addMessageIfValueEmpty(array $erreurs, string $field, $value)
       }
     }
   }
-  $chemin = __DIR__ . "/assets/administration/fichiers";
+
+$chemin = __DIR__ . "/assets/administration/fichiers";
 $page = isset($_GET["page"]) ? $_GET["page"] : '';
 //CONDITION POUR IMPORTER LES DIFFÉRENTS MORCEAUX DE PAGE
 ob_start();
@@ -201,6 +202,31 @@ switch ($page) {
             $title = 'Erreur 404';
         }
         break;
+    //ADMIN THEMATIC
+    case 'matiere':
+        if(isset($_SESSION['email'])){
+            include_once('assets/administration/matiere/gestion_matiere.php');
+            $title = "Administration matières";
+        }else{
+            $title = 'Erreur 404';
+        }
+        break;
+    case 'add_matiere':
+        if(isset($_SESSION['email'])){
+            include_once('assets/administration/matiere/add_matiere.php');
+            $title = "Administration matières";
+        }else{
+            $title = 'Erreur 404';
+        }
+        break;
+    case 'modif_matiere':
+        if(isset($_SESSION['email'])){
+            include_once('assets/administration/matiere/modif_matiere.php');
+            $title = "Administration matières";
+        }else{
+            $title = 'Erreur 404';
+        }
+        break;
     //ADMIN SOURCE
     case 'source':
         include_once('assets/administration/ajouter_sources.php');
@@ -219,7 +245,7 @@ switch ($page) {
         include_once('assets/administration/resultat.php') ; 
         $title = "résultats" ; 
 
-        break ; 
+        break ;
     default:
         include_once('assets/accueil.php');
         $title = "Accueil";

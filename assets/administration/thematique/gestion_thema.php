@@ -45,26 +45,26 @@ $origines = $requete_all->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="php_content">
     <div class="title_categ">Administration</div>
-    <div class="sections">
-        <a href="?page=contribu"><p>Contributeurs</p></a>
-		<a href="?page=admin_ex"><p>Exercices</p></a>
-		<a href="#"><p>Matières</p></a>
-		<a href="?page=classe"><p>Classes</p></a>
-		<a href="?page=thematic"><p>Thématiques</p></a>
-		<a href="?page=origine"><p>Origines</p></a>
-    </div>
+        <div class="sections">
+            <a href="?page=contribu"><p>Contributeurs</p></a>
+            <a href="?page=admin_ex"><p>Exercices</p></a>
+            <a href="?page=matiere"><p>Matières</p></a>
+            <a href="?page=classe"><p>Classes</p></a>
+            <a href="?page=thematic"><p>Thématiques</p></a>
+            <a href="?page=origine"><p>Origines</p></a>
+        </div>
     <div class="bloc_contenu3">
     <p class="title_exo">Rechercher des thématiques</p>
-          <p>Rechercher une thématique par un nom :</p>
-    <div class="container_one_exo">
-    <form class="contribu_form" method="POST">
+    <p>Rechercher une thématique par un nom :</p>
+        <div class="container_one_exo">
+            <form class="contribu_form" method="POST">
                   <div class="container_admin_search">
                     <input type="text" name="recherche" placeholder="Rechercher par nom...">
                       <button type="submit" class="btn-search">Rechercher</button>
                       <a href="?page=add_thematic" class="bouton_ajouter">Ajouter +</a>  
                   </div>
-       </form>
-       <table>
+            </form>
+            <table>
                 <thead>
                     <th>Nom</th>
                     <th>Modifier</th>

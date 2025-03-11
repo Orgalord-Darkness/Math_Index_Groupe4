@@ -1,22 +1,5 @@
 <?php
-// function addMessageIfValueIsEmpty(array $errors, string $field): array
-// {
-//     if (empty($_POST[$field])) {
-//         $errors[$field][] = sprintf('Le champ "%s" doit être renseigné.', $field);
-//     }
 
-//     return $errors;
-// }
-
-// function displayErrors(array $errors, string $field): void
-// {
-//     if (isset($errors[$field])) {
-//         foreach ($errors[$field] as $error) {
-//             echo '<p class="error">' . $error . '</p>';
-//         }
-//     }
-// }
-// Assurez-vous de la connexion à la base de données
 $connexion = connexionBdd();
 
 // Vérifiez si 'id' est défini dans $_GET
@@ -41,10 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $modif = $connexion->prepare($sqlupdate);
         $modif->bindParam(':contactid', $contactid) ; 
         $modif->bindParam(':nom',$nouveau_nom ) ;
-        // $modif->execute([
-        //     ':nom' => $last_name,
-        //     ':contactid' => $contactid,
-        // ]);
         $test = $modif->execute() ; 
         header('Location: ?page=origine');
         exit();
@@ -60,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="sections">
         <a href="?page=contribu"><p>Contributeurs</p></a>
         <a href="?page=admin_ex"><p>Exercices</p></a>
-        <a href="#"><p>Matières</p></a>
+        <a href="?page=matiere"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
         <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
@@ -83,18 +62,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
-<?php 
-    // echo "id modif : <br>" ; 
-    // if(isset($contactid)){ 
-    //     var_dump($contactid)  ;
-    // }else{ 
-    //     echo "erreur de post id modif" ; 
-    // }
-    // echo "<br>requete : <br>" ; 
-    // if(isset($test)){ 
-    //     var_dump($test) ; 
-    // }else{ 
-    //     echo "erreur de test"  ;
-    // }
-
-?>

@@ -188,7 +188,7 @@ $formulaire = [
 		<div class="sections">
         <a href="?page=contribu"><p>Contributeurs</p></a>
         <a href="?page=admin_ex"><p>Exercices</p></a>
-        <a href="#"><p>Matières</p></a>
+        <a href="?page=matiere"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
         <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>

@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     <div class="sections">
         <a href="?page=contribu"><p>Contributeurs</p></a>
         <a href="?page=admin_ex"><p>Exercices</p></a>
-        <a href="#"><p>Matières</p></a>
+        <a href="?page=matiere"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
         <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
 
                 <label for="role">Rôle :</label><br>
                 <select name="role" id="role">
-                    <option value="" <?= empty($informations['role']) ? 'selected' : '' ?>></option>
+                    <option value="" disabled selected>Choisissez un rôle</option>
                     <option value="enseignant" <?= (isset($informations['role']) && $informations['role'] == 'enseignant') ? 'selected' : '' ?>>Enseignant</option>
                     <option value="eleve" <?= (isset($informations['role']) && $informations['role'] == 'eleve') ? 'selected' : '' ?>>Elève</option>
                 </select><br>

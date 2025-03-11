@@ -54,7 +54,7 @@ if (isset($_POST['recherche'])) {
       <div class="sections">
           <a href="?page=contribu"><p>Contributeurs</p></a>
           <a href="?page=admin_ex"><p>Exercices</p></a>
-          <a href="#"><p>Matières</p></a>
+          <a href="?page=matiere"><p>Matières</p></a>
           <a href="?page=classe"><p>Classes</p></a>
           <a href="?page=thematic"><p>Thématiques</p></a>
           <a href="?page=origine"><p>Origines</p></a>
@@ -89,26 +89,32 @@ if (isset($_POST['recherche'])) {
                 echo "<tr>";
                 echo "<td>" . $ligne['last_name'] . "</td>";
                 echo "<td>" . $ligne['first_name'] . "</td>";
-                echo "<td>" . $ligne['role'] . "</td>";
+                if ($ligne['role'] == 'eleve') {
+                    echo "<td>Élève</td>";
+                } elseif ($ligne['role'] == 'enseignant') {
+                    echo "<td>Enseignant</td>";
+                } else {
+                    echo "<td>" . $ligne['role'] . "</td>";
+                }
                 echo "<td>" . $ligne['email'] . "</td>";
                 $id = $ligne['id'];
                 echo "<td>
                 <form method='post'>
-                              <div class='bouton_suppr'>
-                                    <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
-                                    <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
-                                    <a href='?page=modif_contribu&id=" . $ligne['id'] . "'>Modifier</a>
-                              </div>
-                          </form>
-                          <form method='POST'>
-                              <div class='bouton_suppr'>
-                                    <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
-                                    <a name='id_suppression' href='#' onclick='this.parentNode.parentNode.submit(); return false;'>
-                                    <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
-                              </div>
-                          </form>
-                      </td>";
-                      echo "</tr>";
+                    <div class='bouton_suppr'>
+                        <input type='hidden' name='id_modif' value='" . $ligne['id'] . "'>
+                        <img src='ico/modifier.svg' alt='Bouton modifier'>&nbsp;
+                        <a href='?page=modif_contribu&id=" . $ligne['id'] . "'>Modifier</a>
+                    </div>
+                </form>
+                <form method='POST'>
+                    <div class='bouton_suppr'>
+                        <input type='hidden' name='id_suppression' value='" . $ligne['id'] . "'>
+                        <a name='id_suppression' href='#' onclick='this.parentNode.parentNode.submit(); return false;'>
+                        <img src='ico/supprimer.svg' alt='Bouton supprimer'>&nbsp;Supprimer</a>
+                    </div>
+                </form>
+            </td>";
+        "</tr>";
               } ?>
                 </tbody>
                 </table>
@@ -133,7 +139,13 @@ if (isset($_POST['recherche'])) {
                       echo "<tr>";
                       echo "<td>" . $ligne['last_name'] . "</td>";
                       echo "<td>" . $ligne['first_name'] . "</td>";
-                      echo "<td>" . $ligne['role'] . "</td>";
+                        if ($ligne['role'] == 'eleve') {
+                        echo "<td>Élève</td>";
+                        } elseif ($ligne['role'] == 'enseignant') {
+                            echo "<td>Enseignant</td>";
+                        } else {
+                            echo "<td>" . $ligne['role'] . "</td>";
+                        }
                       echo "<td>" . $ligne['email'] . "</td>";
                       $id = $ligne['id'];
                       echo "<td>

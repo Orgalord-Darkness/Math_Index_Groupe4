@@ -21,19 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $verif = $insert_query->execute() ; 
             header("Location: ?page=origine");
             exit();
-            // if ($verif === 'true') {
-            //     
-            // } else {
-            //     echo "Erreur lors de l'ajout de l'origine.";
-            //     print_r($insert_query->errorInfo());
-            // }
         }
     } else {
         echo "Erreur : Tous les champs requis ne sont pas fournis.";
     }
 }
-
-
 
 ?>
 <div class="php_content">
@@ -41,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="sections">
         <a href="?page=contribu"><p>Contributeurs</p></a>
         <a href="?page=admin_ex"><p>Exercices</p></a>
-        <a href="#"><p>Matières</p></a>
+        <a href="?page=matiere"><p>Matières</p></a>
         <a href="?page=classe"><p>Classes</p></a>
         <a href="?page=thematic"><p>Thématiques</p></a>
         <a href="?page=origine"><p>Origines</p></a>
