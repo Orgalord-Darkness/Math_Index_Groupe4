@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 21 mars 2024 à 19:05
+-- Généré le : mar. 11 mars 2025 à 23:11
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -29,8 +29,23 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `classroom` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `classroom`
+--
+
+INSERT INTO `classroom` (`id`, `name`, `created_at`) VALUES
+(1, 'Seconde A', '2025-03-11 19:56:04'),
+(2, 'Seconde B', '2025-03-11 19:56:32'),
+(3, 'Seconde C', '2025-03-11 19:56:37'),
+(4, 'Seconde D', '2025-03-11 19:56:56'),
+(5, 'Première A', '2025-03-11 19:57:02'),
+(6, 'Première B', '2025-03-11 19:57:08'),
+(7, 'Première C', '2025-03-11 19:57:14'),
+(8, 'Première D', '2025-03-11 19:57:19');
 
 -- --------------------------------------------------------
 
@@ -52,7 +67,8 @@ CREATE TABLE `exercise` (
   `origin_information` text NOT NULL,
   `exercice_file_id` int(11) NOT NULL,
   `correction_file_id` int(11) NOT NULL,
-  `created_by_id` int(11) NOT NULL
+  `created_by_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -72,12 +88,32 @@ CREATE TABLE `file` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `matter`
+--
+
+CREATE TABLE `matter` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `matter`
+--
+
+INSERT INTO `matter` (`id`, `name`, `created_at`) VALUES
+(1, 'Mathématiques', '2025-03-11 22:18:34');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `origin`
 --
 
 CREATE TABLE `origin` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -88,8 +124,16 @@ CREATE TABLE `origin` (
 
 CREATE TABLE `thematic` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `thematic`
+--
+
+INSERT INTO `thematic` (`id`, `name`, `created_at`) VALUES
+(2, 'La 2ème guerres mondiales', '2025-03-11 22:49:45');
 
 -- --------------------------------------------------------
 
@@ -103,8 +147,16 @@ CREATE TABLE `user` (
   `last_name` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `last_name`, `first_name`, `role`, `password`, `created_at`) VALUES
+(1, 'admin@test.com', 'admin', 'test', 'enseignant', '$2y$10$LpV/ra5VIKPVy8VLj.PbF.Lg9fWEOLpw758qepJgIyzC57y2daMX6', '2025-03-11 19:55:48');
 
 --
 -- Index pour les tables déchargées
@@ -135,6 +187,12 @@ ALTER TABLE `file`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `matter`
+--
+ALTER TABLE `matter`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `origin`
 --
 ALTER TABLE `origin`
@@ -160,7 +218,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `classroom`
 --
 ALTER TABLE `classroom`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `exercise`
@@ -175,22 +233,28 @@ ALTER TABLE `file`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `matter`
+--
+ALTER TABLE `matter`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT pour la table `origin`
 --
 ALTER TABLE `origin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `thematic`
 --
 ALTER TABLE `thematic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
